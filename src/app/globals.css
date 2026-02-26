@@ -1,26 +1,68 @@
+/* Update global CSS to hide custom scrollbar for sleeker look */
 @import "tailwindcss";
 
+@theme {
+  --color-background: #0f172a; /* Tailwind slate-900 */
+  --color-foreground: #f8fafc; /* Tailwind slate-50 */
+  
+  --color-sci-cyan: #00f0ff;
+  --color-sci-pink: #ff00e5;
+  --color-sci-purple: #9d00ff;
+  --color-sci-dark: #0f172a;
+  --color-sci-card: rgba(30, 41, 59, 0.7);
+}
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
-}
-
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --background: var(--color-background);
+  --foreground: var(--color-foreground);
 }
 
 body {
-  background: var(--background);
   color: var(--foreground);
+  background-color: var(--background);
   font-family: Arial, Helvetica, sans-serif;
+  background-image: linear-gradient(to right, #0f172a, #1e293b, #0f172a);
+  background-attachment: fixed;
+  min-height: 100vh;
+}
+
+/* Glassmorphism & Glow Utilities */
+@utility glass {
+  background-color: var(--color-sci-card);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(51, 65, 85, 0.5); /* slate-700/50 */
+  border-radius: 0.75rem; /* xl */
+  box-shadow: 0 0 15px rgba(0, 240, 255, 0.1);
+}
+
+@utility glow-cyan {
+  box-shadow: 0 0 10px rgba(0, 240, 255, 0.5);
+}
+
+@utility glow-pink {
+  box-shadow: 0 0 10px rgba(255, 0, 229, 0.5);
+}
+
+@utility glow-purple {
+  box-shadow: 0 0 10px rgba(157, 0, 255, 0.5);
+}
+
+@utility text-glow-cyan {
+  text-shadow: 0 0 10px rgba(0, 240, 255, 0.8);
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.5);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: rgba(0, 240, 255, 0.3);
+  border-radius: 4px;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: rgba(0, 240, 255, 0.6);
 }
