@@ -1,15 +1,56 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
 import { IntroPhase } from "@/components/phases/IntroPhase";
 import { WorldStatusPhase } from "@/components/phases/WorldStatusPhase";
 import { PoliticsQuizPhase } from "@/components/phases/PoliticsQuizPhase";
 import { ParentInterviewPhase } from "@/components/phases/ParentInterviewPhase";
 import { LegalPuzzlePhase } from "@/components/phases/LegalPuzzlePhase";
 import { EmbryoScreeningPhase } from "@/components/phases/EmbryoScreeningPhase";
+import { BiologyLabPhase } from "@/components/phases/BiologyLabPhase";
+import { OffTargetAnalysisPhase } from "@/components/phases/OffTargetAnalysisPhase";
+import { EthicsTestPhase } from "@/components/phases/EthicsTestPhase";
+import { MediaTrainingPhase } from "@/components/phases/MediaTrainingPhase";
+import { BabyDesignerPhenotypePhase } from "@/components/phases/BabyDesignerPhenotypePhase";
+import { Terminal, Cpu, Network, Shield, Fingerprint, Activity, Database, Server, Zap, Radio, Menu, X } from "lucide-react";
+
+// Sidebar Pipeline Definitions
+const pipelineSteps = [
+  { id: 0, name: "SYS_INIT", icon: Terminal },
+  { id: 1, name: "GEO_SCAN", icon: Network },
+  { id: 2, name: "AUTH_REQ", icon: Shield },
+  { id: 3, name: "CLIENT_IO", icon: Fingerprint },
+  { id: 4, name: "LOC_SELECT", icon: Server },
+  { id: 5, name: "PID_SCREEN", icon: Database },
+  { id: 6, name: "CRISPR_LAB", icon: Activity },
+  { id: 7, name: "QA_CHECK", icon: Zap },
+  { id: 8, name: "ETHICS_EVAL", icon: Activity }, // Fallback icon instead of complex custom SVG
+  { id: 9, name: "PR_CONTROL", icon: Radio },
+  { id: 10, name: "PHENOTYPE", icon: Cpu },
+  { id: 11, name: "ATTRIBUTES", icon: Cpu },
+  { id: 12, name: "PSYCHE", icon: Cpu },
+  { id: 13, name: "PROGNOSIS", icon: Database },
+];
 
 export default function Home() {
   const [currentPhase, setCurrentPhase] = useState(0);
+  const [sysTime, setSysTime] = useState("");
+  const [hexStream, setHexStream] = useState("0x0000");
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed for iPads/mobile
+
+  // Glitchy Hex Stream & Clock
+  useEffect(() => {
+    const timer = setInterval(() => {
+      const d = new Date();
+      setSysTime(`${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}.${Math.floor(d.getMilliseconds()/100)}`);
+      
+      if (Math.random() > 0.5) {
+        setHexStream("0x" + Math.floor(Math.random()*16777215).toString(16).toUpperCase().padStart(6, '0'));
+      }
+    }, 100);
+    return () => clearInterval(timer);
+  }, []);
 
   const phases = [
     <IntroPhase key="intro" onNext={() => setCurrentPhase(1)} />,
@@ -18,48 +59,145 @@ export default function Home() {
     <ParentInterviewPhase key="interview" onNext={() => setCurrentPhase(4)} />,
     <LegalPuzzlePhase key="puzzle" onNext={() => setCurrentPhase(5)} />,
     <EmbryoScreeningPhase key="embryo" onNext={() => setCurrentPhase(6)} />,
-    // Placeholders for the other 8 phases
-    <div key="lab" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 7: Biology Lab</h2><button onClick={() => setCurrentPhase(7)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="offtarget" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 8: Off-Target Analysis</h2><button onClick={() => setCurrentPhase(8)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="ethics" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 9: Ethics Test</h2><button onClick={() => setCurrentPhase(9)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="media" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 10: Media Training</h2><button onClick={() => setCurrentPhase(10)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="design1" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 11: Designer - Phenotyp</h2><button onClick={() => setCurrentPhase(11)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="design2" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 12: Designer - Stats</h2><button onClick={() => setCurrentPhase(12)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="design3" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 13: Designer - Persönlichkeit</h2><button onClick={() => setCurrentPhase(13)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="result" className="text-center p-20 glass rounded-xl"><h2 className="text-4xl text-[#9d00ff] mb-4 glow-purple">Phase 14: Resultat</h2><p className="text-slate-400 animate-pulse">KI berechnet Zukunftssimulation...</p></div>,
+    <BiologyLabPhase key="lab" onNext={() => setCurrentPhase(7)} />,
+    <OffTargetAnalysisPhase key="offtarget" onNext={() => setCurrentPhase(8)} />,
+    <EthicsTestPhase key="ethics" onNext={() => setCurrentPhase(9)} />,
+    <MediaTrainingPhase key="media" onNext={() => setCurrentPhase(10)} />,
+    <BabyDesignerPhenotypePhase key="pheno" onNext={() => setCurrentPhase(11)} />,
+    // Placeholders for remaining
+    <div key="design2" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 12: Designer - Stats</h2><button onClick={() => setCurrentPhase(12)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
+    <div key="design3" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 13: Designer - Persönlichkeit</h2><button onClick={() => setCurrentPhase(13)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
+    <div key="result" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#9d00ff] mb-4 glow-purple">Phase 14: Resultat</h2><p className="text-slate-400 animate-pulse">KI berechnet Zukunftssimulation...</p></div>,
   ];
 
   return (
-    <main className="min-h-screen relative flex flex-col justify-center overflow-hidden py-12 px-4 sm:px-6 lg:px-8 bg-[#0f172a] text-slate-100 font-sans">
-      {/* Background decoration */}
-      <div className="fixed inset-0 pointer-events-none" style={{ background: 'radial-gradient(circle at 50% 50%, rgba(30, 41, 59, 0.4) 0%, rgba(15, 23, 42, 1) 100%)' }} />
-      <div className="fixed top-[-10%] left-[-10%] w-[40%] h-[40%] bg-[#00f0ff]/10 blur-[120px] rounded-full pointer-events-none" />
-      <div className="fixed bottom-[-10%] right-[-10%] w-[40%] h-[40%] bg-[#9d00ff]/10 blur-[120px] rounded-full pointer-events-none" />
+    <div className="flex h-screen w-full bg-[#050A15] text-slate-100 font-sans overflow-hidden relative selection:bg-[#00f0ff]/30">
+      
+      {/* --- GLOBAL IMMERSIVE BACKGROUND --- */}
+      {/* Scanlines */}
+      <div className="absolute inset-0 pointer-events-none z-50 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)' }} />
+      {/* Vignette */}
+      <div className="absolute inset-0 pointer-events-none z-40 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
+      {/* Ambient Glow */}
+      <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00f0ff]/10 blur-[150px] rounded-full pointer-events-none" />
+      <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#9d00ff]/10 blur-[150px] rounded-full pointer-events-none" />
+      {/* Subtle Grid */}
+      <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-      {/* Progress Bar Header */}
-      <header className="fixed top-0 left-0 right-0 z-50 px-6 py-4 flex justify-between items-center bg-slate-900/80 backdrop-blur-md border-b border-slate-700/50 shadow-[0_4px_30px_rgba(0,0,0,0.5)]">
-        <div className="flex items-center gap-2">
-           <div className="h-2 w-2 rounded-full bg-[#00f0ff] animate-pulse shadow-[0_0_10px_#00f0ff]" />
-           <span className="text-xs uppercase tracking-widest text-[#00f0ff] font-bold">Genesis Protokoll</span>
-        </div>
-        <div className="flex items-center gap-4 flex-1 max-w-lg mx-auto">
-          <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden border border-slate-700 relative">
-             <div 
-               className="h-full bg-gradient-to-r from-[#00f0ff] via-[#9d00ff] to-[#ff00e5] shadow-[0_0_10px_#ff00e5] transition-all duration-700 ease-out"
-               style={{ width: `${((currentPhase + 1) / phases.length) * 100}%` }}
-             />
-          </div>
-          <span className="text-xs text-slate-400 min-w-[60px] font-mono">PHASE {currentPhase + 1}/14</span>
-        </div>
-        <div className="text-xs text-slate-500 uppercase font-mono tracking-widest border border-slate-700 px-2 py-1 rounded bg-slate-800/50 shadow-inner">
-           2045.SYS.ON
-        </div>
-      </header>
+      {/* --- SIDEBAR (COLLAPSIBLE FOR IPAD) --- */}
+      <AnimatePresence>
+        {isSidebarOpen && (
+           <motion.aside 
+             initial={{ x: '-100%' }}
+             animate={{ x: 0 }}
+             exit={{ x: '-100%' }}
+             transition={{ type: "spring", bounce: 0, duration: 0.4 }}
+             className="absolute md:relative left-0 top-0 bottom-0 w-64 flex flex-col border-r border-slate-800/80 bg-[#0A101D]/95 backdrop-blur-xl z-50 shadow-[20px_0_50px_rgba(0,0,0,0.5)]"
+           >
+             <div className="h-16 flex items-center justify-between px-6 border-b border-slate-800/80">
+                <div className="flex items-center gap-3 text-[#00f0ff]">
+                   <Activity className="animate-pulse" />
+                   <span className="font-black tracking-widest text-lg text-glow-cyan">GENESIS OS</span>
+                </div>
+                <button onClick={() => setIsSidebarOpen(false)} className="text-slate-400 hover:text-white p-1 rounded bg-slate-800/50 md:hidden">
+                   <X size={20} />
+                </button>
+             </div>
+             
+             <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-1 relative">
+                <div className="absolute left-[33px] top-10 bottom-10 w-px bg-slate-800" />
+                
+                {pipelineSteps.map((step, idx) => {
+                   const isActive = currentPhase === idx;
+                   const isPast = currentPhase > idx;
 
-      {/* Phase Container */}
-      <div className="relative z-10 w-full max-w-7xl mx-auto pt-16 flex items-center justify-center min-h-[calc(100vh-80px)]">
-         {phases[currentPhase]}
-      </div>
-    </main>
+                   return (
+                      <div key={step.id} className="relative flex items-center gap-4 py-2 group">
+                         <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 z-10 transition-all duration-300 ${
+                            isActive ? 'bg-[#00f0ff] border-[#00f0ff] shadow-[0_0_10px_#00f0ff]' : 
+                            isPast ? 'bg-slate-800 border-[#ff00e5]' : 'bg-[#0A101D] border-slate-700'
+                         }`}>
+                            {isActive && <div className="w-1.5 h-1.5 bg-white rounded-full animate-ping" />}
+                         </div>
+                         <span className={`font-mono text-xs tracking-wider transition-all duration-300 ${
+                            isActive ? 'text-white font-bold translate-x-1' : 
+                            isPast ? 'text-[#ff00e5] opacity-80' : 'text-slate-500'
+                         }`}>
+                            {step.name}
+                         </span>
+                      </div>
+                   )
+                })}
+             </div>
+
+             <div className="p-6 border-t border-slate-800/80 text-[10px] font-mono text-slate-500 space-y-1">
+                <p>USER: L.GENETICIST</p>
+                <p>CLEARANCE: LEVEL 5</p>
+                <p className="text-[#ff00e5]">{hexStream}</p>
+             </div>
+           </motion.aside>
+        )}
+      </AnimatePresence>
+
+      {/* --- MAIN CONTENT AREA --- */}
+      <main className="flex-1 flex flex-col relative z-20 w-full">
+         
+         {/* Top Header Bar */}
+         <header className="h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-800/80 bg-[#0A101D]/80 backdrop-blur-md">
+            <div className="flex items-center gap-4">
+               {/* Sidebar Toggle Button (Crucial for iPad) */}
+               <button 
+                 onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
+                 className={`p-2 rounded transition-colors flex items-center gap-2 ${isSidebarOpen ? 'bg-slate-800 text-white' : 'bg-[#00f0ff]/10 border border-[#00f0ff]/50 text-[#00f0ff] hover:bg-[#00f0ff]/20'}`}
+               >
+                  <Menu size={18} />
+                  <span className="hidden sm:block text-xs font-bold tracking-widest">PIPELINE</span>
+               </button>
+
+               <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-slate-400">
+                  <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
+                  REC_ACTIVE
+               </div>
+            </div>
+
+            <div className="flex items-center gap-6">
+               <div className="text-right hidden sm:block">
+                  <p className="text-[#00f0ff] font-mono text-xs tracking-widest">PHASE {currentPhase + 1} / 14</p>
+                  <p className="text-slate-500 font-mono text-[10px] uppercase">{pipelineSteps[currentPhase]?.name}</p>
+               </div>
+               <div className="bg-slate-900 border border-slate-700 px-3 md:px-4 py-1.5 rounded-lg text-[#ff00e5] font-mono text-sm tracking-wider shadow-[inset_0_0_10px_rgba(255,0,229,0.1)]">
+                  {sysTime}
+               </div>
+            </div>
+         </header>
+
+         {/* Phase Viewport (The "Screen") */}
+         <div className="flex-1 overflow-y-auto custom-scrollbar relative p-2 md:p-8 flex flex-col items-center">
+            
+            {/* Tech Corners Formatting (Creates the HUD window effect) */}
+            <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
+            <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
+            <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
+            <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
+
+            <div className="w-full max-w-7xl mx-auto h-full flex flex-col justify-center py-4">
+               <AnimatePresence mode="wait">
+                  <motion.div
+                     key={currentPhase}
+                     initial={{ opacity: 0, scale: 0.98, filter: 'blur(10px)' }}
+                     animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
+                     exit={{ opacity: 0, scale: 1.02, filter: 'blur(10px)' }}
+                     transition={{ duration: 0.4, ease: "easeInOut" }}
+                     className="w-full h-full flex items-center justify-center"
+                  >
+                     {phases[currentPhase]}
+                  </motion.div>
+               </AnimatePresence>
+            </div>
+
+         </div>
+
+      </main>
+    </div>
   );
 }

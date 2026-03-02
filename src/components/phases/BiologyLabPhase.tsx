@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
-import { Dna, Fingerprint, Activity, Beaker, CheckCircle2, Zap, Cpu, Search, CircleSlash } from 'lucide-react';
+import { Dna, Fingerprint, Activity, Beaker, CheckCircle2, Zap, Cpu, Search, CircleSlash, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 // The mini-game sequence: Finding the right matching pairs for the guide-RNA
@@ -15,6 +15,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
   const [currentSlot, setCurrentSlot] = useState(0);
   const [userRna, setUserRna] = useState<string[]>([]);
   const [errorCount, setErrorCount] = useState(0);
+  const [showHint, setShowHint] = useState(true);
 
   const [extractionProgress, setExtractionProgress] = useState(0);
   const [injectionProgress, setInjectionProgress] = useState(0);
@@ -63,11 +64,16 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
       }
     } else {
       setErrorCount(e => e + 1);
-      // Brief red flash via CSS animation class logic or just state
+      // Brief red flash via CSS animation class logic
       const el = document.getElementById(`slot-${currentSlot}`);
-      if (el) {
+      const dnaEl = document.getElementById(`dna-${currentSlot}`);
+      if (el && dnaEl) {
         el.classList.add('animate-shake');
-        setTimeout(() => el.classList.remove('animate-shake'), 500);
+        dnaEl.classList.add('text-[#ff00e5]', 'animate-pulse');
+        setTimeout(() => {
+           el.classList.remove('animate-shake');
+           dnaEl.classList.remove('text-[#ff00e5]', 'animate-pulse');
+        }, 500);
       }
     }
   };
@@ -80,7 +86,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-5xl mx-auto p-4 flex flex-col items-center justify-center min-h-[85vh]"
     >
-      <Card className="w-full h-[75vh] glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
+      <Card className="w-full h-[80vh] glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
         
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-slate-900/60 z-0" />
@@ -105,7 +111,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
           </div>
         </CardHeader>
 
-        <CardContent className="flex-1 p-8 z-10 flex flex-col justify-center items-center relative">
+        <CardContent className="flex-1 p-4 md:p-8 z-10 flex flex-col justify-center items-center relative overflow-y-auto custom-scrollbar">
           <AnimatePresence mode="wait">
 
             {/* STEP 0: EXTRACTION */}
@@ -142,47 +148,96 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                 initial={{ opacity: 0, x: 20 }}
                 animate={{ opacity: 1, x: 0 }}
                 exit={{ opacity: 0, x: -20 }}
-                className="flex flex-col w-full max-w-3xl space-y-10"
+                className="flex flex-col w-full max-w-3xl space-y-6"
               >
                  <div className="text-center space-y-2">
                     <h3 className="text-3xl font-black text-white tracking-widest flex items-center justify-center gap-3">
                        <Cpu className="text-[#ff00e5]" /> GUIDE-RNA DESIGN
                     </h3>
                     <p className="text-sm font-mono text-slate-400 max-w-lg mx-auto leading-relaxed">
-                       Konstruieren Sie die exakte komplementäre RNA-Sequenz, um die Cas9-Schere an den Zielort (Prometheus-Marker) zu leiten. 
-                       <br/><span className="text-[#ff00e5]">Achtung: Fehler verursachen Off-Target-Mutationen.</span>
+                       Bilde den komplementären RNA-Strang zur vorliegenden Ziel-DNA. Wähle die passende Base für die <span className="text-[#00f0ff] font-bold">markierte Spalte</span>.
                     </p>
                     {errorCount > 0 && (
                        <p className="text-xs font-mono text-[#ff00e5] animate-pulse pt-2">Warnung: {errorCount} Fehlversuche detektiert. Genom-Instabilität steigt.</p>
                     )}
                  </div>
 
-                 {/* The Sequence Matcher */}
-                 <div className="flex flex-col space-y-8 bg-slate-900/80 p-8 rounded-xl border border-slate-700/50 relative overflow-hidden">
-                    {/* Decorative Background */}
-                    <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none" 
-                         style={{ backgroundImage: 'repeating-linear-gradient(45deg, #ff00e5 0, #ff00e5 1px, transparent 0, transparent 50%)', backgroundSize: '20px 20px' }} 
-                    />
+                 {/* BIOLOGY HELPER / CHEATSHEET */}
+                 <div className="bg-[#00f0ff]/10 border border-[#00f0ff]/30 rounded-lg p-4 mx-auto w-full max-w-lg">
+                    <div 
+                       className="flex items-center justify-between cursor-pointer"
+                       onClick={() => setShowHint(!showHint)}
+                    >
+                       <p className="text-[#00f0ff] font-bold text-xs uppercase tracking-widest flex items-center gap-2">
+                          <BookOpen size={16} /> Labor-Handbuch: Transkriptions-Regeln
+                       </p>
+                       <span className="text-[#00f0ff] font-mono text-xs">{showHint ? '[VERBERGEN]' : '[ANZEIGEN]'}</span>
+                    </div>
+                    {showHint && (
+                       <motion.div 
+                          initial={{ opacity: 0, height: 0 }} 
+                          animate={{ opacity: 1, height: 'auto' }} 
+                          className="mt-3 grid grid-cols-4 gap-2 text-center text-sm font-mono"
+                       >
+                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
+                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                             <strong className="text-white">A</strong> ➔ <strong className="text-[#ff00e5]">U</strong>
+                          </div>
+                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
+                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                             <strong className="text-white">T</strong> ➔ <strong className="text-[#ff00e5]">A</strong>
+                          </div>
+                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
+                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                             <strong className="text-white">C</strong> ➔ <strong className="text-[#ff00e5]">G</strong>
+                          </div>
+                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
+                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                             <strong className="text-white">G</strong> ➔ <strong className="text-[#ff00e5]">C</strong>
+                          </div>
+                          <div className="col-span-4 text-left text-xs text-slate-400 mt-2">
+                            *Hinweis: In der RNA wird Thymin (T) durch Uracil (U) ersetzt.
+                          </div>
+                       </motion.div>
+                    )}
+                 </div>
 
+                 {/* The Sequence Matcher */}
+                 <div className="flex flex-col space-y-6 bg-slate-900/80 p-6 md:p-8 rounded-xl border border-slate-700/50 relative overflow-hidden">
                     {/* DNA Row */}
                     <div className="flex justify-between items-center z-10">
-                       <span className="text-xs font-mono text-slate-500 w-24">ZIEL-DNA (3&apos;)</span>
+                       <span className="text-[10px] md:text-xs font-mono text-slate-500 w-16 md:w-24">ZIEL-DNA</span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
-                          {dnaSequence.map((base, idx) => (
-                             <div key={`dna-${idx}`} className={`w-10 h-12 md:w-14 md:h-16 flex items-center justify-center text-xl md:text-2xl font-black rounded border border-slate-600 bg-slate-800 text-slate-300 ${idx === currentSlot ? 'ring-2 ring-[#00f0ff] ring-offset-2 ring-offset-slate-900 shadow-[0_0_15px_#00f0ff]' : ''}`}>
-                                {base}
-                             </div>
-                          ))}
+                          {dnaSequence.map((base, idx) => {
+                             const isCurrent = idx === currentSlot;
+                             return (
+                               <div 
+                                 key={`dna-${idx}`} 
+                                 id={`dna-${idx}`}
+                                 className={`w-10 h-12 md:w-14 md:h-16 flex flex-col items-center justify-center text-xl md:text-2xl font-black rounded border transition-all ${
+                                    isCurrent 
+                                      ? 'border-[#00f0ff] bg-slate-800 text-white shadow-[0_0_15px_#00f0ff] ring-2 ring-[#00f0ff] ring-offset-2 ring-offset-slate-900 scale-110 z-20' 
+                                      : idx < currentSlot
+                                        ? 'border-slate-600 bg-slate-800 text-slate-500' // Past
+                                        : 'border-slate-600 bg-slate-800 text-slate-300' // Future
+                                 }`}
+                               >
+                                  {base}
+                               </div>
+                             );
+                          })}
                        </div>
                     </div>
 
-                    {/* Connectors */}
-                    <div className="flex justify-between items-center z-10 opacity-50">
-                       <span className="w-24"></span>
+                    {/* Connectors (Visual Links) */}
+                    <div className="flex justify-between items-center z-10 opacity-70">
+                       <span className="w-16 md:w-24"></span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
                           {dnaSequence.map((_, idx) => (
                              <div key={`conn-${idx}`} className="w-10 md:w-14 flex justify-center">
-                                <div className={`w-0.5 h-6 ${idx < currentSlot ? 'bg-[#00f0ff]' : 'bg-slate-700'}`} />
+                                <div className={`w-1 h-6 transition-all ${
+                                   idx < currentSlot ? 'bg-[#00f0ff]' : idx === currentSlot ? 'bg-[#ff00e5] animate-pulse' : 'bg-slate-700'
+                                }`} />
                              </div>
                           ))}
                        </div>
@@ -190,7 +245,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
 
                     {/* User RNA Row */}
                     <div className="flex justify-between items-center z-10">
-                       <span className="text-xs font-mono text-[#ff00e5] w-24">GUIDE-RNA (5&apos;)</span>
+                       <span className="text-[10px] md:text-xs font-mono text-[#ff00e5] w-16 md:w-24">NEUE RNA</span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
                           {dnaSequence.map((_, idx) => {
                              const isFilled = idx < currentSlot;
@@ -203,7 +258,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                                     isFilled 
                                       ? 'border-[#00f0ff] bg-[#00f0ff]/20 text-white shadow-[0_0_15px_rgba(0,240,255,0.4)]' 
                                       : isCurrent 
-                                        ? 'border-[#ff00e5]/50 bg-[#ff00e5]/10 border-dashed animate-pulse text-transparent' 
+                                        ? 'border-[#ff00e5] bg-[#ff00e5]/20 border-dashed animate-pulse text-transparent scale-110 z-20' 
                                         : 'border-slate-700/50 bg-transparent text-transparent'
                                  }`}
                                >
@@ -213,6 +268,13 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                           })}
                        </div>
                     </div>
+                    
+                    {/* Active Target Indicator */}
+                    <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 w-full flex justify-center opacity-30 pointer-events-none">
+                       <div className="h-40 w-16 bg-gradient-to-b from-[#00f0ff]/0 via-[#00f0ff]/50 to-[#ff00e5]/0" 
+                            style={{ transform: `translateX(${(currentSlot - 2.5) * 60}px)` }} // Approximate sliding highlight
+                       />
+                    </div>
                  </div>
 
                  {/* Input Buttons */}
@@ -221,11 +283,11 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        <button
                          key={base}
                          onClick={() => handleRnaSelect(base)}
-                         className="h-16 rounded-xl border border-slate-600 bg-slate-800 text-2xl font-black text-white hover:bg-slate-700 hover:border-[#00f0ff] hover:text-[#00f0ff] transition-all duration-200 active:scale-95 flex items-center justify-center group"
+                         className="h-16 md:h-20 rounded-xl border border-slate-600 bg-slate-800 text-3xl font-black text-white hover:bg-slate-700 hover:border-[#ff00e5] hover:text-[#ff00e5] hover:shadow-[0_0_20px_rgba(255,0,229,0.3)] transition-all duration-200 active:scale-95 flex flex-col items-center justify-center group"
                        >
                          {base}
-                         <span className="absolute text-[8px] font-mono opacity-0 group-hover:opacity-100 mt-10 text-slate-400">
-                           {base === 'A' ? '(Adenin)' : base === 'U' ? '(Uracil)' : base === 'C' ? '(Cytosin)' : '(Guanin)'}
+                         <span className="text-[10px] font-mono text-slate-400 group-hover:text-[#ff00e5]">
+                           {base === 'A' ? 'Adenin' : base === 'U' ? 'Uracil' : base === 'C' ? 'Cytosin' : 'Guanin'}
                          </span>
                        </button>
                     ))}
@@ -315,7 +377,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
           .animate-shake {
             animation: shake 0.4s ease-in-out;
             border-color: #ff00e5 !important;
-            background-color: rgba(255,0,229,0.1) !important;
+            background-color: rgba(255,0,229,0.2) !important;
           }
         `}} />
       </Card>
