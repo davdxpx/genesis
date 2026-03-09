@@ -72,7 +72,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-h-[85vh]"
     >
       {/* Left Column: Embryo List */}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">

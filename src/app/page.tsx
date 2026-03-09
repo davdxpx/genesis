@@ -13,6 +13,8 @@ import { OffTargetAnalysisPhase } from "@/components/phases/OffTargetAnalysisPha
 import { EthicsTestPhase } from "@/components/phases/EthicsTestPhase";
 import { MediaTrainingPhase } from "@/components/phases/MediaTrainingPhase";
 import { BabyDesignerPhenotypePhase } from "@/components/phases/BabyDesignerPhenotypePhase";
+import { BabyDesignerStatsPhase } from "@/components/phases/BabyDesignerStatsPhase";
+import { BabyDesignerPsychologyPhase } from "@/components/phases/BabyDesignerPsychologyPhase";
 import { Terminal, Cpu, Network, Shield, Fingerprint, Activity, Database, Server, Zap, Radio, Menu, X } from "lucide-react";
 
 // Sidebar Pipeline Definitions
@@ -25,7 +27,7 @@ const pipelineSteps = [
   { id: 5, name: "PID_SCREEN", icon: Database },
   { id: 6, name: "CRISPR_LAB", icon: Activity },
   { id: 7, name: "QA_CHECK", icon: Zap },
-  { id: 8, name: "ETHICS_EVAL", icon: Activity }, // Fallback icon instead of complex custom SVG
+  { id: 8, name: "ETHICS_EVAL", icon: Activity }, 
   { id: 9, name: "PR_CONTROL", icon: Radio },
   { id: 10, name: "PHENOTYPE", icon: Cpu },
   { id: 11, name: "ATTRIBUTES", icon: Cpu },
@@ -37,7 +39,19 @@ export default function Home() {
   const [currentPhase, setCurrentPhase] = useState(0);
   const [sysTime, setSysTime] = useState("");
   const [hexStream, setHexStream] = useState("0x0000");
-  const [isSidebarOpen, setIsSidebarOpen] = useState(false); // Default closed for iPads/mobile
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
+  
+  // GLOBAL GAME STATE FOR PERSISTENCE
+  const [gameState, setGameState] = useState({
+     budget: 100, trust: 50, // Starts with standard budget
+     selectedEmbryo: null,
+     finalStats: { int: 100, phy: 100, imm: 100, life: 100 },
+     psychology: { empathy: 50, ambition: 50, resilience: 50 }
+  });
+
+  const updateGameState = (newData: Record<string, unknown>) => {
+     setGameState(prev => ({ ...prev, ...newData }));
+  };
 
   // Glitchy Hex Stream & Clock
   useEffect(() => {
@@ -62,29 +76,24 @@ export default function Home() {
     <BiologyLabPhase key="lab" onNext={() => setCurrentPhase(7)} />,
     <OffTargetAnalysisPhase key="offtarget" onNext={() => setCurrentPhase(8)} />,
     <EthicsTestPhase key="ethics" onNext={() => setCurrentPhase(9)} />,
-    <MediaTrainingPhase key="media" onNext={() => setCurrentPhase(10)} />,
+    <MediaTrainingPhase key="media" onNext={() => setCurrentPhase(10)} gameState={{...gameState, updateGameState}} />,
     <BabyDesignerPhenotypePhase key="pheno" onNext={() => setCurrentPhase(11)} />,
-    // Placeholders for remaining
-    <div key="design2" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 12: Designer - Stats</h2><button onClick={() => setCurrentPhase(12)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
-    <div key="design3" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#00f0ff] mb-4 text-glow-cyan">Phase 13: Designer - Persönlichkeit</h2><button onClick={() => setCurrentPhase(13)} className="text-[#ff00e5] underline hover:text-[#ff00e5]/80">Nächste Sequenz einleiten</button></div>,
+    <BabyDesignerStatsPhase key="stats" onNext={() => setCurrentPhase(12)} gameState={{...gameState, updateGameState}} />,
+    <BabyDesignerPsychologyPhase key="psyche" onNext={() => setCurrentPhase(13)} gameState={{...gameState, updateGameState}} />,
     <div key="result" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#9d00ff] mb-4 glow-purple">Phase 14: Resultat</h2><p className="text-slate-400 animate-pulse">KI berechnet Zukunftssimulation...</p></div>,
   ];
 
   return (
-    <div className="flex h-screen w-full bg-[#050A15] text-slate-100 font-sans overflow-hidden relative selection:bg-[#00f0ff]/30">
+    <div className="flex min-h-[100dvh] w-full bg-[#050A15] text-slate-100 font-sans overflow-hidden relative selection:bg-[#00f0ff]/30">
       
       {/* --- GLOBAL IMMERSIVE BACKGROUND --- */}
-      {/* Scanlines */}
       <div className="absolute inset-0 pointer-events-none z-50 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)' }} />
-      {/* Vignette */}
       <div className="absolute inset-0 pointer-events-none z-40 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
-      {/* Ambient Glow */}
       <div className="absolute top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00f0ff]/10 blur-[150px] rounded-full pointer-events-none" />
       <div className="absolute bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#9d00ff]/10 blur-[150px] rounded-full pointer-events-none" />
-      {/* Subtle Grid */}
       <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
 
-      {/* --- SIDEBAR (COLLAPSIBLE FOR IPAD) --- */}
+      {/* --- SIDEBAR --- */}
       <AnimatePresence>
         {isSidebarOpen && (
            <motion.aside 
@@ -142,10 +151,8 @@ export default function Home() {
       {/* --- MAIN CONTENT AREA --- */}
       <main className="flex-1 flex flex-col relative z-20 w-full">
          
-         {/* Top Header Bar */}
          <header className="h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-800/80 bg-[#0A101D]/80 backdrop-blur-md">
             <div className="flex items-center gap-4">
-               {/* Sidebar Toggle Button (Crucial for iPad) */}
                <button 
                  onClick={() => setIsSidebarOpen(!isSidebarOpen)} 
                  className={`p-2 rounded transition-colors flex items-center gap-2 ${isSidebarOpen ? 'bg-slate-800 text-white' : 'bg-[#00f0ff]/10 border border-[#00f0ff]/50 text-[#00f0ff] hover:bg-[#00f0ff]/20'}`}
@@ -171,16 +178,14 @@ export default function Home() {
             </div>
          </header>
 
-         {/* Phase Viewport (The "Screen") */}
          <div className="flex-1 overflow-y-auto custom-scrollbar relative p-2 md:p-8 flex flex-col items-center">
             
-            {/* Tech Corners Formatting (Creates the HUD window effect) */}
             <div className="absolute top-4 left-4 w-8 h-8 border-t-2 border-l-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
             <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
             <div className="absolute bottom-4 left-4 w-8 h-8 border-b-2 border-l-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
             <div className="absolute bottom-4 right-4 w-8 h-8 border-b-2 border-r-2 border-[#00f0ff]/50 pointer-events-none hidden lg:block" />
 
-            <div className="w-full max-w-7xl mx-auto h-full flex flex-col justify-center py-4">
+            <div className="w-full max-w-7xl mx-auto flex flex-col justify-start md:justify-center py-4 min-h-full">
                <AnimatePresence mode="wait">
                   <motion.div
                      key={currentPhase}
@@ -188,7 +193,7 @@ export default function Home() {
                      animate={{ opacity: 1, scale: 1, filter: 'blur(0px)' }}
                      exit={{ opacity: 0, scale: 1.02, filter: 'blur(10px)' }}
                      transition={{ duration: 0.4, ease: "easeInOut" }}
-                     className="w-full h-full flex items-center justify-center"
+                     className="w-full flex-1 flex flex-col justify-start"
                   >
                      {phases[currentPhase]}
                   </motion.div>

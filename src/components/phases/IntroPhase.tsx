@@ -1,11 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Cpu, Activity, Database, Server } from 'lucide-react';
+import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Activity, Database, Server } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
 export function IntroPhase({ onNext }: { onNext: () => void }) {
   const [bootSequence, setBootSequence] = useState(0);
   const [isUnlocking, setIsUnlocking] = useState(false);
-  const [scrollProgress, setScrollProgress] = useState(0);
 
   // Extend boot sequence
   useEffect(() => {
@@ -25,16 +24,6 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
       onNext();
     }, 2000); // 2s dramatic unlock animation
   };
-
-  // Fake scrolling background logic (Parallax)
-  useEffect(() => {
-    const handleScroll = (e: any) => {
-      // Just a simple value to bind to motion elements if needed
-      setScrollProgress(e.target.scrollTop);
-    };
-    window.addEventListener('scroll', handleScroll, true);
-    return () => window.removeEventListener('scroll', handleScroll, true);
-  }, []);
 
   return (
     <div className="w-full h-full min-h-[90vh] flex flex-col items-center justify-center relative overflow-hidden px-4 py-12 md:p-8">

@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
+import { CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Shield, ShieldAlert, ShieldCheck, Lock, Unlock, AlertTriangle, Fingerprint, Terminal, CheckCircle2, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 

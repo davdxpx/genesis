@@ -1,8 +1,19 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
-import { Mic, TrendingDown, TrendingUp, Activity, Fingerprint, Radio } from 'lucide-react';
+import { Mic, TrendingDown, TrendingUp, Activity, Fingerprint, Radio, ShieldAlert, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+
+interface ChatMessage {
+  speaker: string;
+  text: string;
+}
+
+interface CommentMessage {
+  id: number;
+  userId: number;
+  text: string;
+}
 
 // Complex branching interview questions referencing previous phases
 const interviewScript = [
@@ -83,25 +94,14 @@ const interviewScript = [
   }
 ];
 
-// Mock live comments
-const generateComments = (trust: number) => {
-  if (trust > 70) return ["Endlich jemand, der die Wahrheit sagt!", "Wissenschaft lässt sich nicht aufhalten 🚀", "Er hat Recht, die Politik hat versagt!"];
-  if (trust < 30) return ["Was für ein Lügner!! 🤬", "Boykottiert Genesis!", "Verhaftet diesen Frankenstein!", "Geld regiert die Welt... traurig."];
-  return ["Klingt wie typisches PR-Gerede.", "Ich weiß nicht, wem ich glauben soll.", "Die Technologie macht mir trotzdem Angst."];
-};
+interface GameStateProps {
+  updateGameState?: (data: Record<string, unknown>) => void;
 
-interface ChatMessage {
-  speaker: string;
-  text: string;
+  budget: number;
+  trust: number;
 }
 
-interface CommentMessage {
-  id: number;
-  userId: number;
-  text: string;
-}
-
-export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
+export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onNext: () => void, gameState: GameStateProps, updateGameState?: (data: Record<string, unknown>) => void }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [trust, setTrust] = useState(50);
   const [market, setMarket] = useState(50);
@@ -110,7 +110,7 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [liveComments, setLiveComments] = useState<CommentMessage[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const [commentIdCounter, setCommentIdCounter] = useState(0);
+  const feedEndRef = useRef<HTMLDivElement>(null);
 
   // Initial prompt
   useEffect(() => {
@@ -121,6 +121,12 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
     }
   }, [currentQ, chatLog]);
 
+  const generateComments = (trustLevel: number) => {
+    if (trustLevel > 70) return ["Endlich jemand, der die Wahrheit sagt!", "Wissenschaft lässt sich nicht aufhalten 🚀", "Er hat Recht, die Politik hat versagt!"];
+    if (trustLevel < 30) return ["Was für ein Lügner!! 🤬", "Boykottiert Genesis!", "Verhaftet diesen Frankenstein!", "Geld regiert die Welt... traurig."];
+    return ["Klingt wie typisches PR-Gerede.", "Ich weiß nicht, wem ich glauben soll.", "Die Technologie macht mir trotzdem Angst."];
+  };
+
   // Live comment ticker
   useEffect(() => {
     if (isFinished) return;
@@ -129,14 +135,15 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
       const randomComment = possibleComments[Math.floor(Math.random() * possibleComments.length)];
       const randomUserId = Math.floor(Math.random() * 9000);
       
-      setCommentIdCounter(prev => {
-        const newId = prev + 1;
-        setLiveComments(current => [...current.slice(-3), { id: newId, userId: randomUserId, text: randomComment }]);
-        return newId;
-      });
+      setLiveComments(current => [...current.slice(-3), { id: Date.now(), userId: randomUserId, text: randomComment }]);
+      
     }, 2500);
     return () => clearInterval(interval);
   }, [trust, isFinished]);
+
+  useEffect(() => {
+    feedEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [liveComments]);
 
   const handleAnswer = (option: typeof interviewScript[0]['options'][0]) => {
     setIsAnswering(true);
@@ -167,6 +174,19 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
     }, 2000);
   };
 
+  const handleComplete = () => {
+     if(updateGameState) {
+        // Update the global state so Phase 12 (Attributes) has the correct budget!
+        // High market increases budget, low market decreases budget.
+        const budgetImpact = (market - 50); 
+        updateGameState({
+           budget: Math.max(0, Math.min(100, gameState.budget + budgetImpact)),
+           trust: trust
+        });
+     }
+     onNext();
+  };
+
   const getEnding = () => {
     if (trust < 30 && market > 60) return { title: "DER CORPORATE VILLAIN", desc: "Die Öffentlichkeit hasst Sie und das Projekt gilt als moralisch bankrott. Aber die Aktienkurse sind durch die Decke gegangen. Die Vance-Familie ist zufrieden. Sie haben Ihre Seele für den Profit verkauft.", color: "#ffaa00" };
     if (trust > 60 && market < 40) return { title: "DER MÄRTYRER", desc: "Sie haben die Wahrheit gesagt. Die Gesellschaft feiert Sie als Whistleblower der Gen-Industrie. Leider hat die Vance-Familie ihre Gelder abgezogen und Ares Corp verklagt Sie. Ein Pyrrhussieg.", color: "#00f0ff" };
@@ -178,7 +198,7 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-h-[85vh] lg:h-[80vh]"
     >
       {/* LEFT PANE: Live Broadcast & Sentiment */}
       <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">
@@ -199,7 +219,6 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
         <CardContent className="flex-1 p-0 flex flex-col overflow-hidden relative bg-[#050A15]">
            {/* Live Video Feed Mockup */}
            <div className="h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
-              {/* Background silhouette/camera effect */}
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, transparent 20%, #000 120%)' }} />
               <div className="absolute inset-0 flex items-center justify-center opacity-10">
                  <Mic size={120} />
@@ -263,7 +282,8 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
                        ))}
                     </AnimatePresence>
                  </div>
-                 {/* Gradient fade out at bottom */}
+                 {/* Auto-scroll anchor */}
+                 <div ref={feedEndRef} />
                  <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[#050A15] to-transparent" />
               </div>
            </div>
@@ -274,7 +294,7 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
       <Card className="flex-1 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden h-full">
         <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 pb-4">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
-            <Mic className="text-[#ff00e5]" /> PRESSEKONFERENZ (LIVE)
+            <ShieldAlert className="text-[#ff00e5]" /> PR WAR ROOM
           </CardTitle>
           <p className="text-xs font-mono text-slate-400">Strategische Rhetorik-Analyse. Antworten Sie der Presse und lenken Sie das Narrativ.</p>
         </CardHeader>
@@ -358,8 +378,8 @@ export function MediaTrainingPhase({ onNext }: { onNext: () => void }) {
            <AnimatePresence>
              {isFinished && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <Button variant="sci-fi" onClick={onNext} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-                    Zum Baby Designer (Phänotyp) <Activity className="ml-2 w-4 h-4" />
+                  <Button variant="sci-fi" onClick={handleComplete} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                    Zum Baby Designer (Phänotyp) <Zap className="ml-2 w-4 h-4" />
                   </Button>
                 </motion.div>
              )}
