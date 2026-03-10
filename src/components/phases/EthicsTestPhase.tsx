@@ -75,7 +75,7 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
   return (
     <motion.div 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
-      className="w-full max-w-4xl mx-auto p-4 flex flex-col min-h-[85vh]"
+      className="w-full max-w-4xl mx-auto p-4 flex flex-col min-min-h-[85vh]"
     >
       {/* Top HUD - Live Stats */}
       <div className="grid grid-cols-3 gap-2 md:gap-4 mb-6">

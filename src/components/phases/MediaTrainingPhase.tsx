@@ -198,7 +198,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-h-[85vh] lg:h-[80vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-min-h-[85vh] lg:min-h-[80vh]"
     >
       {/* LEFT PANE: Live Broadcast & Sentiment */}
       <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">

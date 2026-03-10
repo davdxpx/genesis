@@ -15,6 +15,7 @@ import { MediaTrainingPhase } from "@/components/phases/MediaTrainingPhase";
 import { BabyDesignerPhenotypePhase } from "@/components/phases/BabyDesignerPhenotypePhase";
 import { BabyDesignerStatsPhase } from "@/components/phases/BabyDesignerStatsPhase";
 import { BabyDesignerPsychologyPhase } from "@/components/phases/BabyDesignerPsychologyPhase";
+import { ResultPhase } from "@/components/phases/ResultPhase";
 import { Terminal, Cpu, Network, Shield, Fingerprint, Activity, Database, Server, Zap, Radio, Menu, X } from "lucide-react";
 
 // Sidebar Pipeline Definitions
@@ -53,6 +54,16 @@ export default function Home() {
      setGameState(prev => ({ ...prev, ...newData }));
   };
 
+  const handleRestart = () => {
+    setGameState({
+      budget: 100, trust: 50,
+      selectedEmbryo: null,
+      finalStats: { int: 100, phy: 100, imm: 100, life: 100 },
+      psychology: { empathy: 50, ambition: 50, resilience: 50 }
+    });
+    setCurrentPhase(0);
+  };
+
   // Glitchy Hex Stream & Clock
   useEffect(() => {
     const timer = setInterval(() => {
@@ -80,11 +91,11 @@ export default function Home() {
     <BabyDesignerPhenotypePhase key="pheno" onNext={() => setCurrentPhase(11)} />,
     <BabyDesignerStatsPhase key="stats" onNext={() => setCurrentPhase(12)} gameState={{...gameState, updateGameState}} />,
     <BabyDesignerPsychologyPhase key="psyche" onNext={() => setCurrentPhase(13)} gameState={{...gameState, updateGameState}} />,
-    <div key="result" className="text-center p-20 glass rounded-xl w-full max-w-3xl mx-auto mt-20"><h2 className="text-4xl text-[#9d00ff] mb-4 glow-purple">Phase 14: Resultat</h2><p className="text-slate-400 animate-pulse">KI berechnet Zukunftssimulation...</p></div>,
+    <ResultPhase key="result" gameState={gameState} onRestart={handleRestart} />
   ];
 
   return (
-    <div className="flex min-h-[100dvh] w-full bg-[#050A15] text-slate-100 font-sans overflow-hidden relative selection:bg-[#00f0ff]/30">
+    <div className="flex min-h-[100dvh] w-full bg-[#050A15] text-slate-100 font-sans overflow-x-hidden overflow-y-auto relative selection:bg-[#00f0ff]/30">
       
       {/* --- GLOBAL IMMERSIVE BACKGROUND --- */}
       <div className="absolute inset-0 pointer-events-none z-50 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)' }} />

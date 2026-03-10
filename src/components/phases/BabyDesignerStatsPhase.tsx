@@ -105,7 +105,7 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-6 p-2 md:p-4 min-h-[85vh] lg:min-h-[80vh]"
+      className="w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-6 p-2 md:p-4 min-min-h-[85vh] lg:min-min-h-[80vh]"
     >
       {/* ==========================================
           LEFT PANE: DYNAMIC RADAR CHART

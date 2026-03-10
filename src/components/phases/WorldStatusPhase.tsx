@@ -87,7 +87,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       transition={{ duration: 0.5 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 h-[80vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[80vh]"
     >
       {/* Left Column: Map/Node Selection */}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">

@@ -68,7 +68,7 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col gap-6 p-4 min-h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col gap-6 p-4 min-min-h-[85vh]"
     >
       <div className="flex items-center justify-between bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
          <div className="flex items-center gap-3">

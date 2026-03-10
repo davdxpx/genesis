@@ -105,7 +105,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-3xl mx-auto p-4 flex flex-col items-center justify-center min-h-[80vh]"
+      className="w-full max-w-3xl mx-auto p-4 flex flex-col items-center justify-center min-min-h-[80vh]"
     >
       <AnimatePresence mode="wait">
         

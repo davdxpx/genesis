@@ -117,7 +117,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-h-[85vh]"
     >
       {/* Left Column: Client Profile */}
       <Card className="w-full md:w-1/3 glass border-[#9d00ff]/30 flex flex-col relative overflow-hidden h-full">

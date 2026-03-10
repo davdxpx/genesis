@@ -84,9 +84,9 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-5xl mx-auto p-4 flex flex-col items-center justify-center min-h-[85vh]"
+      className="w-full max-w-5xl mx-auto p-4 flex flex-col items-center justify-center min-min-h-[85vh]"
     >
-      <Card className="w-full h-[80vh] glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
+      <Card className="w-full min-h-[80vh] glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
         
         {/* Dynamic Background */}
         <div className="absolute inset-0 bg-slate-900/60 z-0" />
