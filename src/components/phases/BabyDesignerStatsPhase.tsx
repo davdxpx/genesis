@@ -3,6 +3,7 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Brain, Activity, ShieldAlert, HeartPulse, Zap, Database, Hexagon, Plus, Minus, Info } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import { GameState } from '@/lib/GameStateContext';
 
 // --- INTERFACES ---
 interface StatCategory {
@@ -53,15 +54,13 @@ const baseEmbryoStats: Record<string, Record<string, number>> = {
   'default': { int: 90, phy: 90, imm: 90, life: 80 }
 };
 
-interface GameStateProps {
-  budget: number;
-  selectedEmbryo: string | null;
-  updateGameState?: (data: Record<string, unknown>) => void;
+interface GameStateProps extends GameState {
+  updateGameState?: (data: Partial<GameState>) => void;
 }
 
 export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => void, gameState: GameStateProps }) {
   // Determine Base Stats from previous phases!
-  const startingStats = baseEmbryoStats[gameState.selectedEmbryo || 'default'];
+  const startingStats = baseEmbryoStats[gameState.selectedEmbryo?.id || 'default'];
   
   // Dynamic Budgeting: The points you can spend depend on Phase 4, 9 and 10!
   // Base points = 10. Budget over 50 gives bonus, below 50 gives penalty.
@@ -135,7 +134,7 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
               <div>
                  <p className="text-[10px] text-[#00f0ff] font-bold uppercase tracking-widest">System-Log: Konsequenz-Analyse</p>
                  <p className="text-xs text-slate-300 font-mono mt-1">
-                    Basis-Werte importiert von Embryo-Kandidat: <strong className="text-white">{gameState.selectedEmbryo || 'Standard'}</strong>. <br/>
+                    Basis-Werte importiert von Embryo-Kandidat: <strong className="text-white">{gameState.selectedEmbryo?.id || 'Standard'}</strong>. <br/>
                     Ihr PR- und Budget-Status generierte <strong className="text-[#ff00e5]">{initialAvailablePoints} Epigenetik-Punkte</strong> zur Verteilung.
                  </p>
               </div>
@@ -288,7 +287,7 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
             onClick={() => {
                // Update global state before moving on!
                if(gameState.updateGameState) {
-                  gameState.updateGameState({ finalStats: stats });
+                  gameState.updateGameState({ finalStats: stats as { int: number; phy: number; imm: number; life: number; } });
                }
                onNext();
             }}
