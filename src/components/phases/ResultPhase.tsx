@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Terminal, Database, Cpu, Activity, AlertTriangle, CheckCircle, Zap, Shield, Sparkles, Brain, Dumbbell, ShieldAlert, FileText, Globe, Award, TrendingUp, Skull, Droplet, UserCheck } from "lucide-react";
+import { Terminal, Database, Cpu, Activity, AlertTriangle, CheckCircle, Zap, Shield, Sparkles, Brain, Dumbbell, ShieldAlert, FileText, Globe, Award, TrendingUp, Skull, Droplet, UserCheck, BookOpen } from "lucide-react";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, Cell } from 'recharts';
@@ -44,7 +44,6 @@ const calculateOutcome = async (state: GameState) => {
 
 export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
   const [isCalculating, setIsCalculating] = useState(true);
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [outcome, setOutcome] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'stats' | 'psyche' | 'world'>('overview');
@@ -134,7 +133,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             <div className="w-full bg-[#0A101D] rounded-full h-3 md:h-4 overflow-hidden border border-slate-800 p-0.5">
                 <motion.div 
                 className="h-full bg-gradient-to-r from-[#00f0ff] via-[#9d00ff] to-[#ff00e5] rounded-full relative"
-                style={{ width: `${scanProgress}%` }}
+                style={{ width: \`\${scanProgress}%\` }}
                 transition={{ ease: "linear" }}
                 >
                     <div className="absolute inset-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_25%,rgba(255,255,255,0.2)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.2)_75%,rgba(255,255,255,0.2)_100%)] bg-[length:20px_20px] animate-[slide_1s_linear_infinite]" />
@@ -221,7 +220,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                  </div>
                  <div className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-lg flex flex-col justify-center items-center md:items-start">
                     <p className="text-[10px] text-slate-500 uppercase font-mono mb-1 flex items-center gap-1"><TrendingUp size={12}/> Marktwert</p>
-                    <p className="text-lg md:text-xl font-bold text-green-400">${(outcome?.marketValue / 1000000).toFixed(1)}M</p>
+                    <p className="text-lg md:text-xl font-bold text-green-400">\${(outcome?.marketValue / 1000000).toFixed(1)}M</p>
                  </div>
                  <div className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-lg flex flex-col justify-center items-center md:items-start">
                     <p className="text-[10px] text-slate-500 uppercase font-mono mb-1 flex items-center gap-1"><Skull size={12}/> Rebellion</p>
@@ -249,9 +248,8 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
               ].map((tab) => (
                 <button
                   key={tab.id}
-                  // eslint-disable-next-line @typescript-eslint/no-explicit-any
                   onClick={() => setActiveTab(tab.id as any)}
-                  className={`flex-1 lg:w-full flex items-center justify-center lg:justify-start gap-2 md:gap-3 p-3 md:p-4 rounded-xl border transition-all duration-300 font-mono text-[10px] md:text-sm uppercase tracking-wider whitespace-nowrap relative overflow-hidden group ${
+                  className={`flex-1 lg:w-full flex items-center justify-center lg:justify-start gap-2 md:gap-3 p-3 md:p-4 rounded-xl border transition-all duration-300 font-mono text-[10px] md:text-sm uppercase tracking-wider whitespace-nowrap relative overflow-hidden group \${
                     activeTab === tab.id 
                       ? 'bg-gradient-to-r from-[#00f0ff]/20 to-transparent border-[#00f0ff]/50 text-white' 
                       : 'bg-slate-900/30 border-slate-800/50 text-slate-400 hover:bg-slate-800/80 hover:text-white hover:border-slate-700'
@@ -260,20 +258,28 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                   {activeTab === tab.id && (
                      <motion.div layoutId="activeTabIndicator" className="absolute left-0 top-0 bottom-0 w-1 bg-[#00f0ff] shadow-[0_0_10px_#00f0ff]" />
                   )}
-                  <tab.icon size={16} className={`md:w-[18px] md:h-[18px] shrink-0 transition-colors ${activeTab === tab.id ? 'text-[#00f0ff]' : 'group-hover:text-slate-300'}`} />
+                  <tab.icon size={16} className={`md:w-[18px] md:h-[18px] shrink-0 transition-colors \${activeTab === tab.id ? 'text-[#00f0ff]' : 'group-hover:text-slate-300'}`} />
                   <span className="hidden sm:inline-block font-bold">{tab.label}</span>
                 </button>
               ))}
               
               <div className="hidden lg:block h-px w-full bg-slate-800 my-4" />
 
-              <div className="hidden lg:block pt-2">
+              <div className="hidden lg:block pt-2 space-y-3">
                 <Button 
-                onClick={onRestart}
-                className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-xs uppercase tracking-widest transition-all group"
+                  onClick={() => window.location.href='/quellen'}
+                  className="w-full py-6 bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 border border-[#00f0ff]/50 text-[#00f0ff] hover:text-[#00f0ff] font-mono text-xs uppercase tracking-widest transition-all group"
                 >
-                <Terminal className="mr-2 w-4 h-4 group-hover:animate-pulse" />
-                System Reset
+                  <BookOpen className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
+                  Wissenschaftliche Quellen
+                </Button>
+                
+                <Button 
+                  onClick={onRestart}
+                  className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-xs uppercase tracking-widest transition-all group"
+                >
+                  <Terminal className="mr-2 w-4 h-4 group-hover:animate-pulse" />
+                  System Reset
                 </Button>
             </div>
            </div>
@@ -314,7 +320,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                 <p className="text-[10px] text-slate-500 uppercase font-mono mb-1">Finanzieller Status</p>
                                 <div className="flex items-end justify-between">
                                     <span className="text-lg text-white">Budget Rest</span>
-                                    <span className={`text-xl font-bold font-mono ${budget > 0 ? "text-green-400" : "text-red-400"}`}>{budget} CR</span>
+                                    <span className={`text-xl font-bold font-mono \${budget > 0 ? "text-green-400" : "text-red-400"}`}>{budget} CR</span>
                                 </div>
                             </div>
                             
@@ -354,8 +360,8 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
                                 <motion.div 
                                     initial={{ width: 0 }}
-                                    animate={{ width: `${outcome?.rebellionRisk}%` }}
-                                    className={`h-full ${outcome?.rebellionRisk > 60 ? 'bg-red-500' : outcome?.rebellionRisk > 30 ? 'bg-yellow-500' : 'bg-green-500'}`}
+                                    animate={{ width: \`\${outcome?.rebellionRisk}%\` }}
+                                    className={`h-full \${outcome?.rebellionRisk > 60 ? 'bg-red-500' : outcome?.rebellionRisk > 30 ? 'bg-yellow-500' : 'bg-green-500'}`}
                                 />
                             </div>
                             <div className="flex justify-between mt-2">
@@ -400,7 +406,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                     />
                                     <Bar dataKey="value" radius={[0, 4, 4, 0]} barSize={32}>
                                         {barData.map((entry, index) => (
-                                            <Cell key={`cell-${index}`} fill={entry.color} />
+                                            <Cell key={`cell-\${index}`} fill={entry.color} />
                                         ))}
                                     </Bar>
                                 </BarChart>
@@ -415,8 +421,8 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             { label: 'Physische Stärke', value: stats.phy, color: 'text-orange-400', bg: 'bg-orange-500/10', border: 'border-orange-500/20', icon: Dumbbell, max: 200, desc: 'Muskeldichte und metabolische Effizienz' },
                             { label: 'Immun-Resilienz', value: stats.imm, color: 'text-green-400', bg: 'bg-green-500/10', border: 'border-green-500/20', icon: Shield, max: 200, desc: 'Widerstand gegen pathogene Erreger' }
                         ].map((stat, i) => (
-                            <div key={i} className={`p-4 rounded-xl border ${stat.bg} ${stat.border} flex items-center gap-4`}>
-                                <div className={`p-3 rounded-lg bg-slate-900/50 ${stat.color}`}>
+                            <div key={i} className={`p-4 rounded-xl border \${stat.bg} \${stat.border} flex items-center gap-4`}>
+                                <div className={`p-3 rounded-lg bg-slate-900/50 \${stat.color}`}>
                                     <stat.icon size={24} />
                                 </div>
                                 <div className="flex-1">
@@ -530,7 +536,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                           <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Öffentliche Zustimmung</p>
                           <div className="flex items-center gap-4">
                               <div className="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className="h-full bg-blue-500" style={{width: `${trust}%`}} />
+                                  <div className="h-full bg-blue-500" style={{width: \`\${trust}%\`}} />
                               </div>
                               <span className="font-mono text-blue-400 font-bold">{trust}%</span>
                           </div>
@@ -556,7 +562,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                            <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Ethik Score Final</p>
                           <div className="flex items-center gap-4">
                               <div className="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className={`h-full ${safeState.ethicsScore < 40 ? 'bg-red-500' : 'bg-green-500'}`} style={{width: `${safeState.ethicsScore}%`}} />
+                                  <div className={`h-full \${safeState.ethicsScore < 40 ? 'bg-red-500' : 'bg-green-500'}`} style={{width: \`\${safeState.ethicsScore}%\`}} />
                               </div>
                               <span className="font-mono font-bold text-slate-300">{safeState.ethicsScore}/100</span>
                           </div>
@@ -569,8 +575,15 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
         </div>
       </div>
       
-      {/* Mobile Reset Button (Visible only on small screens) */}
-      <div className="block lg:hidden mt-6">
+      {/* Mobile Actions (Visible only on small screens) */}
+      <div className="block lg:hidden mt-6 space-y-3">
+        <Button 
+            onClick={() => window.location.href='/quellen'}
+            className="w-full py-6 bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 border border-[#00f0ff]/50 text-[#00f0ff] font-mono text-sm uppercase tracking-widest transition-all"
+        >
+            <BookOpen className="mr-2 w-[18px] h-[18px]" />
+            Wissenschaftliche Quellen
+        </Button>
         <Button 
             onClick={onRestart}
             className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-sm uppercase tracking-widest transition-all"

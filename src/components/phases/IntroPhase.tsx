@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
-import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Activity, Database, Server } from 'lucide-react';
+import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Activity, Database, Server, BookOpen } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
+import Link from 'next/link';
 
 export function IntroPhase({ onNext }: { onNext: () => void }) {
   const [bootSequence, setBootSequence] = useState(0);
@@ -28,6 +29,15 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
   return (
     <div className="w-full h-full min-h-[90vh] flex flex-col items-center justify-center relative overflow-hidden px-4 py-12 md:p-8">
       
+      {/* Unauffälliger Quellen-Button unten links */}
+      <Link 
+        href="/quellen" 
+        className="absolute bottom-4 left-4 md:bottom-8 md:left-8 z-50 flex items-center gap-2 text-slate-600 hover:text-[#00f0ff] font-mono text-[10px] md:text-xs uppercase tracking-widest transition-colors opacity-60 hover:opacity-100"
+      >
+        <BookOpen size={14} />
+        Quellen & Doku
+      </Link>
+
       {/* --- BACKGROUND EFFECTS --- */}
       <div className="absolute inset-0 z-0 pointer-events-none flex items-center justify-center opacity-30 overflow-hidden">
          {/* Massive rotating rings */}
@@ -67,7 +77,7 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
                  initial={{ width: "0%" }} 
                  animate={{ width: `${(bootSequence / 4) * 100}%` }} 
                  transition={{ duration: 0.8, ease: "easeOut" }}
-                 className={`h-full rounded-full shadow-[0_0_15px_rgba(0,240,255,0.8)] ${bootSequence >= 3 ? 'bg-[#ff00e5]' : 'bg-[#00f0ff]'}`} 
+                 className={`h-full rounded-full shadow-[0_0_15px_rgba(0,240,255,0.8)] \${bootSequence >= 3 ? 'bg-[#ff00e5]' : 'bg-[#00f0ff]'}`} 
                />
             </div>
 
@@ -203,7 +213,6 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
 
       </AnimatePresence>
 
-      {/* Global styles for this specific component animations */}
       <style dangerouslySetInnerHTML={{__html: `
         @keyframes scan {
           0% { top: -100%; }
