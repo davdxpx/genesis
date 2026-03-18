@@ -110,7 +110,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
   const [chatLog, setChatLog] = useState<ChatMessage[]>([]);
   const [liveComments, setLiveComments] = useState<CommentMessage[]>([]);
   const [isFinished, setIsFinished] = useState(false);
-  const feedEndRef = useRef<HTMLDivElement>(null);
+  const commentsContainerRef = useRef<HTMLDivElement>(null);
 
   // Initial prompt
   useEffect(() => {
@@ -135,14 +135,19 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
       const randomComment = possibleComments[Math.floor(Math.random() * possibleComments.length)];
       const randomUserId = Math.floor(Math.random() * 9000);
       
-      setLiveComments(current => [...current.slice(-3), { id: Date.now(), userId: randomUserId, text: randomComment }]);
+      // Keep only the last 15 comments so it doesn't grow infinitely
+      setLiveComments(current => [...current.slice(-14), { id: Date.now(), userId: randomUserId, text: randomComment }]);
       
     }, 2500);
     return () => clearInterval(interval);
   }, [trust, isFinished]);
 
+  // Scroll to bottom ONLY inside the comments container, not the whole page
   useEffect(() => {
-    feedEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    if (commentsContainerRef.current) {
+      const container = commentsContainerRef.current;
+      container.scrollTop = container.scrollHeight;
+    }
   }, [liveComments]);
 
   const handleAnswer = (option: typeof interviewScript[0]['options'][0]) => {
@@ -176,8 +181,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
 
   const handleComplete = () => {
      if(updateGameState) {
-        // Update the global state so Phase 12 (Attributes) has the correct budget!
-        // High market increases budget, low market decreases budget.
         const budgetImpact = (market - 50); 
         updateGameState({
            budget: Math.max(0, Math.min(100, gameState.budget + budgetImpact)),
@@ -198,7 +201,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-min-h-[85vh] lg:min-h-[80vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[85vh] lg:min-h-[80vh]"
     >
       {/* LEFT PANE: Live Broadcast & Sentiment */}
       <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">
@@ -216,7 +219,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
           </div>
         </CardHeader>
 
-        <CardContent className="flex-1 p-0 flex flex-col overflow-hidden relative bg-[#050A15]">
+        <CardContent className="flex-1 p-0 flex flex-col relative bg-[#050A15]">
            {/* Live Video Feed Mockup */}
            <div className="h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, transparent 20%, #000 120%)' }} />
@@ -271,20 +274,24 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
               </div>
 
               {/* Fake Live Comments */}
-              <div className="flex-1 bg-slate-900/50 rounded-xl border border-slate-800 p-3 overflow-hidden relative">
-                 <p className="text-[10px] text-slate-500 font-mono mb-2 border-b border-slate-800 pb-1">LIVE CHAT FEED</p>
-                 <div className="space-y-2">
+              <div className="flex-1 bg-slate-900/50 rounded-xl border border-slate-800 p-3 relative flex flex-col overflow-hidden">
+                 <p className="text-[10px] text-slate-500 font-mono mb-2 border-b border-slate-800 pb-1 flex-shrink-0">LIVE CHAT FEED</p>
+                 
+                 {/* This container scrolls internally, preventing the whole page from jumping */}
+                 <div 
+                   ref={commentsContainerRef} 
+                   className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-hide"
+                   style={{ msOverflowStyle: 'none', scrollbarWidth: 'none' }}
+                 >
                     <AnimatePresence>
                        {liveComments.map((comment) => (
-                          <motion.div key={comment.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-xs text-slate-400 font-mono">
+                          <motion.div key={comment.id} initial={{ opacity: 0, x: -10 }} animate={{ opacity: 1, x: 0 }} className="text-xs text-slate-400 font-mono pb-1 border-b border-slate-800/50 last:border-0">
                              <span className="text-slate-600">User{comment.userId}:</span> {comment.text}
                           </motion.div>
                        ))}
                     </AnimatePresence>
                  </div>
-                 {/* Auto-scroll anchor */}
-                 <div ref={feedEndRef} />
-                 <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-[#050A15] to-transparent" />
+                 <div className="absolute bottom-0 left-0 w-full h-8 bg-gradient-to-t from-slate-900 to-transparent pointer-events-none" />
               </div>
            </div>
         </CardContent>
@@ -378,14 +385,20 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
            <AnimatePresence>
              {isFinished && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <Button variant="sci-fi" onClick={handleComplete} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-                    Zum Baby Designer (Phänotyp) <Zap className="ml-2 w-4 h-4" />
+                  <Button variant="sci-fi" onClick={handleComplete} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-slate-800 text-white border border-[#00f0ff] hover:bg-[#00f0ff]/20">
+                    Zum Baby Designer <Zap className="ml-2 w-4 h-4 text-[#00f0ff]" />
                   </Button>
                 </motion.div>
              )}
            </AnimatePresence>
         </CardFooter>
       </Card>
+      
+      <style jsx global>{`
+        .scrollbar-hide::-webkit-scrollbar {
+            display: none;
+        }
+      `}</style>
     </motion.div>
   );
 }

@@ -1,239 +1,229 @@
 import React, { useState } from 'react';
+import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Button } from '../ui/button';
-import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
-import { Map, AlertTriangle, ShieldCheck, Database, Anchor, Lock, Server, Cpu } from 'lucide-react';
+import { Globe2, Scale, ShieldAlert, CheckCircle2, Lock, AlertTriangle, Fingerprint, Crosshair, MapPin, Database } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 
-const locations = [
+interface Region {
+  id: string;
+  name: string;
+  coords: { x: number, y: number };
+  status: 'locked' | 'warning' | 'available';
+  law: string;
+  desc: string;
+  bioHack: string;
+}
+
+// Koordinaten in % passend zur SVG Weltkarte
+const regions: Region[] = [
   {
-    id: 'sg_facility',
-    name: 'Neo-Singapur Bio-Hub',
-    type: 'Reguliert (Klasse-1)',
-    icon: ShieldCheck,
-    color: '#00f0ff',
-    desc: 'Hochsicherheitslabor. Vollständig legal, aber streng überwacht von der Globalen Genetik-Behörde.',
-    pros: ['100% Legal', 'Modernste Technologie', 'Kein Risiko von Razzien'],
-    cons: ['Jede Code-Änderung wird geloggt', 'Prometheus-Marker ist extrem schwer zu verbergen', 'Hohe Bürokratie'],
-    stats: { sicherheit: 98, freiheit: 20, tech: 100 }
+    id: 'eu',
+    name: 'Europa (DE)',
+    coords: { x: 52, y: 28 }, // Deutschland
+    status: 'locked',
+    law: 'Embryonenschutzgesetz (ESchG § 5)',
+    desc: 'Laut ESchG ist jegliche künstliche Veränderung der menschlichen Keimbahn eine Straftat (bis zu 5 Jahre Haft). Die deutsche Ethik pocht streng auf den Schutz der Menschenwürde und warnt vor der Selektion von "unwertem Leben".',
+    bioHack: 'INTERPOL-ÜBERWACHUNG AKTIV. OPERATION ILLEGAL.'
   },
   {
-    id: 'offshore_rig',
-    name: 'Atlas Seastead (Pazifik)',
-    type: 'Unreguliert (Klasse-X)',
-    icon: Anchor,
-    color: '#ff0000',
-    desc: 'Eine schwimmende Bohrinsel, umfunktioniert zu einem autonomen Klon-Labor. Außerhalb jeglicher Gerichtsbarkeit.',
-    pros: ['Absolute Freiheit', 'Keine Behörden', 'Prometheus-Marker problemlos einsetzbar'],
-    cons: ['Gefahr durch Interpol-Raids', 'Stürme stören manchmal Stromzufuhr', 'Schwarzmarkt-Ausrüstung'],
-    stats: { sicherheit: 10, freiheit: 100, tech: 60 }
+    id: 'usa',
+    name: 'Nordamerika (USA)',
+    coords: { x: 20, y: 35 }, // USA
+    status: 'warning',
+    law: 'FDA Rider & Dickey-Wicker Amendment',
+    desc: 'Es gibt kein explizites Bundesgesetz gegen private Genmanipulation, ABER die FDA blockiert jegliche klinischen Studien an modifizierten Embryonen. Ein unberechenbares Risiko für unsere Wall-Street-Investoren durch Klagen.',
+    bioHack: 'GRAUZONE. HOHE STRAFKOMPENSATION ZU ERWARTEN.'
   },
   {
-    id: 'eu_underground',
-    name: 'Berlin Bunker-Anlage',
-    type: 'Schwarzmarkt (Klasse-5)',
-    icon: Lock,
-    color: '#ff00e5',
-    desc: 'Ein stillgelegter Kalte-Krieg-Bunker unter der streng regulierten Euro-Zone. Ein riskantes Versteckspiel.',
-    pros: ['Nah an europäischen Spezialisten', 'Gute Tarnung im Stadtnetz'],
-    cons: ['Bei Entdeckung: Lebenslange Haft', 'Hohes Risiko durch Spione', 'Mittelmäßige Hardware'],
-    stats: { sicherheit: 40, freiheit: 70, tech: 75 }
+    id: 'asia',
+    name: 'Asien (China)',
+    coords: { x: 75, y: 40 }, // China
+    status: 'locked',
+    law: 'Bio-Security Law (Post-2018)',
+    desc: '2018 erschuf He Jiankui hier die ersten CRISPR-Babys. Nach einem globalen Aufschrei verschärfte die Regierung die Gesetze massiv. He wurde zu 3 Jahren Haft verurteilt. Die staatliche Überwachung ist lückenlos.',
+    bioHack: 'ZULASSUNG BLOCKIERT. STAATLICHE KONTROLLE.'
   },
   {
-    id: 'corp_zone',
-    name: 'Ares Mega-Corp Campus (USA)',
-    type: 'Kommerziell (Klasse-2)',
-    icon: Server,
-    color: '#9d00ff',
-    desc: 'Gegen genügend Geld drückt die Ares Mega-Corp beide Augen zu und stellt private Server und Labore zur Verfügung.',
-    pros: ['Sehr gute Ausrüstung', 'Unternehmens-Söldner als Schutz'],
-    cons: ['Ares behält Kopien der DNA', 'Hohes Risiko von Industriespionage', 'Sehr teuer'],
-    stats: { sicherheit: 70, freiheit: 60, tech: 90 }
+    id: 'sea',
+    name: 'Internat. Gewässer (Seastead)',
+    coords: { x: 88, y: 65 }, // Ozean (Pazifik)
+    status: 'available',
+    law: 'Keine nationale Jurisdiktion',
+    desc: 'Ein privates Forschungsschiff (Seasteading) außerhalb der 12-Meilen-Zone. Hier greifen keine nationalen Ethikgesetze. Ein ethisches Schlupfloch: Reiche Eliten können globale Regularien mit genug Kapital einfach umgehen.',
+    bioHack: 'STANDORT VERIFIZIERT. SICHERER HAFEN.'
   }
 ];
 
 export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
-  const [selectedLocation, setSelectedLocation] = useState<string | null>(null);
-  const [isConfirming, setIsConfirming] = useState(false);
+  const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
+  const [isScanning, setIsScanning] = useState(false);
 
-  const activeLoc = locations.find(l => l.id === selectedLocation);
-
-  const handleConfirm = () => {
-    setIsConfirming(true);
-    setTimeout(() => {
-      onNext();
-    }, 2500);
+  const handleSelect = (region: Region) => {
+    setSelectedRegion(region);
+    setIsScanning(true);
+    // Scanning Animation Delay
+    setTimeout(() => setIsScanning(false), 1800);
   };
 
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col gap-6 p-4 min-min-h-[85vh]"
+      className="w-full max-w-7xl mx-auto flex flex-col gap-6 p-4 min-h-[85vh] text-[#00f0ff] font-mono"
     >
-      <div className="flex items-center justify-between bg-slate-900/80 p-4 rounded-xl border border-slate-700/50">
-         <div className="flex items-center gap-3">
-            <Map className="text-[#00f0ff] animate-pulse" />
-            <div>
-               <h2 className="text-[#00f0ff] font-bold tracking-widest uppercase text-lg">Labor-Standortwahl</h2>
-               <p className="text-slate-400 text-xs font-mono">Die Familie Vance benötigt einen physischen Ort für die Synthese.</p>
-            </div>
-         </div>
-         <div className="px-3 py-1 bg-[#ff00e5]/10 border border-[#ff00e5]/30 rounded text-[#ff00e5] text-xs font-mono flex items-center gap-2">
-            <AlertTriangle size={14} /> Wähle weise. Dies bestimmt das Risiko der Operation.
-         </div>
+      {/* HEADER */}
+      <div className="flex items-center gap-4 bg-slate-900/60 p-4 rounded-2xl border border-[#00f0ff]/30 shadow-[0_0_30px_rgba(0,240,255,0.1)] backdrop-blur-md">
+        <Globe2 className="w-10 h-10 text-[#00f0ff] animate-pulse" />
+        <div>
+          <h1 className="text-2xl md:text-3xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(0,240,255,0.8)]">
+            GEO-JURISDIKTION SCANNER
+          </h1>
+          <p className="text-sm text-slate-400">GLOBAL HEALTH BOARD TACTICAL MAP // FINDEN SIE EINE LEGALE LÜCKE</p>
+        </div>
       </div>
 
-      <div className="flex flex-col md:flex-row gap-6 flex-1 min-h-0">
-         {/* Map / Grid Selection */}
-         <div className="w-full md:w-1/2 grid grid-cols-1 sm:grid-cols-2 gap-4 h-full overflow-y-auto custom-scrollbar content-start">
-            {locations.map((loc) => {
-               const isSelected = selectedLocation === loc.id;
-               const Icon = loc.icon;
-
-               return (
-                  <motion.button
-                     key={loc.id}
-                     whileHover={{ scale: 1.02 }}
-                     whileTap={{ scale: 0.98 }}
-                     onClick={() => setSelectedLocation(loc.id)}
-                     className={`flex flex-col text-left p-4 rounded-xl border transition-all duration-300 relative overflow-hidden group ${
-                        isSelected 
-                          ? `bg-slate-800/90 shadow-[0_0_20px_${loc.color}30]` 
-                          : 'bg-[#0f172a]/60 border-slate-700/50 hover:border-slate-500'
-                     }`}
-                     style={{ borderColor: isSelected ? loc.color : undefined }}
-                  >
-                     {isSelected && (
-                        <span className="absolute inset-0 opacity-10 pointer-events-none" style={{ background: `linear-gradient(135deg, transparent, ${loc.color}, transparent)` }} />
-                     )}
-                     <div className="flex items-center justify-between mb-4 z-10">
-                        <div className={`p-2 rounded-lg ${isSelected ? 'bg-slate-900' : 'bg-slate-800'}`} style={{ color: isSelected ? loc.color : '#94a3b8' }}>
-                           <Icon size={24} />
-                        </div>
-                        {isSelected && <span className="text-xs font-mono px-2 py-1 bg-slate-900 rounded border" style={{ borderColor: loc.color, color: loc.color }}>AKTIV</span>}
-                     </div>
-                     <h3 className={`font-bold tracking-wide text-lg z-10 ${isSelected ? 'text-white' : 'text-slate-300'}`}>{loc.name}</h3>
-                     <p className="text-xs font-mono text-slate-500 mt-1 z-10">{loc.type}</p>
-                  </motion.button>
-               )
-            })}
-         </div>
-
-         {/* Details Panel */}
-         <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col h-full overflow-hidden">
-            <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 pb-4">
-               <CardTitle className="text-slate-100 font-black tracking-widest text-lg flex items-center gap-2">
-                  <Database className="text-[#00f0ff]" /> STANDORT-ANALYSE
-               </CardTitle>
-            </CardHeader>
+      <div className="flex flex-col xl:flex-row gap-6 flex-1">
+        
+        {/* LEFT PANE: INTERACTIVE WORLD MAP */}
+        <Card className="w-full xl:w-2/3 bg-[#050A15] border-[#00f0ff]/20 shadow-2xl relative overflow-hidden flex flex-col">
+          {/* Scanline Overlay */}
+          <div className="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.03)_1px,transparent_1px)] bg-[length:100%_4px] pointer-events-none z-10"></div>
+          
+          <CardContent className="flex-1 p-0 relative min-h-[400px] h-[400px] md:h-[500px] xl:h-[600px] flex items-center justify-center bg-[#02050a] overflow-hidden">
             
-            <CardContent className="flex-1 p-6 overflow-y-auto custom-scrollbar relative">
-               <AnimatePresence mode="wait">
-                  {!activeLoc ? (
-                     <motion.div 
-                        initial={{ opacity: 0 }} 
-                        animate={{ opacity: 1 }} 
-                        exit={{ opacity: 0 }}
-                        className="h-full flex flex-col items-center justify-center text-slate-500 font-mono text-sm space-y-4"
+            {/* The REAL SVG Map Background */}
+            <div className="absolute inset-0 z-0 flex items-center justify-center w-full h-full p-4 md:p-8">
+               <img 
+                 src="/BlankMap-World_gray.svg" 
+                 alt="World Map" 
+                 className="w-full h-full object-contain opacity-80 pointer-events-none drop-shadow-[0_0_20px_rgba(0,240,255,0.6)]"
+                 style={{ filter: 'brightness(0) sepia(1) hue-rotate(150deg) saturate(400%) brightness(1.2)' }} 
+               />
+            </div>
+
+            {/* Radar Sweep Effect */}
+            <motion.div 
+              animate={{ rotate: 360 }}
+              transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
+              className="absolute top-1/2 left-1/2 w-[200vw] h-[200vw] max-w-[2000px] max-h-[2000px] -mt-[100vw] md:-mt-[1000px] -ml-[100vw] md:-ml-[1000px] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(0,240,255,0.2)_90deg,transparent_90deg)] rounded-full pointer-events-none z-0"
+            />
+
+            {/* Interactive Pins Container */}
+            <div className="absolute inset-0 z-20 flex items-center justify-center w-full h-full p-4 md:p-8">
+              <div className="relative w-full h-full max-w-[1200px] max-h-[800px]">
+                {regions.map((region) => {
+                  const isSelected = selectedRegion?.id === region.id;
+                  return (
+                    <motion.button
+                      key={region.id}
+                      onClick={() => handleSelect(region)}
+                      whileHover={{ scale: 1.2 }}
+                      whileTap={{ scale: 0.9 }}
+                      className={`absolute flex flex-col items-center justify-center transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group`}
+                      style={{ left: region.coords.x + "%", top: region.coords.y + "%" }}
+                    >
+                      {/* Radar Ring */}
+                      {isSelected && (
+                        <motion.div 
+                          animate={{ scale: [1, 2.5], opacity: [0.8, 0] }}
+                          transition={{ duration: 1.5, repeat: Infinity }}
+                          className={`absolute w-12 h-12 rounded-full \${region.status === 'locked' ? 'bg-red-500' : region.status === 'warning' ? 'bg-yellow-500' : 'bg-[#00f0ff]'}`}
+                        />
+                      )}
+                      
+                      <div className={`relative flex items-center justify-center w-8 h-8 rounded-full border-2 \${
+                        region.status === 'locked' ? 'border-red-500 bg-red-950/80 text-red-500 shadow-[0_0_15px_rgba(239,68,68,0.6)]' :
+                        region.status === 'warning' ? 'border-yellow-500 bg-yellow-950/80 text-yellow-500 shadow-[0_0_15px_rgba(234,179,8,0.6)]' :
+                        'border-[#00f0ff] bg-cyan-950/80 text-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.6)]'
+                      } \${isSelected ? 'bg-opacity-100 scale-125' : 'backdrop-blur-sm'}`}>
+                        <Crosshair className="w-5 h-5" />
+                      </div>
+                      
+                      <span className={`mt-2 text-xs font-bold uppercase tracking-widest px-2 py-1 rounded bg-slate-900/80 border \${
+                          isSelected ? 'border-[#00f0ff] text-white shadow-[0_0_10px_rgba(0,240,255,0.5)]' : 'border-slate-700 text-slate-400 group-hover:text-white'
+                      }`}>
+                        {region.name.split(' ')[0]}
+                      </span>
+                    </motion.button>
+                  );
+                })}
+              </div>
+            </div>
+          </CardContent>
+        </Card>
+
+        {/* RIGHT PANE: DATA ANALYSIS */}
+        <Card className="w-full xl:w-1/3 bg-[#050A15] border-[#00f0ff]/20 shadow-2xl overflow-hidden flex flex-col relative">
+          <CardHeader className="border-b border-slate-800 bg-slate-900/80 z-10">
+             <CardTitle className="text-sm font-bold tracking-widest text-[#ff00e5] flex items-center gap-2">
+               <Database className="w-4 h-4" /> REGIONALE RECHTSANALYSE
+             </CardTitle>
+          </CardHeader>
+
+          <CardContent className="flex-1 p-6 z-10 flex flex-col relative overflow-y-auto">
+            <AnimatePresence mode="wait">
+              {!selectedRegion ? (
+                <motion.div key="empty" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-1 flex flex-col items-center justify-center text-center opacity-50">
+                   <MapPin className="w-16 h-16 mb-4 animate-bounce" />
+                   <p className="text-sm">ZIELGEBIET AUF DER KARTE WÄHLEN</p>
+                </motion.div>
+              ) : isScanning ? (
+                <motion.div key="scanning" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="flex-1 flex flex-col items-center justify-center space-y-4">
+                   <div className="w-16 h-16 border-4 border-[#00f0ff]/20 border-t-[#00f0ff] rounded-full animate-spin"></div>
+                   <p className="text-[#00f0ff] font-bold tracking-widest animate-pulse">EXTRAHIERE GESETZE...</p>
+                </motion.div>
+              ) : (
+                <motion.div key="data" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="space-y-6">
+                   <div>
+                     <div className="flex items-center gap-3 mb-2">
+                        {selectedRegion.status === 'locked' && <Lock className="w-8 h-8 text-red-500" />}
+                        {selectedRegion.status === 'warning' && <AlertTriangle className="w-8 h-8 text-yellow-500" />}
+                        {selectedRegion.status === 'available' && <CheckCircle2 className="w-8 h-8 text-[#00f0ff]" />}
+                        <h2 className="text-2xl font-black text-white">{selectedRegion.name}</h2>
+                     </div>
+                     <p className={`text-xs font-bold uppercase p-2 border rounded-md \${
+                        selectedRegion.status === 'locked' ? 'bg-red-950/30 text-red-400 border-red-900' :
+                        selectedRegion.status === 'warning' ? 'bg-yellow-950/30 text-yellow-400 border-yellow-900' :
+                        'bg-cyan-950/30 text-[#00f0ff] border-[#00f0ff]/50'
+                     }`}>
+                        <span className="opacity-50 mr-2">GESETZ:</span> {selectedRegion.law}
+                     </p>
+                   </div>
+
+                   <div className="bg-slate-900/80 p-4 rounded-xl border border-slate-700">
+                     <p className="text-sm text-slate-300 leading-relaxed font-sans">
+                        {selectedRegion.desc}
+                     </p>
+                   </div>
+
+                   <div className="bg-[#050A15] p-3 rounded-lg border border-slate-800">
+                      <p className={`text-xs font-bold font-mono flex items-start gap-2 \${
+                         selectedRegion.status === 'locked' ? 'text-red-500' :
+                         selectedRegion.status === 'warning' ? 'text-yellow-500' :
+                         'text-[#00f0ff]'
+                      }`}>
+                         <Fingerprint className="w-4 h-4 flex-shrink-0" /> {selectedRegion.bioHack}
+                      </p>
+                   </div>
+
+                   {selectedRegion.status === 'available' ? (
+                     <Button 
+                       onClick={onNext}
+                       className="w-full py-6 mt-4 text-sm font-black bg-[#00f0ff]/10 border border-[#00f0ff] hover:bg-[#00f0ff]/20 text-white shadow-[0_0_20px_rgba(0,240,255,0.3)]"
                      >
-                        <Map size={48} className="opacity-20" />
-                        <p>Wähle einen Standort auf dem Raster für detaillierte Spezifikationen.</p>
-                     </motion.div>
-                  ) : (
-                     <motion.div 
-                        key={activeLoc.id}
-                        initial={{ opacity: 0, x: 20 }}
-                        animate={{ opacity: 1, x: 0 }}
-                        exit={{ opacity: 0, x: -20 }}
-                        className="space-y-6"
-                     >
-                        <div className="space-y-2">
-                           <h3 className="text-3xl font-black uppercase text-white" style={{ textShadow: `0 0 10px ${activeLoc.color}` }}>{activeLoc.name}</h3>
-                           <p className="text-sm font-mono text-slate-400">{activeLoc.desc}</p>
-                        </div>
+                       STANDORT BESTÄTIGEN & FORTFAHREN
+                     </Button>
+                   ) : (
+                     <div className="w-full py-4 mt-4 text-center text-red-500/50 font-mono text-xs border border-red-900/50 border-dashed rounded-lg">
+                       OPERATION HIER NICHT MÖGLICH.
+                     </div>
+                   )}
+                </motion.div>
+              )}
+            </AnimatePresence>
+          </CardContent>
+        </Card>
 
-                        <div className="grid grid-cols-2 gap-4">
-                           <div className="bg-[#0f172a] p-4 rounded-lg border border-slate-700/50">
-                              <p className="text-xs text-emerald-400 font-bold tracking-widest uppercase mb-3 flex items-center gap-2">Vorteile</p>
-                              <ul className="space-y-2">
-                                 {activeLoc.pros.map((pro, i) => (
-                                    <li key={i} className="text-xs text-slate-300 font-mono flex items-start gap-2">
-                                       <span className="text-emerald-400 mt-0.5">+</span> {pro}
-                                    </li>
-                                 ))}
-                              </ul>
-                           </div>
-                           <div className="bg-[#0f172a] p-4 rounded-lg border border-slate-700/50">
-                              <p className="text-xs text-red-400 font-bold tracking-widest uppercase mb-3 flex items-center gap-2">Risiken</p>
-                              <ul className="space-y-2">
-                                 {activeLoc.cons.map((con, i) => (
-                                    <li key={i} className="text-xs text-slate-300 font-mono flex items-start gap-2">
-                                       <span className="text-red-400 mt-0.5">-</span> {con}
-                                    </li>
-                                 ))}
-                              </ul>
-                           </div>
-                        </div>
-
-                        <div className="pt-4 border-t border-slate-700/50 space-y-4">
-                           <p className="text-xs text-slate-400 font-bold tracking-widest uppercase flex items-center gap-2">
-                              <Cpu size={14} /> Infrastruktur-Werte
-                           </p>
-                           {Object.entries(activeLoc.stats).map(([key, val]) => (
-                              <div key={key} className="space-y-1">
-                                 <div className="flex justify-between text-xs font-mono uppercase">
-                                    <span className="text-slate-400">{key}</span>
-                                    <span style={{ color: activeLoc.color }}>{val}%</span>
-                                 </div>
-                                 <div className="w-full bg-slate-800 rounded-full h-1.5 overflow-hidden">
-                                    <motion.div 
-                                       initial={{ width: 0 }}
-                                       animate={{ width: `${val}%` }}
-                                       transition={{ duration: 0.8 }}
-                                       className="h-full"
-                                       style={{ backgroundColor: activeLoc.color, boxShadow: `0 0 10px ${activeLoc.color}` }}
-                                    />
-                                 </div>
-                              </div>
-                           ))}
-                        </div>
-                     </motion.div>
-                  )}
-               </AnimatePresence>
-
-               {/* Lock Screen Overlay during confirmation */}
-               <AnimatePresence>
-                  {isConfirming && (
-                     <motion.div 
-                        initial={{ opacity: 0 }}
-                        animate={{ opacity: 1 }}
-                        className="absolute inset-0 bg-slate-900/90 backdrop-blur-sm z-50 flex flex-col items-center justify-center space-y-4"
-                     >
-                        <motion.div animate={{ rotate: 360 }} transition={{ duration: 2, repeat: Infinity, ease: "linear" }}>
-                           <Server size={60} style={{ color: activeLoc?.color || '#00f0ff' }} />
-                        </motion.div>
-                        <h2 className="text-2xl font-black tracking-widest text-white animate-pulse">ALLOKIERE RESSOURCEN...</h2>
-                        <p className="text-slate-400 font-mono text-sm">Laborprotokolle werden initiiert. Bitte warten.</p>
-                     </motion.div>
-                  )}
-               </AnimatePresence>
-            </CardContent>
-
-            <CardFooter className="bg-slate-900/80 p-6 flex justify-end border-t border-slate-700/50">
-               <Button 
-                  variant="sci-fi" 
-                  disabled={!activeLoc || isConfirming} 
-                  onClick={handleConfirm}
-                  className="w-full md:w-auto px-8"
-                  style={{ 
-                     borderColor: activeLoc ? activeLoc.color : undefined,
-                     color: activeLoc ? activeLoc.color : undefined
-                  }}
-               >
-                  {isConfirming ? 'Initialisiere...' : 'Standort Fixieren & Weiter'}
-               </Button>
-            </CardFooter>
-         </Card>
       </div>
     </motion.div>
   );

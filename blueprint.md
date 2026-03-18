@@ -1,38 +1,31 @@
-# Blueprint: Phase 12 & 13 - Finalisierung des Baby-Designers
+# Genesis Project - Designer Baby Web App (Schulprojekt)
 
-## Status Quo
-Das Projekt ist ein immersiver Sci-Fi "Baby Designer" im Next.js App Router.
-- **Phase 12 (Stats):** Existiert als Code (`BabyDesignerStatsPhase.tsx`), ist aber in `page.tsx` nur als Placeholder eingebunden. Es fehlt die Anbindung an einen globalen State.
-- **Phase 13 (Psyche):** Existiert noch nicht. Soll das "Highlight" werden.
+## 1. Overview & Purpose
+Diese Web-App simuliert eine fiktive Klinik für "Genmanipulierte Designer-Babys" (CRISPR/Cas9). Sie dient als interaktives digitales Begleitstück für ein Schulprojekt und deckt die Fächer **Biologie, Religion und Politik & Gesellschaft** ab.
+Ziel ist es, den Nutzer spielerisch über die Möglichkeiten, Risiken und ethischen Dilemmata der Keimbahnintervention aufzuklären und direkt an das zugehörige Plakat anzuknüpfen.
 
-## Plan für Phase 13: "Neuro-Architektur & Persönlichkeits-Matrix"
-Diese Phase simuliert die Formung des Charakters und der Psyche. Es ist der letzte Schritt vor der Prognose.
+## 2. Kriterien aus dem Bewertungsbogen & Aufgabenstellung
+- **Biologie:** Fundierte Erklärung der wissenschaftlichen Grundlagen (CRISPR/Cas9), Möglichkeiten/Grenzen der Veränderung menschlicher Gene und Risiken (z.B. Off-Target-Effekte, Pleiotropie).
+- **Religion:** Differenzierte Betrachtung ethischer und religiöser Fragestellungen ("Eingriff in die Schöpfung", "Spielen wir Gott?"), moralische Vertretbarkeit, Verantwortung von Wissenschaftlern, Eltern und Gesellschaft.
+- **Politik & Gesellschaft:** Klare Analyse der rechtlichen Rahmenbedingungen (z.B. Embryonenschutzgesetz in DE vs. internationale Regelungen) und der gesellschaftlichen Folgen (z.B. Zwei-Klassen-Gesellschaft, Gerontokratie).
+- **Kreativität & Präsentation:** Ästhetische, interaktive Umsetzung (Ausstellungsstück), die zum Nachdenken anregt und alle Perspektiven vereint.
 
-### Konzept
-- **Thema:** "Nature vs. Nurture" - Wir kontrollieren beides.
-- **Visuals:** Ein "Neurales Netzwerk" oder "Gehirn-Hologramm", das in Echtzeit auf Eingaben reagiert. Pulsierende Synapsen.
-- **Interaktion:**
-  - **Archetyp-Wähler:** Presets wie "Der Visionär", "Der Beschützer", "Der Stratege".
-  - **Psyche-Slider (Neuro-Modulation):**
-    - *Konformität vs. Rebellion* (Gehorsam)
-    - *Empathie vs. Logik* (Soziale Kompetenz vs. Kühle Ratio)
-    - *Risikobereitschaft vs. Sicherheit* (Amygdala-Tuning)
-  - **Das ultimative Dilemma:** Ein "Happiness Limiter". (Je glücklicher, desto weniger ambitioniert/erfolgreich).
+## 3. Phasen-Umbau (Action Plan)
+Die App bestand ursprünglich zu großen Teilen aus fiktiven Sci-Fi-Rätseln ohne echten Lerneffekt. Diese werden nun systematisch zu edukativen, interaktiven Stationen umgebaut, die direkt auf die Bewertungskriterien einzahlen.
 
-### Technische Umsetzung
-- Neue Komponente: `BabyDesignerPsychologyPhase.tsx`
-- Nutzung von `framer-motion` für komplexe Animationen des Gehirns/Netzwerks.
-- State-Updates an `page.tsx`.
+### Phase 1: Informed Consent (`/phase/auth-req`) - ✅ DONE
+- **Vorher:** Sinnlose Sci-Fi-Authentifizierungsfragen.
+- **Jetzt:** Eine ethische "Einverständniserklärung" (Informed Consent). Der Nutzer muss die echten biologischen, religiösen und politischen Risiken lesen und aktiv akzeptieren, bevor er die Klinik betreten darf.
 
-## Reparatur & Integration (Phase 12 & State)
-Damit die Phasen funktionieren, muss `page.tsx` Daten speichern können.
+### Phase 2: Die genetische Konfiguration (`/phase/attributes`, `/phase/psyche` etc.) - ⏳ NEXT
+- Hier "designt" der Nutzer das Baby (z. B. Intelligenz, Immunsystem, Telomerase-Aktivierung für Langlebigkeit).
+- **Ziel:** Jede Auswahl triggert sofortiges, fachspezifisches Feedback.
+  - *Biologie-Feedback:* Warnung vor Pleiotropie (z.B. hohe Intelligenz korreliert mit Depressionsrisiko).
+  - *Politik-Feedback:* Hinweis, dass solche Eingriffe in vielen Ländern illegal sind.
 
-1.  **Global State in `page.tsx`:** Einführung von `const [gameState, setGameState] = useState({...})`.
-2.  **Phase 12 Integration:** Ersetzen des Placeholders in `page.tsx` durch die echte `BabyDesignerStatsPhase` und Übergabe der Props.
-3.  **Phase 12 Code-Optimierung:** Sicherstellen, dass die SVG-Charts und Buttons auf allen Devices funktionieren.
+### Phase 3: Die Konsequenzen & PR (`/phase/prognosis`, `/phase/pr-control`) - ⏳ PLANNED
+- Eine Simulation der Zukunft des designten Kindes. Konfrontation mit der Gesellschaft, Presse (Stellvertretend für kritische Fragen der Lehrkräfte) und rechtlichen Hürden.
 
-## Schritte
-1.  `page.tsx` vorbereiten (State Management).
-2.  `BabyDesignerStatsPhase.tsx` (Phase 12) finalisieren.
-3.  `BabyDesignerPsychologyPhase.tsx` (Phase 13) implementieren.
-4.  `page.tsx` Phasen-Array aktualisieren.
+## 4. GitHub & Deployment
+- **Repository:** https://github.com/davdxpx/genesis
+- Regelmäßige Commits, um den Arbeitsfortschritt für die Lehrkräfte (falls gefragt) zu dokumentieren.
