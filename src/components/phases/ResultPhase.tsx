@@ -133,7 +133,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             <div className="w-full bg-[#0A101D] rounded-full h-3 md:h-4 overflow-hidden border border-slate-800 p-0.5">
                 <motion.div 
                 className="h-full bg-gradient-to-r from-[#00f0ff] via-[#9d00ff] to-[#ff00e5] rounded-full relative"
-                style={{ width: \`\${scanProgress}%\` }}
+                style={{ width: `\${scanProgress}%` }}
                 transition={{ ease: "linear" }}
                 >
                     <div className="absolute inset-0 w-full h-full bg-[linear-gradient(45deg,transparent_25%,rgba(255,255,255,0.2)_25%,rgba(255,255,255,0.2)_50%,transparent_50%,transparent_75%,rgba(255,255,255,0.2)_75%,rgba(255,255,255,0.2)_100%)] bg-[length:20px_20px] animate-[slide_1s_linear_infinite]" />
@@ -360,7 +360,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
                                 <motion.div 
                                     initial={{ width: 0 }}
-                                    animate={{ width: \`\${outcome?.rebellionRisk}%\` }}
+                                    animate={{ width: `\${outcome?.rebellionRisk}%` }}
                                     className={`h-full \${outcome?.rebellionRisk > 60 ? 'bg-red-500' : outcome?.rebellionRisk > 30 ? 'bg-yellow-500' : 'bg-green-500'}`}
                                 />
                             </div>
@@ -536,7 +536,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                           <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Öffentliche Zustimmung</p>
                           <div className="flex items-center gap-4">
                               <div className="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className="h-full bg-blue-500" style={{width: \`\${trust}%\`}} />
+                                  <div className="h-full bg-blue-500" style={{width: `\${trust}%`}} />
                               </div>
                               <span className="font-mono text-blue-400 font-bold">{trust}%</span>
                           </div>
@@ -562,7 +562,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                            <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Ethik Score Final</p>
                           <div className="flex items-center gap-4">
                               <div className="flex-1 h-2 bg-slate-900 rounded-full overflow-hidden">
-                                  <div className={`h-full \${safeState.ethicsScore < 40 ? 'bg-red-500' : 'bg-green-500'}`} style={{width: \`\${safeState.ethicsScore}%\`}} />
+                                  <div className={`h-full \${safeState.ethicsScore < 40 ? 'bg-red-500' : 'bg-green-500'}`} style={{width: `\${safeState.ethicsScore}%`}} />
                               </div>
                               <span className="font-mono font-bold text-slate-300">{safeState.ethicsScore}/100</span>
                           </div>
