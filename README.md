@@ -1,36 +1,43 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Projekt "Leben" – Interaktive Simulation: Genmanipulierte Designer-Babys 🧬
 
-## Getting Started
+Dieses Repository enthält eine interaktive Web-Applikation (Simulation), die als **fächerübergreifendes Schulprojekt** zu den Themenbereichen **Biologie, Politik & Gesellschaft sowie Religion & Ethik** entwickelt wurde.
 
-First, run the development server:
+Die App simuliert eine dystopisch-futuristische "Designer-Baby-Klinik", in der die Nutzer die Konsequenzen moderner Gen-Editierung (z.B. durch die Genschere CRISPR-Cas9) interaktiv erleben. Die Anwendung konfrontiert die Benutzer nicht nur mit den biologischen Möglichkeiten, sondern auch mit den weitreichenden gesellschaftlichen, rechtlichen und moralischen Folgen.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Features / Die Phasen der Simulation
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Die App ist in verschiedene Phasen unterteilt, die der Benutzer nacheinander durchläuft:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+- **System-Init / Auth-Req:** Authentifizierung und Einführung in das Szenario.
+- **Geo-Scan / Loc-Select:** Auswahl des Klinikstandorts (z. B. internationale Gewässer), um gesetzliche Einschränkungen (wie das deutsche Embryonenschutzgesetz) zu umgehen.
+- **Client-IO / Parent Interview:** Analyse der Kundenwünsche und Motivationen der "Eltern".
+- **PID-Screen (Präimplantationsdiagnostik):** Das ethische Dilemma der Embryonenauswahl anhand genetischer Profile.
+- **CRISPR-Lab / Phänotyp & Psyche:** Interaktive Anpassung von äußerlichen Merkmalen (Augenfarbe, Muskelwachstum) und kognitiven Fähigkeiten (Kurzschläfer-Gen, Intelligenz), inklusive Darstellung von Risiken wie der **Pleiotropie** (z. B. höheres Depressionsrisiko bei erhöhtem IQ).
+- **QA-Check (Qualitätssicherung):** Simulation von Off-Target-Effekten und ungewollten Mutationen durch die CRISPR-Technologie.
+- **Prognosis / World Status:** Evaluation der weitreichenden Folgen (z.B. soziale Spaltung, "Zwei-Klassen-Gesellschaft") für die Zukunft der Menschheit.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## 📚 Wissenschaftliche & Journalistische Quellen
 
-## Learn More
+Die App legt großen Wert auf Faktenbasierung. Unter der Route `/quellen` (im System aufrufbar) findet sich ein umfassendes Register echter Quellen, unterteilt in:
 
-To learn more about Next.js, take a look at the following resources:
+1. **Wissenschaftliche Grundlagen (Biologie):** Echte Papers (z.B. die Nobelpreis-Arbeit zu CRISPR von 2012) und journalistische Erklärtexte (Spektrum, National Geographic).
+2. **Recht & Gesellschaft (Politik):** Gesetzestexte (ESchG), Berichte über den realen Fall von "He Jiankui" (2018) und Analysen zur globalen Ungleichheit (Michael Sandel).
+3. **Religion & Ethik:** Stellungnahmen von Kirchen (EKD, Vatikan), Jüdische & Islamische Bioethik, Transhumanismus-Kritik (Jürgen Habermas) und die These der "Procreative Beneficence".
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## 🛠 Tech Stack
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+Die Anwendung wurde als moderne, responsive Web-App mit einer speziellen "Cyberpunk/Klinik"-Ästhetik entwickelt.
 
-## Deploy on Vercel
+- **[Next.js](https://nextjs.org/) (React Framework):** Für Routing, Server-Side Rendering (falls benötigt) und die gesamte App-Architektur.
+- **[Tailwind CSS](https://tailwindcss.com/):** Für das Styling, Layout und die futuristische Farbpalette (`#00f0ff` Cyan, `#050A15` Dark Background).
+- **[Framer Motion](https://www.framer.com/motion/):** Für komplexe, weiche Animationen und Hologramm-Effekte während der biologischen Phasen.
+- **[Lucide Icons](https://lucide.dev/):** Für die konsistente und verständliche Ikonografie innerhalb des UI.
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🚀 Getting Started
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+Um das Projekt lokal auszuführen:
+
+1. **Repository klonen**
+2. **Abhängigkeiten installieren:** `npm install`
+3. **Entwicklungsserver starten:** Führe `npm start` oder das dev-script aus.
+4. Öffne [http://localhost:3000](http://localhost:3000) im Browser.
