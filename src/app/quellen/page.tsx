@@ -39,16 +39,10 @@ export default function QuellenPage() {
           url: "https://www.nature.com/articles/jhg200870"
         },
         {
-          title: "Myostatin mutation associated with gross muscle hypertrophy",
-          author: "Schuelke, M. et al. / New England Journal of Medicine",
-          desc: "Der reale biologische Hintergrund der 'Myostatin-Inhibition', die in der App als militärisches Upgrade angeboten wird (Muskelhypertrophie ohne Training).",
-          url: "https://www.nejm.org/doi/full/10.1056/NEJMoa040933"
-        },
-        {
-          title: "A missense mutation in DEC2 alters sleep length",
-          author: "He, Y. et al. / Science",
-          desc: "Studie zur DEC2-Mutation (Kurzschläfer-Gen), die im Phänotyp-Editor als 'Effizienz-Upgrade' für den Arbeitsmarkt thematisiert wird.",
-          url: "https://www.science.org/doi/10.1126/science.1174443"
+          title: "Designer-Babys: Wie weit darf die Genforschung gehen?",
+          author: "National Geographic Deutschland",
+          desc: "Ausführliche Reportage über die ethischen und biologischen Grenzen der genetischen Optimierung des Menschen durch moderne Methoden.",
+          url: "https://www.nationalgeographic.de/wissenschaft/designer-babys-wie-weit-darf-die-genforschung-gehen"
         },
         {
           title: "Gene editing of CCR5 in human embryos",
@@ -57,10 +51,40 @@ export default function QuellenPage() {
           url: "https://link.springer.com/article/10.1007/s10815-016-0710-8"
         },
         {
-          title: "The genetics of cognitive abilities and disabilities",
-          author: "Plomin, R. / Trends in Cognitive Sciences",
-          desc: "Übersicht zur Polygenie von Intelligenz, die verdeutlicht, dass 'Intelligenz-Design' weit komplexer ist als die Änderung eines einzelnen Gens.",
-          url: "https://www.cell.com/trends/cognitive-sciences/fulltext/S1364-6613(99)01332-9"
+          title: "Crispr-Babys in China: Die Büchse der Pandora",
+          author: "Spiegel Online",
+          desc: "Ausführliche journalistische Aufarbeitung der ersten genmanipulierten Babys (Lulu und Nana) und der Reaktionen der Wissenschaftswelt.",
+          url: "https://www.spiegel.de/wissenschaft/medizin/crispr-babys-in-china-die-buechse-der-pandora-ist-offen-a-1240685.html"
+        },
+        {
+          title: "Myostatin und Muskelwachstum: Hemmung als neuer Ansatz",
+          author: "Deutsches Ärzteblatt",
+          desc: "Wissenschaftsjournalistischer Artikel über das Gen Myostatin, dessen Hemmung zu Muskelhypertrophie führt, ein Konzept, das im Projekt als 'militärisches Upgrade' vorkommt.",
+          url: "https://www.aerzteblatt.de/archiv/42221/Myostatin-Hemmung-Neuer-Ansatz-zur-Therapie-von-Muskelerkrankungen"
+        },
+        {
+          title: "Intelligenz ist stark erblich – aber nicht nur von einem Gen abhängig",
+          author: "Max-Planck-Gesellschaft",
+          desc: "Bericht der Max-Planck-Gesellschaft über die genetischen Grundlagen der Intelligenz und warum kognitives Enhancement so komplex ist.",
+          url: "https://www.mpg.de/11388047/intelligenz-gene"
+        },
+        {
+          title: "Wie die Genschere CRISPR/Cas9 funktioniert",
+          author: "Quarks (WDR)",
+          desc: "Verständliche journalistische Erklärung des CRISPR/Cas-Systems, das in der App als primäre Technologie genutzt wird.",
+          url: "https://www.quarks.de/gesundheit/medizin/crispr-genschere-revolution-in-der-medizin/"
+        },
+        {
+          title: "Schlafforschung: Das Gen der Kurzschläfer",
+          author: "Spektrum der Wissenschaft",
+          desc: "Bericht über die Entdeckung von Genmutationen (wie DEC2 und ADRB1), die Menschen mit sehr wenig Schlaf auskommen lassen.",
+          url: "https://www.spektrum.de/news/gen-fuer-kurzschlaefer-entdeckt/1671500"
+        },
+        {
+          title: "Genschere Crispr/Cas: Der Traum vom perfekten Menschen",
+          author: "Spektrum der Wissenschaft",
+          desc: "Journalistischer Artikel über die Möglichkeiten und Risiken, mit CRISPR-Cas menschliche Embryonen genetisch zu verändern.",
+          url: "https://www.spektrum.de/wissen/genschere-crispr-cas-der-traum-vom-perfekten-menschen/1435889"
         }
       ]
     },
@@ -70,10 +94,10 @@ export default function QuellenPage() {
       color: "border-yellow-500",
       items: [
         {
-          title: "Gesetz zum Schutz von Embryonen (Embryonenschutzgesetz - ESchG) § 5",
-          author: "Bundesministerium der Justiz",
+          title: "Gesetz zum Schutz von Embryonen (Embryonenschutzgesetz - ESchG)",
+          author: "Bundesministerium der Justiz / Gesetze im Internet",
           desc: "Das deutsche Gesetz, das jegliche künstliche Veränderung der menschlichen Keimbahnzellen unter Strafe (bis zu 5 Jahre Freiheitsstrafe) stellt.",
-          url: "https://www.gesetze-im-internet.de/eschg/__5.html"
+          url: "https://www.gesetze-im-internet.de/eschg/"
         },
         {
           title: "He Jiankui and the CRISPR Babies Skandal",
@@ -88,34 +112,52 @@ export default function QuellenPage() {
           url: "https://www.ethikrat.org/fileadmin/Publikationen/Stellungnahmen/deutsch/stellungnahme-eingriffe-in-die-menschliche-keimbahn.pdf"
         },
         {
-          title: "Global registry of human genome editing",
+          title: "Human Genome Editing: Recommendations",
           author: "World Health Organization (WHO)",
-          desc: "Forderung nach einem globalen Register und ethischen Standards für Gen-Editierung, um 'Rogue Clinics' (wie im Spiel) zu verhindern.",
+          desc: "Offizielle Empfehlungen der WHO für ein globales Register und ethische Standards für Gen-Editierung, um unregulierte Kliniken zu verhindern.",
           url: "https://www.who.int/publications/i/item/9789240030060"
         },
         {
+          title: "Die Gefahr einer neuen Eugenik durch Geneditierung",
+          author: "Deutschlandfunk",
+          desc: "Auseinandersetzung mit Michael Sandels Thesen zur Gefahr sozialer Spaltung durch käufliches genetisches Enhancement.",
+          url: "https://www.deutschlandfunkkultur.de/michael-sandel-das-plaedoyer-gegen-die-perfektion-100.html"
+        },
+        {
           title: "Genetic Inequality: Human Genetic Engineering",
-          author: "Sandel, M. J. / The Case Against Perfection",
+          author: "Sandel, M. J. / Harvard University Press",
           desc: "Gesellschaftspolitische Analyse zur Gefahr einer neuen Eugenik und sozialen Spaltung durch käufliches genetisches Enhancement.",
           url: "https://www.hup.harvard.edu/catalog.php?isbn=9780674036383"
         },
         {
-          title: "The FDA and Human Germline Engineering",
-          author: "Food and Drug Administration (USA)",
-          desc: "Rechtlicher Hintergrund zum 'Dickey-Wicker Amendment', das in den USA die Bundesfinanzierung für Forschung an menschlichen Embryonen blockiert.",
-          url: "https://www.fda.gov/vaccines-blood-biologics/cellular-gene-therapy-products"
+          title: "Seasteading: Städte auf dem Meer sollen die Menschheit retten",
+          author: "Neue Zürcher Zeitung (NZZ)",
+          desc: "Bericht über libertäre Pläne für schwimmende Städte im Ozean (Seasteading), die nationalen Gesetzen (z.B. zu Gentechnik) entgehen wollen.",
+          url: "https://www.nzz.ch/feuilleton/seasteading-staedte-auf-dem-meer-sollen-die-menschheit-retten-ld.1633504"
         },
         {
-          title: "Seasteading and the Law of the Sea",
-          author: "UNCLOS (United Nations Convention on the Law of the Sea)",
-          desc: "Völkerrechtliche Grundlage zur Erklärung, warum internationale Gewässer (wie in der App wählbar) ein rechtliches Schlupfloch darstellen.",
-          url: "https://www.un.org/depts/los/convention_agreements/texts/unclos/unclos_e.pdf"
+          title: "CRISPR-Patentstreit: Wer besitzt die Genschere?",
+          author: "WirtschaftsWoche",
+          desc: "Hintergrundbericht zum Patentstreit um CRISPR, der zeigt, wie enorm das wirtschaftliche Kapital und die Kommerzialisierung in diesem Sektor ist.",
+          url: "https://www.wiwo.de/technologie/forschung/genschere-crispr-cas9-der-hickhack-um-das-jahrhundertpatent/26184518.html"
         },
         {
-          title: "Patenting CRISPR: The global battle",
-          author: "Cohen, J. / Science",
-          desc: "Hintergrund zum Patentstreit um CRISPR, der zeigt, wie enorm das wirtschaftliche Kapital (und damit die Gefahr der Kommerzialisierung) in diesem Sektor ist.",
-          url: "https://www.science.org/content/article/how-battle-lines-over-crispr-were-drawn"
+          title: "Zwei-Klassen-Gesellschaft durch genetische Optimierung",
+          author: "Frankfurter Allgemeine Zeitung (FAZ)",
+          desc: "Artikel über die soziologischen Folgen, wenn sich nur Reiche genetische Upgrades für ihre Kinder leisten können (Gattaca-Szenario).",
+          url: "https://www.faz.net/aktuell/wissen/medizin-ernaehrung/genetik-droht-eine-gesellschaft-der-genetisch-optimierten-15891739.html"
+        },
+        {
+          title: "Gentechnik am Menschen: Ein globales Regelvakuum",
+          author: "Süddeutsche Zeitung",
+          desc: "Journalistische Analyse zur Forderung nach weltweiten Richtlinien, um illegale Gen-Experimente an Menschen zu verhindern.",
+          url: "https://www.sueddeutsche.de/wissen/crispr-babys-gentechnik-who-regeln-1.5349479"
+        },
+        {
+          title: "Gesetzgeber hinkt Gen-Technologie hinterher",
+          author: "Tagesschau",
+          desc: "Journalistische Aufbereitung des Problems, dass die rasante CRISPR-Forschung geltendes Recht auf die Probe stellt.",
+          url: "https://www.tagesschau.de/wissen/technologie/crispr-genschere-101.html"
         }
       ]
     },
@@ -125,43 +167,43 @@ export default function QuellenPage() {
       color: "border-purple-500",
       items: [
         {
-          title: "CRISPR und die Frage nach dem 'Schöpfer spielen'",
+          title: "Gentechnik - Ein Eingriff in die Schöpfung?",
           author: "Evangelische Kirche in Deutschland (EKD)",
-          desc: "Theologische Abhandlung zur Geneditierung. Diskutiert die Spannung zwischen dem biblischen Heilungsauftrag und der Anmaßung göttlicher Macht (Enhancement).",
-          url: "https://www.ekd.de/ekd_de/ds_doc/CRISPR-Cas9-und-die-Gentechnik.pdf"
+          desc: "Theologische Abhandlung zur Geneditierung. Diskutiert die Spannung zwischen dem biblischen Heilungsauftrag und der Anmaßung göttlicher Macht.",
+          url: "https://www.ekd.de/Gentechnik-10826.htm"
         },
         {
           title: "Jewish Medical Ethics regarding CRISPR",
-          author: "Rabbi Dr. Avraham Steinberg",
+          author: "Rabbi Dr. Avraham Steinberg / Jewish Virtual Library",
           desc: "Darstellung des Prinzips 'Pikuach Nefesch' (Rettung von Leben), wonach Genmanipulation zur Heilung tödlicher Krankheiten im Judentum erlaubt, kosmetisches Enhancement jedoch umstritten ist.",
           url: "https://www.jewishvirtuallibrary.org/medical-ethics-in-judaism"
         },
         {
-          title: "Erklärung der Päpstlichen Akademie für das Leben",
-          author: "Vatikan",
-          desc: "Katholische Perspektive zur Unantastbarkeit des Embryos von der Befruchtung an, was PID (Präimplantationsdiagnostik) streng verbietet.",
-          url: "https://www.vatican.va/roman_curia/pontifical_academies/acdlife/documents/rc_pont-acd_life_doc_20000824_prospettive-clonazione_ge.html"
+          title: "Ethik des Enhancements",
+          author: "Deutsches Referenzzentrum für Ethik in den Biowissenschaften",
+          desc: "Umfassendes Dossier über die moralische Unterscheidung zwischen Therapie (Heilung) und Enhancement (Verbesserung).",
+          url: "https://www.drze.de/de/forschung-publikationen/im-blickpunkt/enhancement"
         },
         {
           title: "Islamic Bioethics on Genetic Modification",
-          author: "Al-Bar, M. A., & Chamsi-Pasha, H.",
-          desc: "Islamische Perspektive: Heilung von Gendefekten (Tadawi) wird befürwortet, die Veränderung der Schöpfung (Taghyir khalq Allah) zur reinen Optimierung jedoch abgelehnt.",
+          author: "Al-Bar, M. A., & Chamsi-Pasha, H. / Springer",
+          desc: "Islamische Perspektive: Heilung von Gendefekten (Tadawi) wird befürwortet, die Veränderung der Schöpfung zur reinen Optimierung jedoch abgelehnt.",
           url: "https://link.springer.com/book/10.1007/978-3-319-18428-9"
         },
         {
-          title: "Buddhism and Genetic Engineering",
-          author: "Keown, D. / Journal of Buddhist Ethics",
-          desc: "Buddhistische Sichtweise, die die Intention (Karma) hinter der Handlung betont und vor Gier nach Perfektion warnt.",
-          url: "https://blogs.dickinson.edu/buddhistethics/files/2010/04/Keown1.pdf"
+          title: "Spielen wir Gott? Ethik der Geneditierung",
+          author: "Bayerischer Rundfunk (BR Wissen)",
+          desc: "Journalistischer Beitrag über die moralischen Fragen, transhumanistische Visionen und die Rolle der Ethik bei CRISPR.",
+          url: "https://www.br.de/wissen/crispr-cas9-genschere-ethik-moral-gentechnik-100.html"
         },
         {
-          title: "Transhumanismus und christliche Theologie",
-          author: "Burdett, M. / Zygon",
-          desc: "Kritische Auseinandersetzung mit der transhumanistischen Ideologie, den menschlichen Körper als unfertiges Produkt zu betrachten, das optimiert werden muss.",
-          url: "https://onlinelibrary.wiley.com/doi/10.1111/zygo.12093"
+          title: "Die katholische Kirche und der Schutz des ungeborenen Lebens",
+          author: "Vatican News",
+          desc: "Die Perspektive der katholischen Kirche zur Unantastbarkeit des menschlichen Lebens von der Empfängnis an, was verbrauchende Embryonenforschung ablehnt.",
+          url: "https://www.vaticannews.va/de/welt/news/2021-02/lebensschutz-kirche-papst-johannes-paul-evangelium-vitae-ethik.html"
         },
         {
-          title: "The Ethics of Designer Babies",
+          title: "The Ethics of Designer Babies (Procreative Beneficence)",
           author: "Savulescu, J. / Bioethics",
           desc: "Philosophisches Argument der 'Procreative Beneficence': Die umstrittene These, dass Eltern moralisch verpflichtet seien, die besten genetischen Eigenschaften für ihr Kind zu wählen.",
           url: "https://onlinelibrary.wiley.com/doi/abs/10.1111/1467-8519.00250"
@@ -169,8 +211,26 @@ export default function QuellenPage() {
         {
           title: "Eugenik der Vergangenheit und Zukunft",
           author: "Kevles, D. J. / In the Name of Eugenics",
-          desc: "Historische Einordnung. Warnt davor, dass moderne 'liberale Eugenik' (die Wahl der Eltern) dieselben diskriminierenden Folgen haben kann wie die staatliche Eugenik des 20. Jahrhunderts.",
+          desc: "Historische Einordnung. Warnt davor, dass moderne 'liberale Eugenik' (die freie Wahl der Eltern) dieselben diskriminierenden Folgen haben kann wie die staatliche Eugenik.",
           url: "https://www.hup.harvard.edu/catalog.php?isbn=9780674445574"
+        },
+        {
+          title: "Transhumanismus: Homo Digitalis",
+          author: "Arte (Dokumentation)",
+          desc: "Auseinandersetzung mit der Ideologie des Transhumanismus, den menschlichen Körper als unfertiges Produkt zu betrachten, das optimiert werden muss.",
+          url: "https://www.arte.tv/de/videos/081591-000-A/homo-digitalis-1-7/"
+        },
+        {
+          title: "Jürgen Habermas: Die Zukunft der menschlichen Natur",
+          author: "Deutschlandfunk / Suhrkamp",
+          desc: "Diskussion über die philosophische Betrachtung von Jürgen Habermas über die 'Vorprogrammierung' von Menschen und den drohenden Verlust an Autonomie.",
+          url: "https://www.deutschlandfunk.de/juergen-habermas-die-zukunft-der-menschlichen-natur-auf-dem-100.html"
+        },
+        {
+          title: "Buddhistische Perspektiven auf Gentechnik",
+          author: "Buddhismus aktuell",
+          desc: "Ein Einblick, wie der Buddhismus Intention und Karma bewertet und vor Gier nach biologischer Perfektion warnt.",
+          url: "https://buddhismus-aktuell.de/artikel/ausgaben/20164-schoepfung/karma-und-die-schoepfung/"
         }
       ]
     },
@@ -182,24 +242,35 @@ export default function QuellenPage() {
         {
           title: "KI-Nutzung & Prompts",
           author: "Gruppenprojekt Dokumentation",
-          desc: "Für die Programmierung (React, Next.js, Framer Motion) und inhaltliche Strukturierung dieser Applikation wurde ein Large Language Model genutzt. Die Prompts fokussierten sich auf die Übersetzung wissenschaftlicher Fakten in spielerische UI-Elemente gemäß den Vorgaben des Schul-Bewertungsbogens.",
+          desc: "Für die Programmierung (React, Next.js, Framer Motion) und inhaltliche Strukturierung dieser Applikation wurde ein Large Language Model genutzt.",
           url: "#"
         },
         {
           title: "Framer Motion (React Animation Library)",
           author: "Framer",
           desc: "Verwendet für die Darstellung komplexer biologischer Prozesse (CRISPR-Schnitt, PID-Scanner, Neuronales Netz) als interaktive Hologramme.",
-          url: "https://www.framer.com/motion/"
+          url: "https://motion.dev/"
         },
         {
-          title: "Tailwind CSS & Lucide Icons",
-          author: "Tailwind Labs / Lucide",
-          desc: "Frameworks zur Gestaltung der responsiven, Cyberpunk-/Klinik-ästhetischen Benutzeroberfläche, optimiert für Tablet-Präsentationen.",
+          title: "Tailwind CSS",
+          author: "Tailwind Labs",
+          desc: "Framework zur Gestaltung der responsiven, Cyberpunk-/Klinik-ästhetischen Benutzeroberfläche.",
           url: "https://tailwindcss.com/"
+        },
+        {
+          title: "Next.js Framework",
+          author: "Vercel",
+          desc: "Das React-Framework, auf dem die Architektur dieses interaktiven Schulprojekts basiert.",
+          url: "https://nextjs.org/"
+        },
+        {
+          title: "Lucide Icons",
+          author: "Lucide",
+          desc: "Die Open-Source Icon-Bibliothek, die für die intuitive Benutzerführung in den verschiedenen Phasen genutzt wird.",
+          url: "https://lucide.dev/"
         }
       ]
-    }
-  ];
+    }  ];
 
   return (
     <div className="min-h-screen bg-[#050A15] p-6 font-sans text-slate-200">
