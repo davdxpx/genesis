@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RolePopup } from "../ui/RolePopup";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Button } from '../ui/button';
 import { Globe2, Scale, ShieldAlert, CheckCircle2, Lock, AlertTriangle, Fingerprint, Crosshair, MapPin, Database } from 'lucide-react';
@@ -64,6 +65,7 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-7xl mx-auto flex flex-col gap-6 p-4 min-h-[85vh] text-[#00f0ff] font-mono"
     >
+      <RolePopup title="Jurisdiktion" description="W00e4hlen Sie einen legalen Standort f00fcr die Operation aus. CRISPR-Genmanipulation an Embryonen ist fast 00fcberall weltweit verboten. Finden Sie eine Gesetzesl00fccke." />
       <div className="flex items-center gap-4 bg-slate-900/60 p-4 rounded-2xl border border-[#00f0ff]/30 shadow-[0_0_30px_rgba(0,240,255,0.1)] backdrop-blur-md">
         <Globe2 className="w-10 h-10 text-[#00f0ff] animate-pulse" />
         <div>
@@ -79,7 +81,7 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
           <CardContent className="flex-1 p-0 relative min-h-[400px] h-[400px] md:h-[500px] xl:h-[600px] flex items-center justify-center bg-[#02050a] overflow-hidden">
             <div className="absolute inset-0 z-0 flex items-center justify-center w-full h-full p-4 md:p-8">
                <img 
-omponents/phases/LegalPuzzlePhase.tsx[[:space:]]*$/d
+                 src="https://upload.wikimedia.org/wikipedia/commons/8/80/World_map_-_low_resolution.svg"
                  alt="World Map" 
                  className="w-full h-full object-contain opacity-80 pointer-events-none drop-shadow-[0_0_20px_rgba(0,240,255,0.6)]"
                  style={{ filter: 'brightness(0) sepia(1) hue-rotate(150deg) saturate(400%) brightness(1.2)' }} 

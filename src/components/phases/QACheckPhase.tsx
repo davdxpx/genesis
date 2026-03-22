@@ -56,7 +56,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
           <h1 className="text-2xl md:text-3xl font-black tracking-widest text-white drop-shadow-[0_0_10px_rgba(0,240,255,0.8)] uppercase">
             QA-Kontrolle & Sequenzierung
           </h1>
-          <p className="text-sm text-slate-400">GENESIS OS
+          <p className="text-sm text-slate-400">GENESIS OS</p>
         </div>
       </div>
 

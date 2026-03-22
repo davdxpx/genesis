@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Users2, Check, FileText, Briefcase, Zap, ShieldAlert, Fingerprint, Activity } from 'lucide-react';
