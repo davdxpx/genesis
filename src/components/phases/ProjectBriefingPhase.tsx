@@ -43,7 +43,10 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
       };
 
       const typingInterval = setInterval(() => {
-        setTypedText(prev => prev + texts[step].charAt(i));
+
+
+
+        setTypedText(texts[step].substring(0, i + 1));
         if (i % 2 === 0) playBeep();
         i++;
         if (i === texts[step].length) {
@@ -102,10 +105,9 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
         </AnimatePresence>
 
         <Card className="w-full bg-slate-950/80 border-slate-800 shadow-[0_0_50px_rgba(0,0,0,0.8)] backdrop-blur-md overflow-hidden relative min-h-[300px] flex flex-col cursor-pointer group hover:border-slate-600 transition-colors">
-           {/* Terminal Header */}
            <div className="bg-slate-900 border-b border-slate-800 p-3 flex items-center gap-3">
               <Terminal className="text-[#00f0ff] w-5 h-5" />
-              <span className="text-[#00f0ff] font-bold text-xs uppercase tracking-widest">Incoming Transmission // Projekt Leben</span>
+              <span className="text-[#00f0ff] font-bold text-xs uppercase tracking-widest">Incoming Transmission
               <div className="ml-auto flex gap-2">
                  <div className="w-3 h-3 rounded-full bg-red-500/20 border border-red-500" />
                  <div className="w-3 h-3 rounded-full bg-yellow-500/20 border border-yellow-500" />
@@ -143,7 +145,6 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
               )}
            </CardContent>
 
-           {/* Scanline Overlay */}
            <div className="absolute inset-0 pointer-events-none bg-[linear-gradient(rgba(0,240,255,0.03)_1px,transparent_1px)] bg-[length:100%_4px] opacity-30" />
         </Card>
       </div>

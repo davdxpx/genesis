@@ -174,9 +174,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[85vh] lg:min-h-[80vh]"
     >
-      {}
       <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">
-        {}
         <div className="absolute top-0 left-0 w-full h-1 bg-red-500 animate-pulse z-20" />
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4 z-10">
           <div className="flex justify-between items-center">
@@ -189,13 +187,11 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
           </div>
         </CardHeader>
         <CardContent className="flex-1 p-0 flex flex-col relative bg-[#050A15]">
-           {}
            <div className="h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, transparent 20%, #000 120%)' }} />
               <div className="absolute inset-0 flex items-center justify-center opacity-10">
                  <Mic size={120} />
               </div>
-              {}
               <div className="relative z-10 w-full">
                  <AnimatePresence mode="popLayout">
                     {chatLog.map((log, idx) => (
@@ -217,7 +213,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                  </AnimatePresence>
               </div>
            </div>
-           {}
            <div className="h-1/2 p-4 flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                  <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl">
@@ -239,10 +234,8 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                     </div>
                  </div>
               </div>
-              {}
               <div className="flex-1 bg-slate-900/50 rounded-xl border border-slate-800 p-3 relative flex flex-col overflow-hidden">
                  <p className="text-[10px] text-slate-500 font-mono mb-2 border-b border-slate-800 pb-1 flex-shrink-0">LIVE CHAT FEED</p>
-                 {}
                  <div 
                    ref={commentsContainerRef} 
                    className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-hide"
@@ -261,7 +254,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
            </div>
         </CardContent>
       </Card>
-      {}
       <Card className="flex-1 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden h-full">
         <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 pb-4">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
@@ -298,7 +290,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                              <div className="bg-slate-900 p-2 rounded text-[10px] font-mono text-slate-400 border-l-2 border-[#ff00e5]">
                                 <span className="text-[#ff00e5] font-bold">PuG-Strategie: </span>{opt.pugStrat}
                              </div>
-                             {}
                              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
                                 {opt.effect.trust > 0 && <span className="text-[10px] bg-[#00f0ff]/20 text-[#00f0ff] px-2 py-0.5 rounded">Vertrauen ↑</span>}
                                 {opt.effect.trust < 0 && <span className="text-[10px] bg-[#ff0000]/20 text-[#ff0000] px-2 py-0.5 rounded">Vertrauen ↓</span>}

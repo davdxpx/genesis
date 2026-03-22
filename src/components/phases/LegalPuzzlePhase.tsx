@@ -64,7 +64,6 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-7xl mx-auto flex flex-col gap-6 p-4 min-h-[85vh] text-[#00f0ff] font-mono"
     >
-      {}
       <div className="flex items-center gap-4 bg-slate-900/60 p-4 rounded-2xl border border-[#00f0ff]/30 shadow-[0_0_30px_rgba(0,240,255,0.1)] backdrop-blur-md">
         <Globe2 className="w-10 h-10 text-[#00f0ff] animate-pulse" />
         <div>
@@ -75,27 +74,22 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
         </div>
       </div>
       <div className="flex flex-col xl:flex-row gap-6 flex-1">
-        {}
         <Card className="w-full xl:w-2/3 bg-[#050A15] border-[#00f0ff]/20 shadow-2xl relative overflow-hidden flex flex-col">
-          {}
           <div className="absolute inset-0 bg-[linear-gradient(rgba(0,240,255,0.03)_1px,transparent_1px)] bg-[length:100%_4px] pointer-events-none z-10"></div>
           <CardContent className="flex-1 p-0 relative min-h-[400px] h-[400px] md:h-[500px] xl:h-[600px] flex items-center justify-center bg-[#02050a] overflow-hidden">
-            {}
             <div className="absolute inset-0 z-0 flex items-center justify-center w-full h-full p-4 md:p-8">
                <img 
-                 src="/BlankMap-World_gray.svg" 
+omponents/phases/LegalPuzzlePhase.tsx[[:space:]]*$/d
                  alt="World Map" 
                  className="w-full h-full object-contain opacity-80 pointer-events-none drop-shadow-[0_0_20px_rgba(0,240,255,0.6)]"
                  style={{ filter: 'brightness(0) sepia(1) hue-rotate(150deg) saturate(400%) brightness(1.2)' }} 
                />
             </div>
-            {}
             <motion.div 
               animate={{ rotate: 360 }}
               transition={{ duration: 10, repeat: Infinity, ease: "linear" }}
               className="absolute top-1/2 left-1/2 w-[200vw] h-[200vw] max-w-[2000px] max-h-[2000px] -mt-[100vw] md:-mt-[1000px] -ml-[100vw] md:-ml-[1000px] bg-[conic-gradient(from_0deg,transparent_0deg,rgba(0,240,255,0.2)_90deg,transparent_90deg)] rounded-full pointer-events-none z-0"
             />
-            {}
             <div className="absolute inset-0 z-20 flex items-center justify-center w-full h-full p-4 md:p-8">
               <div className="relative w-full h-full max-w-[1200px] max-h-[800px]">
                 {regions.map((region) => {
@@ -109,7 +103,6 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
                       className={`absolute flex flex-col items-center justify-center transform -translate-x-1/2 -translate-y-1/2 cursor-pointer group`}
                       style={{ left: region.coords.x + "%", top: region.coords.y + "%" }}
                     >
-                      {}
                       {isSelected && (
                         <motion.div 
                           animate={{ scale: [1, 2.5], opacity: [0.8, 0] }}
@@ -136,7 +129,6 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
             </div>
           </CardContent>
         </Card>
-        {}
         <Card className="w-full xl:w-1/3 bg-[#050A15] border-[#00f0ff]/20 shadow-2xl overflow-hidden flex flex-col relative">
           <CardHeader className="border-b border-slate-800 bg-slate-900/80 z-10">
              <CardTitle className="text-sm font-bold tracking-widest text-[#ff00e5] flex items-center gap-2">

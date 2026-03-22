@@ -10,46 +10,58 @@ interface RolePopupProps {
 export function RolePopup({ title, description }: RolePopupProps) {
   const [isVisible, setIsVisible] = useState(true);
 
-  // Auto-hide after 12 seconds, or let user close it manually
-  useEffect(() => {
-    const timer = setTimeout(() => setIsVisible(false), 12000);
-    return () => clearTimeout(timer);
-  }, []);
-
   return (
     <AnimatePresence>
       {isVisible && (
-        <motion.div
-          initial={{ opacity: 0, y: 50, scale: 0.9 }}
-          animate={{ opacity: 1, y: 0, scale: 1 }}
-          exit={{ opacity: 0, y: 50, scale: 0.9 }}
-          className="fixed bottom-6 right-6 z-50 max-w-sm w-full"
-        >
-          <div className="relative bg-slate-900/95 border border-[#00f0ff]/50 shadow-[0_0_30px_rgba(0,240,255,0.2)] p-5 rounded-2xl backdrop-blur-md overflow-hidden group">
-             {/* Scanline background effect */}
-             <div className="absolute inset-0 pointer-events-none opacity-20" style={{ backgroundImage: 'linear-gradient(transparent 50%, rgba(0, 240, 255, 0.1) 50%)', backgroundSize: '100% 4px' }} />
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={() => setIsVisible(false)}
+            className="absolute inset-0 bg-slate-950/60 backdrop-blur-sm"
+          />
 
-             {/* Close button */}
-             <button
-               onClick={() => setIsVisible(false)}
-               className="absolute top-3 right-3 text-slate-400 hover:text-white transition-colors"
-             >
-               <X size={16} />
-             </button>
+          <motion.div
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative w-full max-w-md"
+          >
+            <div className="relative bg-[#0A101D] border-2 border-[#00f0ff] shadow-[0_0_50px_rgba(0,240,255,0.3)] p-6 md:p-8 rounded-2xl overflow-hidden group">
+               <div className="absolute inset-0 pointer-events-none opacity-10" style={{ backgroundImage: 'linear-gradient(transparent 50%, rgba(0, 240, 255, 0.5) 50%)', backgroundSize: '100% 4px' }} />
 
-             <div className="flex items-start gap-4 relative z-10">
-                <div className="p-3 bg-[#00f0ff]/10 rounded-xl border border-[#00f0ff]/30 shrink-0">
-                   <Microscope className="text-[#00f0ff] w-6 h-6 animate-pulse" />
-                </div>
-                <div>
-                   <h4 className="text-[#00f0ff] font-black uppercase tracking-widest text-sm mb-1">Ihr Auftrag: {title}</h4>
-                   <p className="text-slate-300 text-xs leading-relaxed font-mono">
-                     {description}
-                   </p>
-                </div>
-             </div>
-          </div>
-        </motion.div>
+               <button
+                 onClick={() => setIsVisible(false)}
+                 className="absolute top-4 right-4 p-1 bg-slate-900/80 rounded-full border border-slate-700 text-slate-400 hover:text-[#00f0ff] hover:border-[#00f0ff] hover:shadow-[0_0_10px_rgba(0,240,255,0.5)] transition-all z-20"
+               >
+                 <X size={20} />
+               </button>
+
+               <div className="flex flex-col items-center text-center gap-4 relative z-10 mt-2">
+                  <div className="p-4 bg-[#00f0ff]/10 rounded-2xl border border-[#00f0ff]/50 shadow-[0_0_20px_rgba(0,240,255,0.2)]">
+                     <Microscope className="text-[#00f0ff] w-10 h-10 animate-pulse" />
+                  </div>
+                  <div>
+                     <h4 className="text-[#00f0ff] font-black uppercase tracking-widest text-lg md:text-xl mb-3">
+                        Ihr Auftrag: {title}
+                     </h4>
+                     <div className="w-12 h-1 bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent mx-auto mb-4" />
+                     <p className="text-slate-300 text-sm md:text-base leading-relaxed font-mono">
+                       {description}
+                     </p>
+                  </div>
+
+                  <button
+                    onClick={() => setIsVisible(false)}
+                    className="mt-6 w-full py-3 bg-[#00f0ff]/10 border border-[#00f0ff]/50 text-[#00f0ff] hover:bg-[#00f0ff]/20 font-bold uppercase tracking-widest transition-colors rounded text-sm"
+                  >
+                     Verstanden
+                  </button>
+               </div>
+            </div>
+          </motion.div>
+        </div>
       )}
     </AnimatePresence>
   );

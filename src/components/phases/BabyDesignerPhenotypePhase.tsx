@@ -79,9 +79,7 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
         title="Phänotyp Design"
         description="Justieren Sie Melanin-Level für Haut/Haare und wählen Sie Augenfarbe und exotische Modifikationen. Beachten Sie Ihr Budget und mögliche Komplikationen."
       />
-      {}
       <Card className={`w-full lg:w-5/12 glass flex flex-col relative overflow-hidden h-[400px] lg:h-full transition-colors duration-500 shrink-0 ${isCritical ? 'border-[#ff0000]/50 shadow-[0_0_30px_rgba(255,0,0,0.2)]' : 'border-[#00f0ff]/30'}`}>
-        {}
         <div className="absolute inset-0 bg-[#050A15] z-0" />
         <div className={`absolute inset-0 z-0 opacity-10 pointer-events-none transition-colors duration-500 ${isCritical ? 'bg-[radial-gradient(circle_at_center,#ff0000_0%,transparent_70%)]' : 'bg-[radial-gradient(circle_at_center,#00f0ff_0%,transparent_70%)]'}`} />
         {isCritical && (
@@ -96,24 +94,18 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
           </div>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col items-center justify-center relative p-4 md:p-6 overflow-hidden">
-           {}
            <div className="relative w-[200px] h-[200px] md:w-[280px] md:h-[280px] flex flex-col items-center justify-center z-10">
-              {}
               <motion.div animate={{ rotateX: 360, rotateY: 180 }} transition={{ duration: 20, repeat: Infinity, ease: "linear" }} className={`absolute inset-0 border rounded-full transition-colors duration-500 ${isCritical ? 'border-[#ff0000]/40' : 'border-[#00f0ff]/30'}`} style={{ transformStyle: 'preserve-3d' }} />
               <motion.div animate={{ rotateZ: -360 }} transition={{ duration: 30, repeat: Infinity, ease: "linear" }} className={`absolute inset-[-10%] border-2 border-dashed rounded-full transition-colors duration-500 ${isCritical ? 'border-[#ff0000]/20' : 'border-[#ff00e5]/20'}`} />
-              {}
               <div className={`absolute bottom-[-10%] w-[60%] h-[10%] blur-[20px] rounded-full transition-colors duration-500 ${isCritical ? 'bg-[#ff0000]' : 'bg-[#00f0ff]'}`} />
-              {}
               <motion.div 
                 className="relative w-[45%] h-[60%] rounded-[45%] flex flex-col items-center justify-center shadow-[inset_0_0_40px_rgba(0,0,0,0.9)] border border-white/10 transition-colors duration-500 overflow-hidden"
                 style={{ backgroundColor: skinColor, boxShadow: `0 0 50px ${skinColor}30` }}
               >
-                 {}
                  <div 
                    className="absolute top-0 w-full h-[30%] opacity-90 transition-colors duration-500 blur-md"
                    style={{ backgroundColor: hairColor }}
                  />
-                 {}
                  <div className="flex gap-3 md:gap-4 mt-2 relative z-10">
                     <div className="w-4 h-2 md:w-6 md:h-4 rounded-full bg-white/20 flex items-center justify-center overflow-hidden shadow-inner backdrop-blur-sm border border-black/30">
                        <motion.div className="w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors duration-500 shadow-[inset_0_0_3px_rgba(0,0,0,0.8)]" style={{ backgroundColor: eyeColor.color }} />
@@ -122,22 +114,18 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                        <motion.div className="w-2 h-2 md:w-3 md:h-3 rounded-full transition-colors duration-500 shadow-[inset_0_0_3px_rgba(0,0,0,0.8)]" style={{ backgroundColor: eyeColor.color }} />
                     </div>
                  </div>
-                 {}
                  {activeMods.includes('myostatin') && (
                     <div className="absolute bottom-0 w-full h-[20%] bg-black/30" />
                  )}
-                 {}
                  {activeMods.includes('dec2') && (
                     <div className="absolute top-[10%] w-[50%] h-[20%] bg-[#00f0ff]/40 blur-md rounded-full animate-pulse" />
                  )}
               </motion.div>
-              {}
               <div className="absolute right-[-5%] md:right-[-20%] top-[10%] flex flex-col gap-1 md:gap-2">
                  <div className="text-[8px] md:text-[10px] font-mono text-[#00f0ff] bg-slate-900/80 px-1 md:px-2 py-0.5 md:py-1 rounded border border-[#00f0ff]/30 shadow-lg">EU: {eumelanin}%</div>
                  <div className="text-[8px] md:text-[10px] font-mono text-[#ffaa00] bg-slate-900/80 px-1 md:px-2 py-0.5 md:py-1 rounded border border-[#ffaa00]/30 shadow-lg">PH: {pheomelanin}%</div>
               </div>
            </div>
-           {}
            <div className="w-full mt-auto pt-4 md:pt-6 border-t border-slate-700/50 relative z-10">
               <div className="flex justify-between items-end mb-1 md:mb-2">
                  <div>
@@ -161,17 +149,13 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                        'bg-[#ff0000] shadow-[0_0_15px_#ff0000]'
                     }`}
                  />
-                 {}
                  <div className="absolute top-0 left-[25%] w-0.5 h-full bg-red-500 z-10" />
               </div>
            </div>
         </CardContent>
       </Card>
-      {}
       <div className="flex-1 flex flex-col gap-4 h-full relative z-20">
-         {}
          <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden min-h-[300px]">
-            {}
             <div className="flex w-full bg-slate-900/80 border-b border-slate-700/50">
                <button onClick={() => setActiveTab('pigment')} className={`flex-1 py-3 md:py-4 text-[10px] md:text-xs font-bold tracking-widest uppercase border-b-2 transition-colors ${activeTab === 'pigment' ? 'border-[#00f0ff] text-[#00f0ff] bg-[#00f0ff]/5' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>Pigmente</button>
                <button onClick={() => setActiveTab('iris')} className={`flex-1 py-3 md:py-4 text-[10px] md:text-xs font-bold tracking-widest uppercase border-b-2 transition-colors ${activeTab === 'iris' ? 'border-[#00f0ff] text-[#00f0ff] bg-[#00f0ff]/5' : 'border-transparent text-slate-500 hover:text-slate-300'}`}>Augen</button>
@@ -179,7 +163,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
             </div>
             <CardContent className="flex-1 overflow-y-auto custom-scrollbar p-4 md:p-6 pb-20">
                <AnimatePresence mode="wait">
-                  {}
                   {activeTab === 'pigment' && (
                      <motion.div key="pigment" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-6 md:space-y-8">
                         <div className="bg-[#00f0ff]/10 border border-[#00f0ff]/30 p-3 md:p-4 rounded-xl flex items-start gap-3">
@@ -188,7 +171,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                               Passen Sie die Melanozyten-Aktivität an. Extreme Abweichungen vom natürlichen Gleichgewicht kosten Genom-Stabilität.
                            </p>
                         </div>
-                        {}
                         <div className="space-y-3 bg-slate-900/50 p-3 md:p-4 rounded-xl border border-slate-700">
                            <div className="flex justify-between items-center text-xs md:text-sm font-bold">
                               <span className="text-white">Eumelanin (Dunkelpigment)</span>
@@ -200,7 +182,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                               <Button variant="outline" size="icon" onClick={() => setEumelanin(e => Math.min(100, e + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#00f0ff]/20 active:border-[#00f0ff]"><Plus /></Button>
                            </div>
                         </div>
-                        {}
                         <div className="space-y-3 bg-slate-900/50 p-3 md:p-4 rounded-xl border border-slate-700">
                            <div className="flex justify-between items-center text-xs md:text-sm font-bold">
                               <span className="text-white">Phäomelanin (Hell/Rotpigment)</span>
@@ -214,7 +195,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                         </div>
                      </motion.div>
                   )}
-                  {}
                   {activeTab === 'iris' && (
                      <motion.div key="iris" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         {eyeColors.map(eye => {
@@ -242,7 +222,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                         })}
                      </motion.div>
                   )}
-                  {}
                   {activeTab === 'mods' && (
                      <motion.div key="mods" initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} exit={{ opacity: 0, x: -20 }} className="space-y-4">
                         <div className="bg-[#ff00e5]/10 border border-[#ff00e5]/30 p-3 md:p-4 rounded-xl flex items-start gap-3 mb-4 md:mb-6">
@@ -286,7 +265,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                </AnimatePresence>
             </CardContent>
          </Card>
-         {}
          <Card className="h-[180px] md:h-[220px] shrink-0 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden z-20">
             <div className="flex w-full bg-slate-950 border-b border-slate-800">
                <button onClick={() => setActiveLoreTab('bio')} className={`flex-1 py-2 md:py-3 text-[9px] md:text-[10px] font-bold tracking-widest uppercase transition-colors flex justify-center items-center gap-1 md:gap-2 ${activeLoreTab === 'bio' ? 'bg-[#00f0ff]/20 text-[#00f0ff]' : 'text-slate-500 active:bg-slate-800'}`}><Microscope size={12}/> Biologie</button>
@@ -321,7 +299,6 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
             </CardContent>
          </Card>
       </div>
-      {}
       <div className="fixed bottom-2 right-2 md:bottom-6 md:right-6 z-50">
          <Button 
             variant="sci-fi" 

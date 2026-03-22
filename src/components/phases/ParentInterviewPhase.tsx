@@ -104,7 +104,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-h-[85vh]"
     >
-      {}
       <Card className="w-full md:w-1/3 glass border-[#9d00ff]/30 flex flex-col relative overflow-hidden h-full">
         <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-[#9d00ff] to-transparent opacity-50" />
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4">
@@ -149,7 +148,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
           </div>
         </CardContent>
       </Card>
-      {}
       <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden h-full">
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 flex flex-row items-center justify-between">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
@@ -187,7 +185,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                   </div>
                 </motion.div>
              ))}
-             {}
              {isTyping && (
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-[#9d00ff]/20 border border-[#9d00ff] shrink-0 flex items-center justify-center mt-1">
@@ -201,7 +198,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                   </div>
                 </div>
              )}
-             {}
              {showChoices && currentScriptStep.type === 'player' && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
@@ -230,7 +226,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                    ))}
                 </motion.div>
              )}
-             {}
              {isContractSigned && (
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.95 }}

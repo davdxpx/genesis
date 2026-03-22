@@ -83,7 +83,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
       initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-[1200px] mx-auto flex flex-col lg:flex-row gap-6 p-2 md:p-4 min-min-h-[85vh] lg:min-min-h-[80vh]"
     >
-      {}
       <Card className="w-full lg:w-1/2 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-[450px] lg:h-full shrink-0">
         <div className="absolute inset-0 bg-[#050A15] z-0" />
         <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'radial-gradient(circle at center, #fff 0%, transparent 70%)' }} />
@@ -101,7 +100,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
           </div>
         </CardHeader>
         <CardContent className="flex-1 flex flex-col items-center justify-center relative p-0 overflow-hidden">
-           {}
            <div className="absolute top-4 left-4 right-4 bg-slate-800/80 border border-slate-600 rounded-lg p-3 z-20 shadow-lg backdrop-blur-md flex items-start gap-3">
               <Database className="text-[#00f0ff] shrink-0" size={16} />
               <div>
@@ -112,17 +110,13 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
                  </p>
               </div>
            </div>
-           {}
            <div className="relative w-full max-w-[350px] aspect-square flex items-center justify-center mt-12 md:mt-8 z-10">
               <svg width="300" height="300" className="absolute drop-shadow-[0_0_20px_rgba(0,240,255,0.4)]">
-                 {}
                  <polygon points="150,30 270,150 150,270 30,150" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
                  <polygon points="150,70 230,150 150,230 70,150" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
                  <polygon points="150,110 190,150 150,190 110,150" fill="none" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                 {}
                  <line x1="150" y1="30" x2="150" y2="270" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
                  <line x1="30" y1="150" x2="270" y2="150" stroke="rgba(255,255,255,0.1)" strokeWidth="1" />
-                 {}
                  <motion.polygon 
                     animate={{ points: polygonPoints }}
                     transition={{ type: "spring", bounce: 0.4, duration: 0.8 }}
@@ -130,13 +124,11 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
                     stroke="#00f0ff"
                     strokeWidth="3"
                  />
-                 {}
                  <motion.circle animate={{ cx: 150, cy: 150 - scaleStat(stats.int) }} r="4" fill={statCategories.int.color} />
                  <motion.circle animate={{ cx: 150 + scaleStat(stats.phy), cy: 150 }} r="4" fill={statCategories.phy.color} />
                  <motion.circle animate={{ cx: 150, cy: 150 + scaleStat(stats.life) }} r="4" fill={statCategories.life.color} />
                  <motion.circle animate={{ cx: 150 - scaleStat(stats.imm), cy: 150 }} r="4" fill={statCategories.imm.color} />
               </svg>
-              {}
               <div className="absolute top-0 text-[10px] md:text-xs font-bold text-white uppercase tracking-widest flex flex-col items-center"><Brain size={14} color={statCategories.int.color}/> IQ</div>
               <div className="absolute right-0 text-[10px] md:text-xs font-bold text-white uppercase tracking-widest flex flex-col items-center"><Activity size={14} color={statCategories.phy.color}/> Physis</div>
               <div className="absolute bottom-0 text-[10px] md:text-xs font-bold text-white uppercase tracking-widest flex flex-col items-center"><HeartPulse size={14} color={statCategories.life.color}/> Alter</div>
@@ -144,7 +136,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
            </div>
         </CardContent>
       </Card>
-      {}
       <div className="flex-1 flex flex-col gap-4 h-full relative z-20">
          <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden">
             <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 py-3 md:py-4">
@@ -153,7 +144,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
               </CardTitle>
             </CardHeader>
             <CardContent className="flex-1 overflow-y-auto custom-scrollbar p-3 md:p-6 space-y-4">
-               {}
                {Object.values(statCategories).map(cat => {
                   const isSelected = selectedStat === cat.id;
                   const isMaxed = stats[cat.id] >= cat.max;
@@ -175,7 +165,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
                               {stats[cat.id]}
                            </span>
                         </div>
-                        {}
                         <div className="flex items-center gap-4 mt-2">
                            <Button 
                               variant="outline" 
@@ -185,7 +174,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
                            >
                               <Minus size={24} />
                            </Button>
-                           {}
                            <div className="flex-1 h-2 bg-slate-950 rounded-full overflow-hidden hidden sm:block">
                               <motion.div animate={{ width: `${(stats[cat.id] / cat.max) * 100}%` }} className="h-full rounded-full" style={{ backgroundColor: cat.color }} />
                            </div>
@@ -204,7 +192,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
                })}
             </CardContent>
          </Card>
-         {}
          <Card className="h-[200px] shrink-0 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden z-20">
             <div className="bg-[#ff00e5]/10 border-b border-[#ff00e5]/30 p-2 md:p-3 flex items-center gap-2">
                <Info size={16} className="text-[#ff00e5]" />
@@ -234,7 +221,6 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
             </CardContent>
          </Card>
       </div>
-      {}
       <div className="fixed bottom-2 right-2 md:bottom-6 md:right-6 z-50">
          <Button 
             variant="sci-fi" 

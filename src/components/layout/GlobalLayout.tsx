@@ -24,13 +24,11 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
   }, []);
   return (
     <div className="flex min-h-[100dvh] w-full bg-[#050A15] text-slate-100 font-sans overflow-x-hidden relative selection:bg-[#00f0ff]/30">
-      {}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)' }} />
       <div className="fixed inset-0 pointer-events-none z-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00f0ff]/10 blur-[150px] rounded-full pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#9d00ff]/10 blur-[150px] rounded-full pointer-events-none z-0" />
       <div className="fixed inset-0 pointer-events-none opacity-10 z-0" style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-      {}
       <AnimatePresence>
         {isSidebarOpen && (
            <motion.aside 
@@ -80,7 +78,6 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
            </motion.aside>
         )}
       </AnimatePresence>
-      {}
       <main className="flex-1 flex flex-col relative z-20 w-full min-h-screen">
          <header className="sticky top-0 z-40 h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-800/80 bg-[#0A101D]/80 backdrop-blur-md">
             <div className="flex items-center gap-4">
@@ -106,7 +103,6 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                </div>
             </div>
          </header>
-         {}
          <div className="w-full h-full relative p-4 md:p-8">
             <AnimatePresence mode="wait">
               <motion.div

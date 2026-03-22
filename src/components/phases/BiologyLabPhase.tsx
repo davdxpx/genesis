@@ -80,7 +80,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
         description="Willkommen im Labor, Forscher. Ihre Aufgabe ist es, die exakte Guide-RNA für den Cas9-Schnitt zu programmieren. Finden Sie die komplementären Basenpaare (A-U, C-G, G-C, T-A), um den Prozess zu starten."
       />
       <Card className="w-full min-h-[80vh] glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
-        {}
         <div className="absolute inset-0 bg-slate-900/60 z-0" />
         <div className="absolute inset-0 z-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, #00f0ff 0%, transparent 60%)' }} />
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/80 z-10 relative">
@@ -103,7 +102,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
         </CardHeader>
         <CardContent className="flex-1 p-4 md:p-8 z-10 flex flex-col justify-center items-center relative overflow-y-auto custom-scrollbar">
           <AnimatePresence mode="wait">
-            {}
             {step === 0 && (
               <motion.div 
                 key="extraction"
@@ -128,7 +126,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                  <p className="font-mono text-[#00f0ff] text-xl">{extractionProgress}%</p>
               </motion.div>
             )}
-            {}
             {step === 1 && (
               <motion.div 
                 key="rna"
@@ -148,7 +145,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        <p className="text-xs font-mono text-[#ff00e5] animate-pulse pt-2">Warnung: {errorCount} Fehlversuche detektiert. Genom-Instabilität steigt.</p>
                     )}
                  </div>
-                 {}
                  <div className="bg-[#00f0ff]/10 border border-[#00f0ff]/30 rounded-lg p-4 mx-auto w-full max-w-lg">
                     <div 
                        className="flex items-center justify-between cursor-pointer"
@@ -187,9 +183,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        </motion.div>
                     )}
                  </div>
-                 {}
                  <div className="flex flex-col space-y-6 bg-slate-900/80 p-6 md:p-8 rounded-xl border border-slate-700/50 relative overflow-hidden">
-                    {}
                     <div className="flex justify-between items-center z-10">
                        <span className="text-[10px] md:text-xs font-mono text-slate-500 w-16 md:w-24">ZIEL-DNA</span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
@@ -213,7 +207,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                           })}
                        </div>
                     </div>
-                    {}
                     <div className="flex justify-between items-center z-10 opacity-70">
                        <span className="w-16 md:w-24"></span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
@@ -226,7 +219,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                           ))}
                        </div>
                     </div>
-                    {}
                     <div className="flex justify-between items-center z-10">
                        <span className="text-[10px] md:text-xs font-mono text-[#ff00e5] w-16 md:w-24">NEUE RNA</span>
                        <div className="flex gap-2 md:gap-4 flex-1 justify-center">
@@ -251,14 +243,12 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                           })}
                        </div>
                     </div>
-                    {}
                     <div className="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 z-0 w-full flex justify-center opacity-30 pointer-events-none">
                        <div className="h-40 w-16 bg-gradient-to-b from-[#00f0ff]/0 via-[#00f0ff]/50 to-[#ff00e5]/0" 
                             style={{ transform: `translateX(${(currentSlot - 2.5) * 60}px)` }}
                        />
                     </div>
                  </div>
-                 {}
                  <div className="grid grid-cols-4 gap-4 max-w-lg mx-auto w-full">
                     {rnaOptions.map(base => (
                        <button
@@ -275,7 +265,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                  </div>
               </motion.div>
             )}
-            {}
             {step === 2 && (
               <motion.div 
                 key="injection"
@@ -311,7 +300,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        className={`h-full rounded-full ${isComplete ? 'bg-[#00f0ff]' : 'bg-gradient-to-r from-[#ff00e5] to-[#00f0ff]'}`}
                        style={{ width: `${injectionProgress}%`, boxShadow: isComplete ? '0 0 20px #00f0ff' : '0 0 15px #ff00e5' }}
                     />
-                    {}
                     {!isComplete && <div className="absolute inset-0 bg-white/20 animate-pulse" style={{ width: `${injectionProgress}%` }} />}
                  </div>
                  {!isComplete && (
@@ -339,7 +327,6 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
              )}
            </AnimatePresence>
         </CardFooter>
-        {}
         <style dangerouslySetInnerHTML={{__html: `
           @keyframes shake {
             0%, 100% { transform: translateX(0); }

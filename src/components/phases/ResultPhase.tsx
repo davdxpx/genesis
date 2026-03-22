@@ -148,11 +148,9 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
       animate={{ opacity: 1, y: 0 }}
       className="w-full h-full flex flex-col space-y-6 pb-20"
     >
-      {}
       <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900 to-[#0A101D] border border-slate-800 shadow-2xl p-6 md:p-10 mb-4 flex flex-col md:flex-row items-center md:items-start gap-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00f0ff]/5 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#ff00e5]/5 blur-[100px] rounded-full pointer-events-none" />
-        {}
         <div className="shrink-0 relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-[#00f0ff] to-[#ff00e5] rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
             <div className="relative w-32 h-32 md:w-40 md:h-40 bg-slate-950 rounded-xl border border-slate-700 flex flex-col items-center justify-center p-4 z-10 overflow-hidden">
@@ -183,7 +181,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     Die lebenslange Simulation ist abgeschlossen. Ihr Design wurde analysiert und bewertet.
                 </p>
             </div>
-            {}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-4 mt-6">
                  <div className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-lg flex flex-col justify-center items-center md:items-start">
                     <p className="text-[10px] text-slate-500 uppercase font-mono mb-1 flex items-center gap-1"><Award size={12}/> Rating</p>
@@ -204,9 +201,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </div>
         </div>
       </div>
-      {}
       <div className="flex flex-col lg:flex-row gap-6 h-full min-h-[500px]">
-        {}
         <div className="w-full lg:w-64 shrink-0 flex flex-col space-y-2">
            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-2 pb-2 lg:pb-0 custom-scrollbar sticky top-20">
               {[
@@ -250,9 +245,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </div>
            </div>
         </div>
-        {}
         <div className="flex-1 min-w-0 bg-[#0A101D]/50 border border-slate-800/80 rounded-2xl p-4 md:p-8 backdrop-blur-sm relative overflow-hidden h-full">
-          {}
           <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
              {activeTab === 'overview' && <FileText size={200} />}
              {activeTab === 'stats' && <Dumbbell size={200} />}
@@ -268,7 +261,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                 exit={{ opacity: 0, y: -10 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full"
               >
-                {}
                 <div className="space-y-6 flex flex-col">
                     <h3 className="text-2xl font-mono text-white flex items-center gap-2">
                         <Terminal className="text-[#00f0ff]" /> Exekutivbericht
@@ -297,7 +289,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                         </div>
                     </Card>
                 </div>
-                {}
                 <div className="space-y-6 flex flex-col">
                     <h3 className="text-2xl font-mono text-white flex items-center gap-2">
                         <ShieldAlert className="text-red-500" /> Risikoanalyse
@@ -347,7 +338,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     <p className="text-slate-400 text-sm">Quantifizierte Darstellung der physischen und kognitiven Modifikationen.</p>
                  </div>
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
-                    {}
                     <div className="bg-[#050A15] rounded-xl border border-slate-800 p-4 h-[300px] md:h-full min-h-[300px] flex flex-col">
                          <h4 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Metrik-Verteilung</h4>
                          <div className="flex-1">
@@ -369,7 +359,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             </ResponsiveContainer>
                          </div>
                     </div>
-                    {}
                     <div className="space-y-4 flex flex-col justify-center">
                         {[
                             { label: 'Intelligenz-Quotient (IQ)', value: stats.int, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', icon: Brain, max: 200, desc: 'Kognitive Verarbeitungsgeschwindigkeit' },
@@ -407,7 +396,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                  </div>
                    <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 flex-1">
                      <div className="w-full max-w-[300px] h-[300px] bg-[#050A15] rounded-full border border-slate-800 p-4 shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] relative">
-                         {}
                          <div className="absolute inset-0 rounded-full border border-[#ff00e5]/20 scale-110 pointer-events-none" />
                          <div className="absolute inset-0 rounded-full border border-[#ff00e5]/10 scale-125 pointer-events-none" />
                          <div className="absolute top-1/2 left-0 w-full h-px bg-[#ff00e5]/10 pointer-events-none" />
@@ -512,7 +500,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
           </AnimatePresence>
         </div>
       </div>
-      {}
       <div className="block lg:hidden mt-6 space-y-3">
         <Button 
             onClick={() => window.location.href='/quellen'}
