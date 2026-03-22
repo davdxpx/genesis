@@ -3,22 +3,17 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { ShieldAlert, Activity, Bug, CheckCircle2, AlertTriangle, Fingerprint, Microscope } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
   const [step, setStep] = useState<'intro' | 'scanning' | 'result'>('intro');
   const [timeLeft, setTimeLeft] = useState(15);
   const [activeMutations, setActiveMutations] = useState<number[]>([]);
   const [fixedCount, setFixedCount] = useState(0);
   const [missedCount, setMissedCount] = useState(0);
-
-  // Minigame Loop
   useEffect(() => {
     let timerInterval: NodeJS.Timeout;
     let spawnInterval: NodeJS.Timeout;
     const gridSlots = Array.from({ length: 16 }, (_, i) => i);
-
     if (step === 'scanning') {
-      // Countdown Timer
       timerInterval = setInterval(() => {
         setTimeLeft(t => {
           if (t <= 1) {
@@ -28,16 +23,12 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
           return t - 1;
         });
       }, 1000);
-
-      // Mutation Spawner
       spawnInterval = setInterval(() => {
         setActiveMutations(currentActive => {
           const availableSlots = gridSlots.filter(s => !currentActive.includes(s));
           if (availableSlots.length > 0) {
-            // Spawn 1 to 2 mutations
             const spawnCount = Math.floor(Math.random() * 2) + 1;
             const newMutations: number[] = [];
-            
             for(let i=0; i<spawnCount; i++) {
                if(availableSlots.length > 0) {
                   const randIndex = Math.floor(Math.random() * availableSlots.length);
@@ -45,8 +36,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                   availableSlots.splice(randIndex, 1);
                }
             }
-
-            // Schedule removal (Missed) after 1.5 seconds
             newMutations.forEach(mut => {
               setTimeout(() => {
                 setActiveMutations(current => {
@@ -56,38 +45,32 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                   }
                   return current;
                 });
-              }, 1500); // 1.5 seconds to react
+              }, 1500);
             });
-
             return [...currentActive, ...newMutations];
           }
           return currentActive;
         });
-      }, 1200); // Spawn every 1.2 seconds
+      }, 1200);
     }
-
     return () => {
       clearInterval(timerInterval);
       clearInterval(spawnInterval);
     };
   }, [step]); 
-
   const handleFix = (slotIndex: number) => {
     if (activeMutations.includes(slotIndex)) {
       setActiveMutations(prev => prev.filter(m => m !== slotIndex));
       setFixedCount(f => f + 1);
     }
   };
-
   const getResultAssessment = () => {
     if (missedCount === 0) return { title: 'PERFEKTE INTEGRATION', desc: 'Keine Off-Target-Mutationen detektiert. Das Genom ist zu 100% stabil.', color: '#00f0ff' };
     if (missedCount <= 3) return { title: 'TOLERIERBARE ABWEICHUNG', desc: 'Leichte Genom-Instabilität. Mutationen liegen in nicht-kodierenden Bereichen (Introns).', color: '#ffaa00' };
     return { title: 'KRITISCHE SCHÄDEN', desc: 'Mehrere Off-Target-Schnitte in Exons. Stark erhöhtes Risiko für Onkogen-Aktivierung (Krebsrisiko).', color: '#ff0000' };
   };
-
   const result = getResultAssessment();
   const displaySlots = Array.from({ length: 16 }, (_, i) => i);
-
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -95,9 +78,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
       className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center min-min-h-[85vh]"
     >
       <Card className="w-full glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden">
-        
         <div className="absolute inset-0 bg-slate-900/80 z-0" />
-        
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/90 z-10 relative">
           <div className="flex justify-between items-center">
              <CardTitle className="text-xl font-black tracking-widest text-[#00f0ff] flex items-center gap-2">
@@ -108,11 +89,9 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
              </div>
           </div>
         </CardHeader>
-
         <CardContent className="flex-1 p-6 md:p-8 z-10 relative">
           <AnimatePresence mode="wait">
-
-            {/* INTRO SCREEN - Educational Content */}
+            {}
             {step === 'intro' && (
               <motion.div 
                 key="intro"
@@ -135,7 +114,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        </p>
                     </div>
                  </div>
-
                  <div className="bg-[#ff00e5]/10 border border-[#ff00e5]/30 p-4 rounded-lg flex items-start gap-3 mt-6">
                     <Activity className="text-[#ff00e5] shrink-0 mt-1" />
                     <div>
@@ -145,7 +123,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        </p>
                     </div>
                  </div>
-
                  <div className="pt-6 flex justify-center">
                     <Button variant="sci-fi" size="lg" onClick={() => setStep('scanning')} className="border-[#ff00e5] text-[#ff00e5] hover:bg-[#ff00e5]/20">
                        DNA-Scan Starten <Bug className="ml-2 w-4 h-4" />
@@ -153,8 +130,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                  </div>
               </motion.div>
             )}
-
-            {/* SCANNING MINIGAME */}
+            {}
             {step === 'scanning' && (
               <motion.div 
                 key="scanning"
@@ -163,7 +139,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                 exit={{ opacity: 0, scale: 1.1 }}
                 className="flex flex-col h-full space-y-6"
               >
-                 {/* HUD */}
+                 {}
                  <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-xl border border-slate-700">
                     <div className="text-center">
                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Zeit bis Zellteilung</p>
@@ -182,8 +158,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        </div>
                     </div>
                  </div>
-
-                 {/* Grid */}
+                 {}
                  <div className="grid grid-cols-4 gap-3 md:gap-4 flex-1">
                     {displaySlots.map(slot => {
                        const isMutated = activeMutations.includes(slot);
@@ -214,8 +189,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                  </div>
               </motion.div>
             )}
-
-            {/* RESULT SCREEN */}
+            {}
             {step === 'result' && (
               <motion.div 
                 key="result"
@@ -229,7 +203,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        {missedCount === 0 ? <CheckCircle2 size={60} color={result.color} /> : <AlertTriangle size={60} color={result.color} />}
                     </div>
                  </div>
-
                  <div className="space-y-2 max-w-lg">
                     <h2 className="text-3xl font-black tracking-widest uppercase" style={{ color: result.color }}>
                        {result.title}
@@ -238,7 +211,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        {result.desc}
                     </p>
                  </div>
-
                  <div className="grid grid-cols-2 gap-4 w-full max-w-md">
                     <div className="bg-slate-800 p-4 rounded-xl border border-slate-700">
                        <p className="text-xs text-slate-400 font-bold uppercase tracking-widest mb-1">Korrigierte Fehler</p>
@@ -249,25 +221,20 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        <p className="text-2xl font-black font-mono" style={{ color: missedCount > 0 ? '#ff00e5' : '#00f0ff' }}>{missedCount}</p>
                     </div>
                  </div>
-
                  {missedCount > 0 && (
                    <div className="bg-slate-800/50 border border-slate-600 p-4 rounded-lg max-w-lg text-left text-xs font-mono text-slate-400">
                      <span className="text-[#ff00e5] font-bold">ETHIK-LOG:</span> Die übersehenen Off-Target-Mutationen wurden von der Software protokolliert. Um rechtliche Konsequenzen zu vermeiden, wurden die Grenzwerte im Report nachträglich &quot;angepasst&quot;. Ein moralisch fragwürdiger Standard in der Industrie von 2045.
                    </div>
                  )}
-
               </motion.div>
             )}
-
           </AnimatePresence>
         </CardContent>
-
         <CardFooter className="bg-slate-900/90 p-6 flex justify-between items-center border-t border-slate-700/50 z-10 h-20">
            <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
               <Fingerprint size={14} />
               DNA-Integrität geprüft
            </div>
-           
            <AnimatePresence>
              {step === 'result' && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>

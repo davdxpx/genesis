@@ -3,7 +3,6 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Dna, Activity, Heart, Brain, AlertTriangle, Fingerprint, Scan, ShieldAlert } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 const embryos = [
   {
     id: 'alpha-1',
@@ -46,35 +45,30 @@ const embryos = [
     risk: 'Struktureller Gendefekt am Myokard (Herz). Erfordert massive CRISPR-Korrektur oder lebenslange kardiologische Abhängigkeit.'
   }
 ];
-
 export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
   const [selectedId, setSelectedId] = useState<string>(embryos[0].id);
   const [isScanning, setIsScanning] = useState(false);
   const [isConfirming, setIsConfirming] = useState(false);
-
   const activeEmbryo = embryos.find(e => e.id === selectedId)!;
-
   const handleSelect = (id: string) => {
     if (id === selectedId) return;
     setIsScanning(true);
     setSelectedId(id);
     setTimeout(() => setIsScanning(false), 800);
   };
-
   const handleConfirm = () => {
     setIsConfirming(true);
     setTimeout(() => {
       onNext();
     }, 2500);
   };
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-h-[85vh]"
     >
-      {/* Left Column: Embryo List */}
+      {}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">
         <div className="glass p-4 rounded-xl border border-[#00f0ff]/30 flex items-center justify-between bg-slate-900/80">
           <div className="flex items-center gap-3">
@@ -88,11 +82,9 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
              4 KANDIDATEN
           </div>
         </div>
-
         <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
           {embryos.map((embryo) => {
             const isSelected = selectedId === embryo.id;
-            
             return (
               <motion.button
                 key={embryo.id}
@@ -109,7 +101,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                 {isSelected && (
                   <span className="absolute inset-0 opacity-10 pointer-events-none" style={{ background: `linear-gradient(90deg, transparent, ${embryo.color}, transparent)` }} />
                 )}
-                
                 <div className="flex items-start justify-between relative z-10">
                   <div className="flex items-center gap-3">
                     <div className={`p-2 rounded-full border ${isSelected ? 'bg-slate-900 border-transparent' : 'bg-slate-800 border-slate-700'}`} style={{ color: isSelected ? embryo.color : '#94a3b8' }}>
@@ -134,16 +125,14 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
           })}
         </div>
       </div>
-
-      {/* Right Column: Deep Analysis */}
+      {}
       <Card className="flex-1 h-full glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden">
-        {/* Radar Scanner Overlay */}
+        {}
         <motion.div 
           animate={{ top: ['-20%', '120%'] }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
           className="absolute left-0 w-full h-[20%] bg-gradient-to-b from-transparent via-[#00f0ff]/5 to-transparent pointer-events-none z-0"
         />
-
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 z-10">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center justify-between">
             <span className="flex items-center gap-2">
@@ -154,7 +143,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
             </span>
           </CardTitle>
         </CardHeader>
-
         <CardContent className="flex-1 p-0 z-10 overflow-y-auto custom-scrollbar relative">
           <AnimatePresence mode="wait">
             {isScanning ? (
@@ -178,7 +166,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                 exit={{ opacity: 0, x: -20 }}
                 className="p-6 flex flex-col h-full"
               >
-                {/* Header Info */}
+                {}
                 <div className="flex justify-between items-start mb-8">
                    <div>
                       <h2 className="text-4xl font-black uppercase text-white" style={{ textShadow: `0 0 15px ${activeEmbryo.color}80` }}>
@@ -191,9 +179,8 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                       <span className="text-[10px] text-slate-400 uppercase font-bold">Score</span>
                    </div>
                 </div>
-
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                   {/* Pros */}
+                   {}
                    <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
                       <p className="text-xs text-emerald-400 font-bold tracking-widest uppercase mb-3 flex items-center gap-2">
                         Genetische Vorteile
@@ -206,8 +193,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                          ))}
                       </ul>
                    </div>
-
-                   {/* Stats */}
+                   {}
                    <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700 space-y-4">
                       <p className="text-xs text-slate-400 font-bold tracking-widest uppercase flex items-center gap-2">
                         Biometrische Prognose
@@ -220,8 +206,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                       </div>
                    </div>
                 </div>
-
-                {/* Hidden Risk (The Dilemma) */}
+                {}
                 <div className="mt-auto bg-[#ff0000]/10 border border-[#ff0000]/30 p-5 rounded-xl relative overflow-hidden">
                    <div className="absolute top-0 left-0 w-1 h-full bg-[#ff0000]" />
                    <div className="flex items-start gap-4 relative z-10">
@@ -234,12 +219,10 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                       </div>
                    </div>
                 </div>
-
               </motion.div>
             )}
           </AnimatePresence>
-          
-          {/* Confirmation Overlay */}
+          {}
           <AnimatePresence>
             {isConfirming && (
                 <motion.div 
@@ -257,9 +240,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                 </motion.div>
             )}
           </AnimatePresence>
-
         </CardContent>
-
         <CardFooter className="bg-slate-900/80 p-6 flex justify-between items-center border-t border-slate-700/50 z-10">
            <div className="text-xs font-mono text-slate-500 max-w-[200px]">
               Die Wahl des Embryos definiert die Basis-Parameter für das finale Labor.
@@ -278,7 +259,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
     </motion.div>
   );
 }
-
 function StatBar({ label, icon: Icon, value, color }: { label: string, icon: React.ElementType, value: number, color: string }) {
   return (
     <div className="space-y-1">

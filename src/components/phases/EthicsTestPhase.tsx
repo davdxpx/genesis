@@ -3,8 +3,6 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Scale, Heart, AlertTriangle, Fingerprint, Cross, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// Replace Gamified Dilemmas with real ethical/religious questions based on the evaluation sheet
 const dilemmas = [
   {
     id: 1,
@@ -37,22 +35,18 @@ const dilemmas = [
     ]
   }
 ];
-
 export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(50);
   const [showFeedback, setShowFeedback] = useState(false);
   const [lastFeedback, setLastFeedback] = useState("");
   const [showResult, setShowResult] = useState(false);
-
   const activeDilemma = dilemmas[currentIndex];
-
   const handleChoice = (option: typeof dilemmas[0]['options'][0]) => {
     setScore(prev => Math.max(0, Math.min(100, prev + option.ethScore)));
     setLastFeedback(option.msg);
     setShowFeedback(true);
   };
-
   const proceedToNext = () => {
     setShowFeedback(false);
     if (currentIndex < dilemmas.length - 1) {
@@ -61,24 +55,20 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
       setShowResult(true);
     }
   };
-
   const getResultStatus = () => {
     if (score > 80) return { title: 'TIEFES ETHISCHES VERSTÄNDNIS', color: '#00ffaa', desc: 'Sie haben eine differenzierte theologische und ethische Perspektive eingenommen. Der Wert des Lebens steht über der reinen Machbarkeit.' };
     if (score < 40) return { title: 'UTILITARISMUS', color: '#ffaa00', desc: 'Ihre Entscheidungen waren stark nutzensorientiert. Die christliche Perspektive auf die unantastbare Würde des Menschen trat in den Hintergrund.' };
     return { title: 'ZWISCHEN MACHBARKEIT & MORAL', color: '#00f0ff', desc: 'Sie schwanken zwischen dem Wunsch nach Heilung und dem Respekt vor der Schöpfung. Ein typisches Dilemma der modernen Bioethik.' };
   };
-
-  // Fallback icon for Cross
   const CrossIcon = (props: any) => (
     <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2v20M5 8h14"/></svg>
   );
-
   return (
     <motion.div 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       className="w-full max-w-4xl mx-auto p-4 flex flex-col min-h-[85vh]"
     >
-      {/* Top HUD - Live Stats */}
+      {}
       <div className="mb-8 text-center space-y-4">
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-widest uppercase flex items-center justify-center gap-4">
             <Heart className="text-[#ff00e5]" size={40} />
@@ -88,10 +78,8 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
             "Nicht alles, was technisch machbar ist, ist auch ethisch vertretbar." Bewerten Sie die folgenden Szenarien aus theologischer Perspektive.
          </p>
       </div>
-
       <Card className="flex-1 glass border-[#ff00e5]/30 flex flex-col relative overflow-hidden bg-slate-900/50">
         <CardContent className="flex-1 flex flex-col items-center justify-center p-6 relative overflow-hidden">
-           
            <AnimatePresence mode="wait">
              {!showResult ? (
                 <motion.div
@@ -107,7 +95,6 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
                             <span className="bg-[#ff00e5]/20 text-[#ff00e5] px-3 py-1 rounded-full text-xs font-bold tracking-widest border border-[#ff00e5]/30">FALL {activeDilemma.id} / {dilemmas.length}</span>
                             <h2 className="text-2xl md:text-3xl font-black text-white mt-4">{activeDilemma.title}</h2>
                         </div>
-
                         <div className="bg-slate-800/80 p-6 rounded-xl border border-slate-700 space-y-4">
                             <div>
                                 <h3 className="text-xs text-slate-400 uppercase font-bold tracking-widest flex items-center gap-2 mb-2">
@@ -122,7 +109,6 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
                                 <p className="text-pink-100 text-lg font-medium">{activeDilemma.rel}</p>
                             </div>
                         </div>
-
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                             {activeDilemma.options.map((opt, i) => (
                                <Button 
@@ -150,7 +136,6 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
                    )}
                 </motion.div>
              ) : (
-                /* RESULT SCREEN */
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }}
                   className="text-center max-w-2xl flex flex-col items-center justify-center space-y-8"
@@ -168,7 +153,6 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
                            <p className="text-slate-300 text-lg leading-relaxed bg-slate-800/80 p-8 rounded-xl border border-slate-700">
                               {res.desc}
                            </p>
-                           
                            <Button 
                               variant="default" 
                               onClick={onNext} 

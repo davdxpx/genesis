@@ -1,18 +1,14 @@
 'use client';
-
 import { useState } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { AlertTriangle, Fingerprint, ShieldAlert, HeartPulse } from 'lucide-react';
-
 interface AuthReqPhaseProps {
   onNext: () => void;
   onCancel: () => void;
 }
-
 export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
   const [agreed, setAgreed] = useState(false);
-
   const terms = [
     {
       icon: <AlertTriangle className="w-6 h-6 text-red-400" />,
@@ -33,13 +29,11 @@ export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
       desc: "Die Genmanipulation am Menschen, insbesondere an der Keimbahn, ist in Deutschland (Embryonenschutzgesetz) und vielen anderen Ländern streng verboten. Wenn Sie fortfahren, begeben wir uns in internationale Gewässer. Zudem warnen Soziologen: Durch die enormen Kosten dieser Eingriffe riskieren wir eine Gesellschaft, die in 'genetisch Optimierte' und 'Unveränderte' gespalten ist."
     }
   ];
-
   return (
     <div className="w-full max-w-4xl mx-auto p-4 flex flex-col items-center justify-center font-sans">
       <Card className="w-full bg-slate-900 border-slate-700 shadow-2xl relative overflow-hidden">
         <div className="absolute top-0 right-0 -mr-20 -mt-20 w-64 h-64 bg-blue-900/10 rounded-full blur-3xl pointer-events-none"></div>
         <div className="absolute bottom-0 left-0 -ml-20 -mb-20 w-64 h-64 bg-purple-900/10 rounded-full blur-3xl pointer-events-none"></div>
-
         <CardHeader className="pb-4 border-b border-slate-800">
           <div className="flex items-center gap-3 mb-2">
             <Fingerprint className="w-8 h-8 text-blue-500" />
@@ -51,7 +45,6 @@ export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
             sind wir gesetzlich und moralisch verpflichtet, Sie über die wissenschaftlichen Grenzen, ethischen Dilemmata und gesellschaftlichen Risiken der Keimbahnintervention aufzuklären.
           </CardDescription>
         </CardHeader>
-        
         <CardContent className="space-y-6 mt-6 max-h-[55vh] overflow-y-auto custom-scrollbar pr-2">
           {terms.map((term, i) => (
             <div key={i} className="p-5 rounded-xl bg-slate-800/60 border border-slate-700/50 shadow-sm transition-all hover:bg-slate-800">
@@ -67,7 +60,6 @@ export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
               </div>
             </div>
           ))}
-          
           <div className="mt-8 p-6 bg-blue-950/20 border border-blue-900/50 rounded-xl relative overflow-hidden">
              <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500"></div>
             <div className="flex items-start space-x-4">
@@ -86,7 +78,6 @@ export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
             </div>
           </div>
         </CardContent>
-        
         <CardFooter className="flex flex-col sm:flex-row gap-4 justify-between mt-6 pt-6 border-t border-slate-800">
           <Button 
             variant="outline" 
@@ -108,7 +99,6 @@ export function AuthReqPhase({ onNext, onCancel }: AuthReqPhaseProps) {
           </Button>
         </CardFooter>
       </Card>
-      
       <style jsx global>{`
         .custom-scrollbar::-webkit-scrollbar { width: 6px; }
         .custom-scrollbar::-webkit-scrollbar-track { background: transparent; }
