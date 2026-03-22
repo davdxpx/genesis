@@ -36,7 +36,7 @@ const dilemmas = [
     ]
   }
 ];
-export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
+export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => void, updateGameState?: (data: Record<string, unknown>) => void }) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(50);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -53,6 +53,9 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
     if (currentIndex < dilemmas.length - 1) {
       setCurrentIndex(c => c + 1);
     } else {
+      if (updateGameState) {
+        updateGameState({ ethicsScore: score });
+      }
       setShowResult(true);
     }
   };
