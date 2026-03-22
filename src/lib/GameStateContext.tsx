@@ -7,6 +7,7 @@ export interface GameState {
   finalStats: { int: number; phy: number; imm: number; life: number };
   psychology: { empathy: number; ambition: number; resilience: number };
   ethicsScore: number;
+  selectedRole: string | null;
 }
 interface GameStateContextType {
   gameState: GameState;
@@ -19,7 +20,8 @@ const defaultGameState: GameState = {
   selectedEmbryo: null,
   finalStats: { int: 100, phy: 100, imm: 100, life: 100 },
   psychology: { empathy: 50, ambition: 50, resilience: 50 },
-  ethicsScore: 50
+  ethicsScore: 50,
+  selectedRole: null
 };
 const GameStateContext = createContext<GameStateContextType | undefined>(undefined);
 export function GameStateProvider({ children }: { children: ReactNode }) {
