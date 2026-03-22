@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Brain, Activity, ShieldAlert, HeartPulse, Zap, Database, Hexagon, Plus, Minus, Info } from 'lucide-react';

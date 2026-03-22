@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Scale, Heart, AlertTriangle, Fingerprint, Cross, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
@@ -61,13 +62,17 @@ export function EthicsTestPhase({ onNext }: { onNext: () => void }) {
     return { title: 'ZWISCHEN MACHBARKEIT & MORAL', color: '#00f0ff', desc: 'Sie schwanken zwischen dem Wunsch nach Heilung und dem Respekt vor der Schöpfung. Ein typisches Dilemma der modernen Bioethik.' };
   };
   const CrossIcon = (props: any) => (
-    <svg {...props} xmlns="http:
+    <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <path d="M12 2v20" />
+      <path d="M5 8h14" />
+    </svg>
   );
   return (
     <motion.div 
       initial={{ opacity: 0 }} animate={{ opacity: 1 }}
       className="w-full max-w-4xl mx-auto p-4 flex flex-col min-h-[85vh]"
     >
+      <RolePopup title="Ethik-Evaluation" description="Die Ethikkommission pr00fcft Ihr Vorgehen. Verteidigen Sie Ihre Entscheidungen vor dem Hintergrund moralischer und religi00f6ser Werte. Jede Wahl hat Konsequenzen." />
       <div className="mb-8 text-center space-y-4">
           <h1 className="text-3xl md:text-5xl font-black text-white tracking-widest uppercase flex items-center justify-center gap-4">
             <Heart className="text-[#ff00e5]" size={40} />
