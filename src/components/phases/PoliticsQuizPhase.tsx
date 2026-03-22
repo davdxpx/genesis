@@ -3,8 +3,6 @@ import { Button } from '../ui/button';
 import { CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Shield, ShieldAlert, ShieldCheck, Lock, Unlock, AlertTriangle, Fingerprint, Terminal, CheckCircle2, XCircle } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
-// The lore-based questions (Translated to German)
 const questions = [
   {
     id: 1,
@@ -51,34 +49,27 @@ const questions = [
     correct: 0
   }
 ];
-
 type QuizStep = 'intro' | 'quizzing' | 'evaluating' | 'result';
-
 export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
   const [step, setStep] = useState<QuizStep>('intro');
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
   const [selectedAnswer, setSelectedAnswer] = useState<number | null>(null);
   const [isAnswerRevealed, setIsAnswerRevealed] = useState(false);
-
-  // Intro sequence timer
   useEffect(() => {
     if (step === 'intro') {
       const timer = setTimeout(() => {
         setStep('quizzing');
-      }, 3500); // 3.5 seconds of intro scan
+      }, 3500);
       return () => clearTimeout(timer);
     }
   }, [step]);
-
   const handleSelect = (index: number) => {
     if (isAnswerRevealed) return;
     setSelectedAnswer(index);
     setIsAnswerRevealed(true);
-
     const isCorrect = index === questions[currentQ].correct;
     if (isCorrect) setScore(s => s + 1);
-
     setTimeout(() => {
       if (currentQ < questions.length - 1) {
         setCurrentQ(q => q + 1);
@@ -90,7 +81,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
       }
     }, 1500);
   };
-
   const handleRetry = () => {
     setScore(0);
     setCurrentQ(0);
@@ -98,9 +88,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
     setIsAnswerRevealed(false);
     setStep('intro');
   };
-
   const passed = score >= 3;
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
@@ -108,8 +96,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
       className="w-full max-w-3xl mx-auto p-4 flex flex-col items-center justify-center min-min-h-[80vh]"
     >
       <AnimatePresence mode="wait">
-        
-        {/* INTRO SCENE */}
+        {}
         {step === 'intro' && (
           <motion.div 
             key="intro"
@@ -139,8 +126,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </div>
           </motion.div>
         )}
-
-        {/* QUIZZING SCENE */}
+        {}
         {step === 'quizzing' && (
           <motion.div
             key="quizzing"
@@ -169,15 +155,12 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
               <h3 className="text-2xl font-bold leading-relaxed text-slate-100 min-h-[80px]">
                 {questions[currentQ].q}
               </h3>
-
               <div className="space-y-3">
                 {questions[currentQ].options.map((opt, i) => {
                   const isSelected = selectedAnswer === i;
                   const isCorrectAns = i === questions[currentQ].correct;
-                  
                   let btnStateClass = "bg-slate-800/50 border-slate-600 hover:border-[#00f0ff] text-slate-300 hover:text-white";
                   let icon = <Terminal size={18} className="text-slate-500 opacity-50" />;
-
                   if (isAnswerRevealed) {
                     if (isCorrectAns) {
                       btnStateClass = "bg-[#00f0ff]/20 border-[#00f0ff] text-white shadow-[0_0_15px_rgba(0,240,255,0.3)]";
@@ -191,7 +174,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
                   } else if (isSelected) {
                     btnStateClass = "bg-[#00f0ff]/20 border-[#00f0ff] text-white";
                   }
-
                   return (
                     <motion.button
                       key={i}
@@ -210,8 +192,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </CardContent>
           </motion.div>
         )}
-
-        {/* EVALUATING SCENE */}
+        {}
         {step === 'evaluating' && (
           <motion.div 
             key="evaluating"
@@ -237,8 +218,7 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </div>
           </motion.div>
         )}
-
-        {/* RESULT SCENE */}
+        {}
         {step === 'result' && (
           <motion.div 
             key="result"
@@ -248,7 +228,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
           >
             <div className={`h-2 w-full ${passed ? 'bg-[#00f0ff]' : 'bg-[#ff00e5]'}`} />
             <CardContent className="p-10 flex flex-col items-center text-center space-y-6 bg-slate-900/90">
-              
               <motion.div 
                 initial={{ scale: 0 }}
                 animate={{ scale: 1 }}
@@ -257,7 +236,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
               >
                 {passed ? <Unlock size={40} /> : <Lock size={40} />}
               </motion.div>
-
               <div className="space-y-2">
                 <h2 className={`text-4xl font-black tracking-widest ${passed ? 'text-[#00f0ff] text-glow-cyan' : 'text-[#ff00e5] glow-pink'}`}>
                   {passed ? 'LIZENZ ERTEILT' : 'ZUGRIFF VERWEIGERT'}
@@ -269,7 +247,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
                   {passed ? 'Autorisiert für Operationen in Klasse-1 Zonen' : 'Minimale ethische Anforderungen nicht erfüllt'}
                 </p>
               </div>
-
               {passed ? (
                 <div className="w-full bg-[#00f0ff]/10 border border-[#00f0ff]/30 p-4 rounded-lg flex items-start gap-3 text-left">
                   <ShieldCheck className="text-[#00f0ff] shrink-0 mt-1" />
@@ -288,7 +265,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
                 </div>
               )}
             </CardContent>
-            
             <CardFooter className="bg-slate-950 p-6 flex justify-center border-t border-slate-800">
               {passed ? (
                 <Button variant="default" size="lg" onClick={onNext} className="w-full md:w-auto px-12">
@@ -302,7 +278,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </CardFooter>
           </motion.div>
         )}
-
       </AnimatePresence>
     </motion.div>
   );

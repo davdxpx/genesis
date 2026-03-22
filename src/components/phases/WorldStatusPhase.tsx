@@ -3,7 +3,6 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Globe, ShieldAlert, ShieldCheck, MapPin, AlertTriangle, Activity, Lock, Unlock, Database } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 const regions = [
   {
     id: 'eu',
@@ -12,7 +11,7 @@ const regions = [
     status: 'Streng Reguliert',
     risk: 'Gering',
     cost: 'Hoch',
-    color: '#ff00e5', // Pink
+    color: '#ff00e5',
     glowClass: 'glow-pink',
     icon: Lock,
     description: 'Der Genetic Integrity Act von 2038 verbietet alle nicht essenziellen genetischen Veränderungen. Die Präimplantationsdiagnostik (PID) ist nur bei unheilbaren Erbkrankheiten zulässig. Unautorisiertes "Enhancement" wird mit bis zu 20 Jahren Haft bestraft.',
@@ -25,7 +24,7 @@ const regions = [
     status: 'Flickenteppich / Kapitalistisch',
     risk: 'Mittel',
     cost: 'Extrem',
-    color: '#00f0ff', // Cyan
+    color: '#00f0ff',
     glowClass: 'glow-cyan',
     icon: Unlock,
     description: 'Eine umfassende Deregulierung führte zu einem hyper-kommerzialisierten Genetik-Markt. Kosmetische und leichte kognitive Verbesserungen sind völlig legal, aber extrem teuer. Es toben ständige Patentkriege um DNA-Sequenzen.',
@@ -38,7 +37,7 @@ const regions = [
     status: 'Aggressives Enhancement',
     risk: 'Hoch',
     cost: 'Subventioniert',
-    color: '#9d00ff', // Purple
+    color: '#9d00ff',
     glowClass: 'glow-purple',
     icon: Database,
     description: 'Staatlich geförderte Enhancement-Programme konzentrieren sich auf Intelligenz und Konformität. Private Kliniken operieren mit minimaler Aufsicht, solange sie alle Daten an das zentrale biometrische Raster übermitteln.',
@@ -51,7 +50,7 @@ const regions = [
     status: 'Reguliert Progressiv',
     risk: 'Gering',
     cost: 'Sehr Hoch',
-    color: '#00f0ff', // Cyan
+    color: '#00f0ff',
     glowClass: 'glow-cyan',
     icon: ShieldCheck,
     description: 'Der globale Knotenpunkt für Elite-Genetiker. Streng reguliert, aber fortschrittliche Gesetze erlauben signifikante Eingriffe, sofern klinische Studien und Ethikkommissionen zustimmen. Die bevorzugte Wahl für VIP-Klienten.',
@@ -64,24 +63,21 @@ const regions = [
     status: 'Gesetzlos / Schwarzmarkt',
     risk: 'Extrem',
     cost: 'Gering',
-    color: '#ff0000', // Red
+    color: '#ff0000',
     glowClass: 'shadow-[0_0_15px_rgba(255,0,0,0.5)]',
     icon: AlertTriangle,
     description: 'Offshore-Kliniken, die außerhalb jeder globalen Gerichtsbarkeit operieren. Keine Regulierung, ungetestete CRISPR-Ladungen und häufige ungewollte Mutationen. Genutzt von Verzweifelten oder skrupellosen Forschern, die das absolute Limit testen.',
     stats: { kontrolle: 5, markt: 40, innovation: 100 }
   }
 ];
-
 export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
-  const [selectedRegion, setSelectedRegion] = useState(regions[3]); // Default to SG
+  const [selectedRegion, setSelectedRegion] = useState(regions[3]);
   const [isScanning, setIsScanning] = useState(false);
-
   const handleSelect = (region: typeof regions[0]) => {
     setIsScanning(true);
     setSelectedRegion(region);
-    setTimeout(() => setIsScanning(false), 500); // Simulate scan delay
+    setTimeout(() => setIsScanning(false), 500);
   };
-
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
@@ -89,7 +85,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
       transition={{ duration: 0.5 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[80vh]"
     >
-      {/* Left Column: Map/Node Selection */}
+      {}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">
         <div className="glass p-4 rounded-xl border border-[#00f0ff]/30 flex items-center gap-3 bg-slate-900/80">
           <Globe className="text-[#00f0ff] animate-pulse" />
@@ -98,12 +94,10 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
              <p className="text-slate-400 text-xs font-mono">Gerichtsbarkeit auswählen</p>
           </div>
         </div>
-
         <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
           {regions.map((region) => {
             const isSelected = selectedRegion.id === region.id;
             const Icon = region.icon;
-            
             return (
               <motion.button
                 key={region.id}
@@ -123,7 +117,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     style={{ background: `linear-gradient(90deg, transparent, ${region.color}, transparent)` }} 
                   />
                 )}
-                
                 <div className="flex items-start justify-between relative z-10">
                   <div className="flex items-center gap-3">
                     <div 
@@ -152,21 +145,18 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
           })}
         </div>
       </div>
-
-      {/* Right Column: Holographic Details */}
+      {}
       <Card className="flex-1 h-full glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden">
-        {/* Decorative Grid Background */}
+        {}
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
-        
-        {/* Radar Scanner Overlay */}
+        {}
         <motion.div 
           animate={{ top: ['-10%', '110%'] }}
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
           className="absolute left-0 w-full h-[10%] bg-gradient-to-b from-transparent via-[#00f0ff]/10 to-transparent pointer-events-none z-0"
         />
-
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 z-10">
           <div className="flex justify-between items-center">
              <CardTitle className="text-2xl font-black tracking-widest text-transparent bg-clip-text bg-gradient-to-r from-white to-slate-400">
@@ -177,7 +167,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
              </span>
           </div>
         </CardHeader>
-
         <CardContent className="flex-1 p-6 z-10 overflow-y-auto">
           <AnimatePresence mode="wait">
             {isScanning ? (
@@ -204,7 +193,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                 transition={{ duration: 0.3 }}
                 className="space-y-8"
               >
-                {/* Header Info */}
+                {}
                 <div className="flex items-center gap-4 border-l-4 pl-4" style={{ borderColor: selectedRegion.color }}>
                   <selectedRegion.icon size={40} style={{ color: selectedRegion.color }} />
                   <div>
@@ -212,8 +201,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     <p className="text-lg font-mono" style={{ color: selectedRegion.color }}>[{selectedRegion.classification}]</p>
                   </div>
                 </div>
-
-                {/* Lore/Description */}
+                {}
                 <div className="bg-slate-900/80 p-5 rounded-lg border border-slate-700 relative">
                   <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-slate-400" />
                   <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-slate-400" />
@@ -223,8 +211,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     {selectedRegion.description}
                   </p>
                 </div>
-
-                {/* Metrics Grid */}
+                {}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Operatives Risiko</p>
@@ -245,13 +232,11 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     </p>
                   </div>
                 </div>
-
-                {/* Stats Bars */}
+                {}
                 <div className="space-y-4 pt-4 border-t border-slate-700/50">
                   <h4 className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
                     <Activity size={14} /> Regionale Metriken
                   </h4>
-                  
                   {Object.entries(selectedRegion.stats).map(([key, value]) => (
                     <div key={key} className="space-y-1">
                       <div className="flex justify-between text-xs font-mono uppercase">
@@ -270,12 +255,10 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     </div>
                   ))}
                 </div>
-
               </motion.div>
             )}
           </AnimatePresence>
         </CardContent>
-
         <div className="p-6 border-t border-slate-700/50 bg-slate-900/80 z-10 flex justify-between items-center">
            <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
               <ShieldAlert size={14} className="text-[#ff00e5]"/>

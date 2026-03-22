@@ -1,45 +1,36 @@
 "use client";
-
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Activity, Menu, X } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { pipelineSteps } from "@/lib/pipeline";
-
 export function GlobalLayout({ children }: { children: React.ReactNode }) {
   const [sysTime, setSysTime] = useState("");
   const [hexStream, setHexStream] = useState("0x0000");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   const pathname = usePathname();
-  
-  // Extract the current phase string from path (e.g., /phase/sys-init -> sys-init)
   const currentPathSegment = pathname.split('/').pop() || "";
   const currentPhaseIndex = pipelineSteps.findIndex(s => s.path === currentPathSegment);
   const currentPhase = currentPhaseIndex >= 0 ? currentPhaseIndex : 0;
-
   useEffect(() => {
     const timer = setInterval(() => {
       const d = new Date();
       setSysTime(`${d.getHours().toString().padStart(2, '0')}:${d.getMinutes().toString().padStart(2, '0')}:${d.getSeconds().toString().padStart(2, '0')}.${Math.floor(d.getMilliseconds()/100)}`);
-      
       if (Math.random() > 0.5) {
         setHexStream("0x" + Math.floor(Math.random()*16777215).toString(16).toUpperCase().padStart(6, '0'));
       }
     }, 100);
     return () => clearInterval(timer);
   }, []);
-
   return (
     <div className="flex min-h-[100dvh] w-full bg-[#050A15] text-slate-100 font-sans overflow-x-hidden relative selection:bg-[#00f0ff]/30">
-      
-      {/* --- GLOBAL IMMERSIVE BACKGROUND --- */}
+      {}
       <div className="fixed inset-0 pointer-events-none z-0 opacity-[0.03]" style={{ backgroundImage: 'repeating-linear-gradient(0deg, transparent, transparent 2px, #fff 2px, #fff 4px)' }} />
       <div className="fixed inset-0 pointer-events-none z-0 shadow-[inset_0_0_150px_rgba(0,0,0,0.9)]" />
       <div className="fixed top-[-20%] left-[-10%] w-[50%] h-[50%] bg-[#00f0ff]/10 blur-[150px] rounded-full pointer-events-none z-0" />
       <div className="fixed bottom-[-20%] right-[-10%] w-[50%] h-[50%] bg-[#9d00ff]/10 blur-[150px] rounded-full pointer-events-none z-0" />
       <div className="fixed inset-0 pointer-events-none opacity-10 z-0" style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
-
-      {/* --- SIDEBAR --- */}
+      {}
       <AnimatePresence>
         {isSidebarOpen && (
            <motion.aside 
@@ -58,14 +49,11 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                    <X size={20} />
                 </button>
              </div>
-             
              <div className="flex-1 overflow-y-auto custom-scrollbar p-6 space-y-1 relative">
                 <div className="absolute left-[33px] top-10 bottom-10 w-px bg-slate-800" />
-                
                 {pipelineSteps.map((step, idx) => {
                    const isActive = currentPhase === idx;
                    const isPast = currentPhase > idx;
-
                    return (
                       <div key={step.id} className="relative flex items-center gap-4 py-2 group">
                          <div className={`w-4 h-4 rounded-full border-2 flex items-center justify-center shrink-0 z-10 transition-all duration-300 ${
@@ -84,7 +72,6 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                    )
                 })}
              </div>
-
              <div className="p-6 border-t border-slate-800/80 text-[10px] font-mono text-slate-500 space-y-1">
                 <p>USER: L.GENETICIST</p>
                 <p>CLEARANCE: LEVEL 5</p>
@@ -93,10 +80,8 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
            </motion.aside>
         )}
       </AnimatePresence>
-
-      {/* --- MAIN CONTENT AREA --- */}
+      {}
       <main className="flex-1 flex flex-col relative z-20 w-full min-h-screen">
-         
          <header className="sticky top-0 z-40 h-16 flex items-center justify-between px-4 md:px-8 border-b border-slate-800/80 bg-[#0A101D]/80 backdrop-blur-md">
             <div className="flex items-center gap-4">
                <button 
@@ -106,13 +91,11 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                   <Menu size={18} />
                   <span className="hidden sm:block text-xs font-bold tracking-widest">PIPELINE</span>
                </button>
-
                <div className="hidden md:flex items-center gap-2 px-3 py-1 rounded bg-slate-900 border border-slate-700 text-xs font-mono text-slate-400">
                   <span className="w-2 h-2 rounded-full bg-red-500 animate-pulse" />
                   REC_ACTIVE
                </div>
             </div>
-
             <div className="flex items-center gap-6">
                <div className="text-right hidden sm:block">
                   <p className="text-[#00f0ff] font-mono text-xs tracking-widest">PHASE {currentPhase + 1} / {pipelineSteps.length}</p>
@@ -123,8 +106,7 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                </div>
             </div>
          </header>
-
-         {/* The actual page content is injected here, allowing pages to grow as tall as they need to */}
+         {}
          <div className="w-full h-full relative p-4 md:p-8">
             <AnimatePresence mode="wait">
               <motion.div
@@ -139,7 +121,6 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
               </motion.div>
             </AnimatePresence>
          </div>
-
       </main>
     </div>
   );

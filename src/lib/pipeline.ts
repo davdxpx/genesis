@@ -1,6 +1,6 @@
 export const pipelineSteps = [
   { id: '0', path: 'sys-init', name: "SYS_INIT" },
-  { id: '1', path: 'geo-scan', name: "GEO_SCAN" },
+  { id: '1', path: 'briefing', name: "BRIEFING" },
   { id: '2', path: 'auth-req', name: "AUTH_REQ" },
   { id: '3', path: 'client-io', name: "CLIENT_IO" },
   { id: '4', path: 'loc-select', name: "LOC_SELECT" },
@@ -14,11 +14,9 @@ export const pipelineSteps = [
   { id: '12', path: 'psyche', name: "PSYCHE" },
   { id: '13', path: 'prognosis', name: "PROGNOSIS" },
 ];
-
 export const getStepIndex = (path: string) => {
   return pipelineSteps.findIndex(step => step.path === path);
 };
-
 export const getNextPhaseUrl = (currentPath: string) => {
   const currentIndex = getStepIndex(currentPath);
   if (currentIndex >= 0 && currentIndex < pipelineSteps.length - 1) {

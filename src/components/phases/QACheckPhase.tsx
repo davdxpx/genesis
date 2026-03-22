@@ -1,23 +1,17 @@
 'use client';
-
 import React, { useState, useEffect } from 'react';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Microscope, Dna, AlertTriangle, CheckCircle2, Trash2, HeartPulse, Scale } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 interface QACheckPhaseProps {
   onNext: () => void;
 }
-
 type ScanStatus = 'idle' | 'scanning' | 'results' | 'resolved';
-
 export function QACheckPhase({ onNext }: QACheckPhaseProps) {
   const [status, setStatus] = useState<ScanStatus>('idle');
   const [scanProgress, setScanProgress] = useState(0);
   const [decision, setDecision] = useState<string | null>(null);
-
-  // Simuliert den Scan-Fortschritt für eine coole iPad-Animation
   useEffect(() => {
     if (status === 'scanning') {
       const interval = setInterval(() => {
@@ -27,26 +21,22 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
             setStatus('results');
             return 100;
           }
-          return prev + 2; // Dauer: ca. 2.5 Sekunden
+          return prev + 2;
         });
       }, 50);
       return () => clearInterval(interval);
     }
   }, [status]);
-
   const startScan = () => setStatus('scanning');
-
   const handleDecision = (choice: string) => {
     setDecision(choice);
     setStatus('resolved');
   };
-
   return (
     <div className="w-full max-w-5xl mx-auto p-4 md:p-6 flex flex-col items-center justify-center font-sans min-h-[80vh]">
       <Card className="w-full bg-slate-900 border-slate-700 shadow-2xl overflow-hidden relative">
-        {/* Dekorativer Hintergrund */}
+        {}
         <div className="absolute top-0 right-0 w-full h-2 bg-gradient-to-r from-blue-600 via-cyan-400 to-purple-600"></div>
-
         <CardHeader className="pb-6 border-b border-slate-800 bg-slate-900/50">
           <div className="flex items-center gap-4 mb-2">
             <div className="p-3 bg-blue-900/30 rounded-2xl">
@@ -60,11 +50,9 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
             </div>
           </div>
         </CardHeader>
-
         <CardContent className="p-6 md:p-8 min-h-[50vh] flex flex-col justify-center">
           <AnimatePresence mode="wait">
-            
-            {/* STUFE 1: IDLE */}
+            {}
             {status === 'idle' && (
               <motion.div 
                 key="idle" 
@@ -87,8 +75,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </Button>
               </motion.div>
             )}
-
-            {/* STUFE 2: SCANNING */}
+            {}
             {status === 'scanning' && (
               <motion.div 
                 key="scanning" 
@@ -112,8 +99,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </h2>
               </motion.div>
             )}
-
-            {/* STUFE 3: ERGEBNISSE & DILEMMA */}
+            {}
             {status === 'results' && (
               <motion.div 
                 key="results" 
@@ -139,8 +125,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                     </ul>
                   </div>
                 </div>
-
-                {/* Ethisches Dilemma (Tablet-Optimierte Buttons) */}
+                {}
                 <div className="bg-slate-800 p-6 rounded-2xl border border-slate-700 mt-8">
                   <h4 className="text-xl font-bold text-white mb-6 flex items-center gap-3">
                     <Scale className="w-6 h-6 text-purple-400" /> Ethisches & Rechtliches Dilemma
@@ -156,7 +141,6 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                         <strong>Politik (DE):</strong> Laut Embryonenschutzgesetz strengstens verboten.
                       </span>
                     </Button>
-                    
                     <Button 
                       onClick={() => handleDecision('keep')}
                       className="h-auto py-6 px-4 bg-slate-900 border-2 border-yellow-900/50 hover:bg-yellow-950/40 text-left flex flex-col items-start gap-2 whitespace-normal"
@@ -170,8 +154,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </div>
               </motion.div>
             )}
-
-            {/* STUFE 4: RESOLVED */}
+            {}
             {status === 'resolved' && (
               <motion.div 
                 key="resolved" 
@@ -195,7 +178,6 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </Button>
               </motion.div>
             )}
-
           </AnimatePresence>
         </CardContent>
       </Card>

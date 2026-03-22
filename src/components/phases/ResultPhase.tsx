@@ -4,8 +4,6 @@ import { Terminal, Database, Cpu, Activity, AlertTriangle, CheckCircle, Zap, Shi
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, Cell } from 'recharts';
-
-
 interface GameState {
   budget: number;
   trust: number;
@@ -14,21 +12,16 @@ interface GameState {
   psychology: { empathy: number; ambition: number; resilience: number };
   ethicsScore: number;
 }
-
 interface ResultPhaseProps {
   onRestart?: () => void;
   gameState?: GameState;
 }
-
-// Simulated API Call for calculation
 const calculateOutcome = async (state: GameState) => {
   return new Promise((resolve) => {
     setTimeout(() => {
-      // Mock calculation logic based on game state
       const baseScore = ((state.finalStats?.int || 0) + (state.finalStats?.phy || 0)) / 2;
       const ethicsMod = (state.ethicsScore || 50) > 60 ? 1.2 : 0.8;
       const finalScore = baseScore * ethicsMod;
-      
       resolve({
         successRate: Math.min(99.9, Math.max(12.5, finalScore)),
         societalImpact: (state.trust || 50) > 70 ? "Positiv" : "Kritisch",
@@ -38,20 +31,15 @@ const calculateOutcome = async (state: GameState) => {
         marketValue: Math.floor(finalScore * 1000000),
         rebellionRisk: Math.max(0, 100 - state.psychology.empathy + (state.psychology.ambition * 0.5))
       });
-    }, 4500); // 4.5s dramatic pause
+    }, 4500);
   });
 };
-
 export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
   const [isCalculating, setIsCalculating] = useState(true);
   const [outcome, setOutcome] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'stats' | 'psyche' | 'world'>('overview');
-  
-  // Create id on component mount without updating state in an effect. Using useState initializer function.
   const [randomId] = useState(() => "GNX-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + new Date().getFullYear());
-
-  // Fallback values if gameState is missing parts
   const safeState = useMemo(() => gameState || {
       budget: 0,
       trust: 50,
@@ -60,47 +48,37 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
       psychology: { empathy: 50, ambition: 50, resilience: 50 },
       ethicsScore: 50
   }, [gameState]);
-
   const stats = safeState.finalStats;
   const psyche = safeState.psychology;
   const budget = safeState.budget;
   const trust = safeState.trust;
-
   useEffect(() => {
     let progressInterval: NodeJS.Timeout;
-    
     if (isCalculating) {
-      // Progress bar animation
       progressInterval = setInterval(() => {
         setScanProgress(prev => {
           if (prev >= 100) return 100;
           return prev + (Math.random() * 3);
         });
       }, 100);
-
-      // Fetch results
       calculateOutcome(safeState).then((res) => {
         setOutcome(res);
         setIsCalculating(false);
         setScanProgress(100);
       });
     }
-
     return () => clearInterval(progressInterval);
   }, [safeState, isCalculating]);
-  
   const psycheData = [
     { subject: 'Empathie', A: psyche.empathy, fullMark: 100 },
     { subject: 'Ambition', A: psyche.ambition, fullMark: 100 },
     { subject: 'Resilienz', A: psyche.resilience, fullMark: 100 },
   ];
-
   const barData = [
     { name: 'IQ', value: stats.int, color: '#3b82f6' },
     { name: 'PHY', value: stats.phy, color: '#f97316' },
     { name: 'IMM', value: stats.imm, color: '#22c55e' },
   ];
-
   if (isCalculating) {
     return (
       <div className="w-full h-full flex flex-col items-center justify-center p-4 md:p-8 space-y-12 min-h-[70vh]">
@@ -118,7 +96,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </motion.div>
             <Database className="absolute inset-0 m-auto text-[#00f0ff] w-8 h-8 md:w-10 md:h-10 animate-pulse" />
         </div>
-        
         <div className="text-center space-y-6 w-full max-w-lg">
           <div>
             <h2 className="text-2xl md:text-3xl font-mono font-black text-transparent bg-clip-text bg-gradient-to-r from-[#00f0ff] to-[#ff00e5] tracking-widest uppercase mb-2">
@@ -128,7 +105,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                 Berechne lebenslange Trajektorie & Marktwert...
             </p>
           </div>
-          
           <div className="space-y-2">
             <div className="w-full bg-[#0A101D] rounded-full h-3 md:h-4 overflow-hidden border border-slate-800 p-0.5">
                 <motion.div 
@@ -145,7 +121,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </div>
           </div>
         </div>
-
         <div className="grid grid-cols-2 gap-4 w-full max-w-lg text-[10px] md:text-xs font-mono text-slate-500">
           <div className="flex items-center gap-3 p-2 bg-slate-900/50 rounded border border-slate-800">
               {scanProgress > 20 ? <CheckCircle size={16} className="text-green-500" /> : <Activity size={16} className="text-slate-600 animate-spin" />} 
@@ -167,19 +142,17 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
       </div>
     );
   }
-
   return (
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
       className="w-full h-full flex flex-col space-y-6 pb-20"
     >
-      {/* Dynamic Header Section */}
+      {}
       <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900 to-[#0A101D] border border-slate-800 shadow-2xl p-6 md:p-10 mb-4 flex flex-col md:flex-row items-center md:items-start gap-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00f0ff]/5 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#ff00e5]/5 blur-[100px] rounded-full pointer-events-none" />
-        
-        {/* Avatar/ID Container */}
+        {}
         <div className="shrink-0 relative group">
             <div className="absolute -inset-1 bg-gradient-to-r from-[#00f0ff] to-[#ff00e5] rounded-xl blur opacity-25 group-hover:opacity-50 transition duration-1000 group-hover:duration-200" />
             <div className="relative w-32 h-32 md:w-40 md:h-40 bg-slate-950 rounded-xl border border-slate-700 flex flex-col items-center justify-center p-4 z-10 overflow-hidden">
@@ -194,7 +167,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                 <div className="absolute bottom-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent opacity-50" />
             </div>
         </div>
-
         <div className="flex-1 text-center md:text-left space-y-4 z-10 w-full">
             <div>
                 <motion.div 
@@ -211,8 +183,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     Die lebenslange Simulation ist abgeschlossen. Ihr Design wurde analysiert und bewertet.
                 </p>
             </div>
-
-            {/* Quick Stats Strip */}
+            {}
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-4 mt-6">
                  <div className="bg-slate-900/80 border border-slate-700/50 p-3 rounded-lg flex flex-col justify-center items-center md:items-start">
                     <p className="text-[10px] text-slate-500 uppercase font-mono mb-1 flex items-center gap-1"><Award size={12}/> Rating</p>
@@ -233,11 +204,9 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </div>
         </div>
       </div>
-
-      {/* Main Content Grid */}
+      {}
       <div className="flex flex-col lg:flex-row gap-6 h-full min-h-[500px]">
-        
-        {/* Navigation Sidebar */}
+        {}
         <div className="w-full lg:w-64 shrink-0 flex flex-col space-y-2">
            <div className="flex flex-row lg:flex-col overflow-x-auto lg:overflow-visible gap-2 pb-2 lg:pb-0 custom-scrollbar sticky top-20">
               {[
@@ -262,9 +231,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                   <span className="hidden sm:inline-block font-bold">{tab.label}</span>
                 </button>
               ))}
-              
               <div className="hidden lg:block h-px w-full bg-slate-800 my-4" />
-
               <div className="hidden lg:block pt-2 space-y-3">
                 <Button 
                   onClick={() => window.location.href='/quellen'}
@@ -273,7 +240,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                   <BookOpen className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
                   Wissenschaftliche Quellen
                 </Button>
-                
                 <Button 
                   onClick={onRestart}
                   className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-xs uppercase tracking-widest transition-all group"
@@ -284,17 +250,15 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
             </div>
            </div>
         </div>
-
-        {/* Content Area */}
+        {}
         <div className="flex-1 min-w-0 bg-[#0A101D]/50 border border-slate-800/80 rounded-2xl p-4 md:p-8 backdrop-blur-sm relative overflow-hidden h-full">
-          {/* Subtle background decoration */}
+          {}
           <div className="absolute top-0 right-0 p-8 opacity-5 pointer-events-none">
              {activeTab === 'overview' && <FileText size={200} />}
              {activeTab === 'stats' && <Dumbbell size={200} />}
              {activeTab === 'psyche' && <Brain size={200} />}
              {activeTab === 'world' && <Globe size={200} />}
           </div>
-
           <AnimatePresence mode="wait">
             {activeTab === 'overview' && (
               <motion.div
@@ -304,7 +268,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                 exit={{ opacity: 0, y: -10 }}
                 className="grid grid-cols-1 md:grid-cols-2 gap-6 h-full"
               >
-                {/* Executive Summary */}
+                {}
                 <div className="space-y-6 flex flex-col">
                     <h3 className="text-2xl font-mono text-white flex items-center gap-2">
                         <Terminal className="text-[#00f0ff]" /> Exekutivbericht
@@ -313,7 +277,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                         <p className="text-slate-300 leading-relaxed font-light mb-6">
                             Die Simulation prognostiziert eine <span className="text-[#00f0ff] font-bold">{(outcome?.successRate || 0).toFixed(1)}%</span> Wahrscheinlichkeit für die erfolgreiche Integration dieses Designs in die obere Gesellschaftsschicht.
                         </p>
-                        
                         <div className="space-y-4 flex-1">
                             <div className="bg-[#050A15] p-4 rounded-lg border border-slate-800 relative overflow-hidden">
                                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-green-500" />
@@ -323,7 +286,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                     <span className={`text-xl font-bold font-mono \${budget > 0 ? "text-green-400" : "text-red-400"}`}>{budget} CR</span>
                                 </div>
                             </div>
-                            
                             <div className="bg-[#050A15] p-4 rounded-lg border border-slate-800 relative overflow-hidden">
                                 <div className="absolute left-0 top-0 bottom-0 w-1 bg-blue-500" />
                                 <p className="text-[10px] text-slate-500 uppercase font-mono mb-1">Soziales Kapital</p>
@@ -335,14 +297,12 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                         </div>
                     </Card>
                 </div>
-
-                {/* Risk Assessment */}
+                {}
                 <div className="space-y-6 flex flex-col">
                     <h3 className="text-2xl font-mono text-white flex items-center gap-2">
                         <ShieldAlert className="text-red-500" /> Risikoanalyse
                     </h3>
                     <Card className="p-6 bg-slate-900/50 border-slate-700/50 flex-1 flex flex-col gap-4">
-                        
                         {outcome?.anomaliesDetected > 0 ? (
                             <div className="p-4 bg-red-950/30 border border-red-900/50 rounded-lg">
                                 <h4 className="text-red-400 font-bold flex items-center gap-2 mb-2"><AlertTriangle size={16}/> Genetische Anomalie</h4>
@@ -354,7 +314,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                 <p className="text-sm text-green-200/70">Keine signifikanten Abweichungen vom Bauplan. Zellteilung verläuft nach Parametern.</p>
                             </div>
                         )}
-
                         <div className="p-4 bg-[#050A15] border border-slate-800 rounded-lg mt-auto">
                             <h4 className="text-slate-300 font-bold flex items-center gap-2 mb-4"><Skull size={16}/> Rebellions-Index</h4>
                             <div className="h-2 w-full bg-slate-800 rounded-full overflow-hidden">
@@ -369,12 +328,10 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                 <span className="text-xs text-slate-500">Kritisch</span>
                             </div>
                         </div>
-
                     </Card>
                 </div>
               </motion.div>
             )}
-
             {activeTab === 'stats' && (
               <motion.div
                 key="stats"
@@ -389,9 +346,8 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     </h3>
                     <p className="text-slate-400 text-sm">Quantifizierte Darstellung der physischen und kognitiven Modifikationen.</p>
                  </div>
-                 
                  <div className="grid grid-cols-1 md:grid-cols-2 gap-8 flex-1">
-                    {/* Visual Chart */}
+                    {}
                     <div className="bg-[#050A15] rounded-xl border border-slate-800 p-4 h-[300px] md:h-full min-h-[300px] flex flex-col">
                          <h4 className="text-xs font-mono text-slate-500 uppercase tracking-widest mb-4">Metrik-Verteilung</h4>
                          <div className="flex-1">
@@ -413,8 +369,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             </ResponsiveContainer>
                          </div>
                     </div>
-
-                    {/* Detailed List */}
+                    {}
                     <div className="space-y-4 flex flex-col justify-center">
                         {[
                             { label: 'Intelligenz-Quotient (IQ)', value: stats.int, color: 'text-blue-400', bg: 'bg-blue-500/10', border: 'border-blue-500/20', icon: Brain, max: 200, desc: 'Kognitive Verarbeitungsgeschwindigkeit' },
@@ -436,7 +391,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                  </div>
               </motion.div>
             )}
-
             {activeTab === 'psyche' && (
               <motion.div
                 key="psyche"
@@ -451,16 +405,13 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     </h3>
                     <p className="text-slate-400 text-sm">Analyse der neurologischen Veranlagung und Verhaltensmuster.</p>
                  </div>
-                   
                    <div className="flex flex-col lg:flex-row items-center gap-8 md:gap-12 flex-1">
-                     
                      <div className="w-full max-w-[300px] h-[300px] bg-[#050A15] rounded-full border border-slate-800 p-4 shadow-[inset_0_0_50px_rgba(0,0,0,0.5)] relative">
-                         {/* High Tech Overlays */}
+                         {}
                          <div className="absolute inset-0 rounded-full border border-[#ff00e5]/20 scale-110 pointer-events-none" />
                          <div className="absolute inset-0 rounded-full border border-[#ff00e5]/10 scale-125 pointer-events-none" />
                          <div className="absolute top-1/2 left-0 w-full h-px bg-[#ff00e5]/10 pointer-events-none" />
                          <div className="absolute left-1/2 top-0 h-full w-px bg-[#ff00e5]/10 pointer-events-none" />
-                         
                         <ResponsiveContainer width="100%" height="100%">
                             <RadarChart cx="50%" cy="50%" outerRadius="70%" data={psycheData}>
                                 <PolarGrid stroke="#334155" />
@@ -476,7 +427,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             </RadarChart>
                         </ResponsiveContainer>
                      </div>
-
                      <div className="flex-1 space-y-4 w-full h-full flex flex-col justify-center">
                        <div className="bg-[#0A101D] border border-slate-800 p-6 rounded-xl relative overflow-hidden group">
                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-purple-500" />
@@ -487,7 +437,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                                : "Das Motivationsprofil ist ausbalanciert, was eine unauffällige soziale Integration begünstigt."}
                            </p>
                        </div>
-
                        <div className="bg-[#0A101D] border border-slate-800 p-6 rounded-xl relative overflow-hidden group">
                            <div className="absolute left-0 top-0 bottom-0 w-1 bg-pink-500" />
                            <h4 className="font-mono text-pink-400 mb-2 uppercase text-xs tracking-widest">Emotionale Resonanz</h4>
@@ -498,11 +447,9 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                            </p>
                        </div>
                      </div>
-
                    </div>
               </motion.div>
             )}
-
             {activeTab === 'world' && (
               <motion.div
                 key="world"
@@ -517,21 +464,16 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                     </h3>
                     <p className="text-slate-400 text-sm">Prognostizierte Auswirkungen des Designs auf die Menschheit als Ganzes.</p>
                  </div>
-
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-6 flex-1">
                     <div className="p-6 md:p-8 bg-[#050A15] border border-slate-800 rounded-2xl relative overflow-hidden group flex flex-col">
                       <div className="absolute right-0 top-0 w-32 h-32 bg-red-900/20 rounded-full blur-3xl pointer-events-none" />
-                      
                       <div className="p-3 bg-red-500/10 text-red-400 rounded-lg w-fit mb-6">
                         <ShieldAlert size={24} />
                       </div>
-                      
                       <h4 className="text-xl font-bold text-white mb-4">Soziales Paradigma</h4>
-                      
                       <p className="text-slate-300 leading-relaxed text-base flex-1">
                         Die Veröffentlichung dieser genetischen Konfiguration führte zu <span className="text-white font-bold">{outcome?.societalImpact === 'Kritisch' ? 'heftigen Protesten und Forderungen nach strikterer Regulierung' : 'einer breiten Akzeptanz und neuen Standards im Bereich der genetischen Optimierung'}</span>. 
                       </p>
-
                       <div className="mt-6 pt-6 border-t border-slate-800">
                           <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Öffentliche Zustimmung</p>
                           <div className="flex items-center gap-4">
@@ -542,14 +484,11 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                           </div>
                       </div>
                     </div>
-
                     <div className="p-6 md:p-8 bg-[#050A15] border border-slate-800 rounded-2xl relative overflow-hidden flex flex-col">
                       <div className="absolute right-0 top-0 w-32 h-32 bg-yellow-900/20 rounded-full blur-3xl pointer-events-none" />
-                      
                       <div className="p-3 bg-yellow-500/10 text-yellow-400 rounded-lg w-fit mb-6">
                         <Zap size={24} />
                       </div>
-
                       <h4 className="text-xl font-bold text-white mb-4">Evolutionäre Projektion</h4>
                       <p className="text-slate-300 leading-relaxed text-base flex-1">
                         Wenn dieses Profil der neue Standard wird, erwarten Modelle innerhalb von 3 Generationen eine 
@@ -557,7 +496,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                             {stats.int > 150 ? ' technologische Singularität getrieben durch hyperintelligente Individuen.' : ' graduelle Verbesserung der allgemeinen Lebensqualität, jedoch bei drastisch wachsender sozialer Ungleichheit.'}
                         </span>
                       </p>
-
                       <div className="mt-6 pt-6 border-t border-slate-800">
                            <p className="text-xs font-mono text-slate-500 mb-2 uppercase">Ethik Score Final</p>
                           <div className="flex items-center gap-4">
@@ -574,8 +512,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
           </AnimatePresence>
         </div>
       </div>
-      
-      {/* Mobile Actions (Visible only on small screens) */}
+      {}
       <div className="block lg:hidden mt-6 space-y-3">
         <Button 
             onClick={() => window.location.href='/quellen'}

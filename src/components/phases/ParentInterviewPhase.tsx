@@ -3,24 +3,20 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Users2, Check, FileText, Briefcase, Zap, ShieldAlert, Fingerprint, Activity } from 'lucide-react';
 import { motion } from 'framer-motion';
-
 const clientRequirements = [
   { id: 'iq', label: 'Ziel-IQ', value: '> 140 (Genie-Level)', icon: Zap, color: '#00f0ff' },
   { id: 'disease', label: 'Erbkrankheiten', value: '100% Elimination', icon: ShieldAlert, color: '#00f0ff' },
   { id: 'athletic', label: 'Athletik-Basis', value: 'Elite-Spezifikation', icon: Zap, color: '#9d00ff' },
 ];
-
 interface Choice {
   text: string;
   tension: 'low' | 'high';
 }
-
 interface ScriptStep {
   type: 'client' | 'player' | 'action';
   text?: string;
   choices?: Choice[];
 }
-
 const scriptSteps: ScriptStep[] = [
   {
     type: 'client',
@@ -53,13 +49,11 @@ const scriptSteps: ScriptStep[] = [
     text: "CONTRACT_SIGNED"
   }
 ];
-
 interface ChatMessage {
   type: 'client' | 'player';
   text: string;
   tension?: 'low' | 'high';
 }
-
 export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
@@ -67,25 +61,20 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
   const [typingText, setTypingText] = useState("");
   const [showChoices, setShowChoices] = useState(false);
   const scrollRef = useRef<HTMLDivElement>(null);
-
   const currentScriptStep = scriptSteps[currentStepIndex];
-
   useEffect(() => {
     if (scrollRef.current) {
       scrollRef.current.scrollTop = scrollRef.current.scrollHeight;
     }
   }, [chatHistory, typingText, showChoices]);
-
   useEffect(() => {
     if (!currentScriptStep) return;
-
     if (currentScriptStep.type === 'client') {
       setIsTyping(true);
       setShowChoices(false);
       let i = 0;
       const fullText = currentScriptStep.text as string;
       setTypingText("");
-
       const interval = setInterval(() => {
         setTypingText(fullText.substring(0, i));
         i++;
@@ -96,33 +85,28 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
           setTypingText("");
           setCurrentStepIndex(idx => idx + 1);
         }
-      }, 30); // Typing speed
+      }, 30);
       return () => clearInterval(interval);
     } 
-    
     if (currentScriptStep.type === 'player') {
       setShowChoices(true);
     }
   }, [currentScriptStep, currentStepIndex]);
-
   const handleChoice = (choice: Choice) => {
     setShowChoices(false);
     setChatHistory(prev => [...prev, { type: 'player', text: choice.text, tension: choice.tension }]);
     setCurrentStepIndex(idx => idx + 1);
   };
-
   const isContractSigned = currentScriptStep?.type === 'action';
-
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-h-[85vh]"
     >
-      {/* Left Column: Client Profile */}
+      {}
       <Card className="w-full md:w-1/3 glass border-[#9d00ff]/30 flex flex-col relative overflow-hidden h-full">
         <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-[#9d00ff] to-transparent opacity-50" />
-        
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4">
           <div className="flex items-center gap-3">
              <div className="w-12 h-12 rounded-full bg-[#9d00ff]/20 border border-[#9d00ff] flex items-center justify-center">
@@ -134,7 +118,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
              </div>
           </div>
         </CardHeader>
-
         <CardContent className="flex-1 p-6 space-y-6 overflow-y-auto custom-scrollbar">
           <div className="space-y-2">
              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Status</p>
@@ -148,7 +131,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Risiko-Toleranz</p>
              <p className="font-mono text-[#ff00e5]">Extrem Hoch</p>
           </div>
-          
           <div className="pt-4 border-t border-slate-700/50">
              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
                <Briefcase size={14} /> Anforderungs-Profil
@@ -167,8 +149,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
           </div>
         </CardContent>
       </Card>
-
-      {/* Right Column: Interaction Transcript */}
+      {}
       <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden h-full">
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 flex flex-row items-center justify-between">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
@@ -179,7 +160,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
              <span className="text-xs font-mono text-slate-400">REC</span>
           </div>
         </CardHeader>
-
         <CardContent className="flex-1 p-6 z-10 overflow-y-auto space-y-6 custom-scrollbar" ref={scrollRef}>
            <div className="flex flex-col space-y-6">
              {chatHistory.map((msg, idx) => (
@@ -207,8 +187,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                   </div>
                 </motion.div>
              ))}
-
-             {/* Typing Indicator / Active Typing */}
+             {}
              {isTyping && (
                 <div className="flex gap-4">
                   <div className="w-8 h-8 rounded-full bg-[#9d00ff]/20 border border-[#9d00ff] shrink-0 flex items-center justify-center mt-1">
@@ -222,8 +201,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                   </div>
                 </div>
              )}
-
-             {/* Player Choices */}
+             {}
              {showChoices && currentScriptStep.type === 'player' && (
                 <motion.div 
                   initial={{ opacity: 0, y: 10 }}
@@ -252,8 +230,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                    ))}
                 </motion.div>
              )}
-
-             {/* Contract Result */}
+             {}
              {isContractSigned && (
                 <motion.div 
                   initial={{ opacity: 0, scale: 0.95 }}
@@ -271,7 +248,6 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
              )}
            </div>
         </CardContent>
-
         {isContractSigned && (
            <CardFooter className="bg-slate-900/80 p-6 flex justify-between border-t border-slate-700/50">
              <div className="flex items-center gap-2 text-xs font-mono text-[#00f0ff]">

@@ -3,19 +3,15 @@ import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Mic, TrendingDown, TrendingUp, Activity, Fingerprint, Radio, ShieldAlert, Zap } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
-
 interface ChatMessage {
   speaker: string;
   text: string;
 }
-
 interface CommentMessage {
   id: number;
   userId: number;
   text: string;
 }
-
-// Complex branching interview questions referencing previous phases
 const interviewScript = [
   {
     id: 1,
@@ -93,14 +89,11 @@ const interviewScript = [
     ]
   }
 ];
-
 interface GameStateProps {
   updateGameState?: (data: Record<string, unknown>) => void;
-
   budget: number;
   trust: number;
 }
-
 export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onNext: () => void, gameState: GameStateProps, updateGameState?: (data: Record<string, unknown>) => void }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [trust, setTrust] = useState(50);
@@ -111,8 +104,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
   const [liveComments, setLiveComments] = useState<CommentMessage[]>([]);
   const [isFinished, setIsFinished] = useState(false);
   const commentsContainerRef = useRef<HTMLDivElement>(null);
-
-  // Initial prompt
   useEffect(() => {
     if (currentQ === 0 && chatLog.length === 0) {
       setTimeout(() => {
@@ -120,53 +111,36 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
       }, 1000);
     }
   }, [currentQ, chatLog]);
-
   const generateComments = (trustLevel: number) => {
     if (trustLevel > 70) return ["Endlich jemand, der die Wahrheit sagt!", "Wissenschaft lässt sich nicht aufhalten 🚀", "Er hat Recht, die Politik hat versagt!"];
     if (trustLevel < 30) return ["Was für ein Lügner!! 🤬", "Boykottiert Genesis!", "Verhaftet diesen Frankenstein!", "Geld regiert die Welt... traurig."];
     return ["Klingt wie typisches PR-Gerede.", "Ich weiß nicht, wem ich glauben soll.", "Die Technologie macht mir trotzdem Angst."];
   };
-
-  // Live comment ticker
   useEffect(() => {
     if (isFinished) return;
     const interval = setInterval(() => {
       const possibleComments = generateComments(trust);
       const randomComment = possibleComments[Math.floor(Math.random() * possibleComments.length)];
       const randomUserId = Math.floor(Math.random() * 9000);
-      
-      // Keep only the last 15 comments so it doesn't grow infinitely
       setLiveComments(current => [...current.slice(-14), { id: Date.now(), userId: randomUserId, text: randomComment }]);
-      
     }, 2500);
     return () => clearInterval(interval);
   }, [trust, isFinished]);
-
-  // Scroll to bottom ONLY inside the comments container, not the whole page
   useEffect(() => {
     if (commentsContainerRef.current) {
       const container = commentsContainerRef.current;
       container.scrollTop = container.scrollHeight;
     }
   }, [liveComments]);
-
   const handleAnswer = (option: typeof interviewScript[0]['options'][0]) => {
     setIsAnswering(true);
-    
-    // Add player answer
     const answerText = option.text.split(':')[1]?.replace(/'/g, "") || option.text;
     setChatLog(prev => [...prev, { speaker: 'Du', text: answerText }]);
-    
-    // Apply effects
     setTrust(prev => Math.max(0, Math.min(100, prev + option.effect.trust)));
     setMarket(prev => Math.max(0, Math.min(100, prev + option.effect.market)));
     setStress(prev => Math.max(0, Math.min(100, prev + option.effect.stress)));
-
-    // Reporter reaction delay
     setTimeout(() => {
       setChatLog(prev => [...prev, { speaker: 'Reporter', text: option.response }]);
-      
-      // Move to next question after reaction
       setTimeout(() => {
         if (currentQ < interviewScript.length - 1) {
           setCurrentQ(c => c + 1);
@@ -178,7 +152,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
       }, 3000);
     }, 2000);
   };
-
   const handleComplete = () => {
      if(updateGameState) {
         const budgetImpact = (market - 50); 
@@ -189,25 +162,22 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
      }
      onNext();
   };
-
   const getEnding = () => {
     if (trust < 30 && market > 60) return { title: "DER CORPORATE VILLAIN", desc: "Die Öffentlichkeit hasst Sie und das Projekt gilt als moralisch bankrott. Aber die Aktienkurse sind durch die Decke gegangen. Die Vance-Familie ist zufrieden. Sie haben Ihre Seele für den Profit verkauft.", color: "#ffaa00" };
     if (trust > 60 && market < 40) return { title: "DER MÄRTYRER", desc: "Sie haben die Wahrheit gesagt. Die Gesellschaft feiert Sie als Whistleblower der Gen-Industrie. Leider hat die Vance-Familie ihre Gelder abgezogen und Ares Corp verklagt Sie. Ein Pyrrhussieg.", color: "#00f0ff" };
     if (trust < 30 && market < 40) return { title: "TOTALES DESASTER", desc: "Eine katastrophale PR-Leistung. Sie wurden beim Lügen erwischt, die Investoren fliehen und Interpol untersucht Ihr Labor. Das Projekt steht vor dem Aus.", color: "#ff0000" };
     return { title: "MEISTERHAFTER SPIN-DOKTOR", desc: "Sie haben souverän auf der Rasierklinge navigiert. Weder hat der Markt das Vertrauen verloren, noch hat die Gesellschaft das Labor niedergebrannt. Das Gen-Projekt geht weiter.", color: "#ff00e5" };
   };
-
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[85vh] lg:min-h-[80vh]"
     >
-      {/* LEFT PANE: Live Broadcast & Sentiment */}
+      {}
       <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">
-        {/* On-Air Indicator */}
+        {}
         <div className="absolute top-0 left-0 w-full h-1 bg-red-500 animate-pulse z-20" />
-        
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4 z-10">
           <div className="flex justify-between items-center">
              <CardTitle className="text-xl font-black tracking-widest text-white flex items-center gap-2">
@@ -218,16 +188,14 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
              </span>
           </div>
         </CardHeader>
-
         <CardContent className="flex-1 p-0 flex flex-col relative bg-[#050A15]">
-           {/* Live Video Feed Mockup */}
+           {}
            <div className="h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, transparent 20%, #000 120%)' }} />
               <div className="absolute inset-0 flex items-center justify-center opacity-10">
                  <Mic size={120} />
               </div>
-              
-              {/* Teleprompter / Subtitles */}
+              {}
               <div className="relative z-10 w-full">
                  <AnimatePresence mode="popLayout">
                     {chatLog.map((log, idx) => (
@@ -249,8 +217,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                  </AnimatePresence>
               </div>
            </div>
-
-           {/* Metrics & Social Stream */}
+           {}
            <div className="h-1/2 p-4 flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                  <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl">
@@ -272,12 +239,10 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                     </div>
                  </div>
               </div>
-
-              {/* Fake Live Comments */}
+              {}
               <div className="flex-1 bg-slate-900/50 rounded-xl border border-slate-800 p-3 relative flex flex-col overflow-hidden">
                  <p className="text-[10px] text-slate-500 font-mono mb-2 border-b border-slate-800 pb-1 flex-shrink-0">LIVE CHAT FEED</p>
-                 
-                 {/* This container scrolls internally, preventing the whole page from jumping */}
+                 {}
                  <div 
                    ref={commentsContainerRef} 
                    className="flex-1 overflow-y-auto space-y-2 pr-2 scrollbar-hide"
@@ -296,8 +261,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
            </div>
         </CardContent>
       </Card>
-
-      {/* RIGHT PANE: PR Control Room (Teleprompter) */}
+      {}
       <Card className="flex-1 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden h-full">
         <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 pb-4">
           <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
@@ -305,22 +269,17 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
           </CardTitle>
           <p className="text-xs font-mono text-slate-400">Strategische Rhetorik-Analyse. Antworten Sie der Presse und lenken Sie das Narrativ.</p>
         </CardHeader>
-
         <CardContent className="flex-1 p-6 z-10 overflow-y-auto custom-scrollbar">
            <AnimatePresence mode="wait">
-              
               {!isFinished ? (
                  <motion.div key="questions" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
-                    
                     <div className="flex items-center justify-between mb-2">
                        <span className="text-xs font-bold text-[#ff00e5] uppercase tracking-widest">FRAGE {currentQ + 1} VON {interviewScript.length}</span>
                        <span className="text-[10px] font-mono text-slate-500">STRESSLEVEL: {stress}%</span>
                     </div>
-                    
                     <h3 className="text-xl font-bold text-white mb-6 border-l-4 border-[#ff00e5] pl-4">
                        {interviewScript[currentQ].topic}
                     </h3>
-
                     <div className="space-y-4">
                        {interviewScript[currentQ].options.map((opt, idx) => (
                           <button
@@ -339,8 +298,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                              <div className="bg-slate-900 p-2 rounded text-[10px] font-mono text-slate-400 border-l-2 border-[#ff00e5]">
                                 <span className="text-[#ff00e5] font-bold">PuG-Strategie: </span>{opt.pugStrat}
                              </div>
-                             
-                             {/* Predictive HUD on Hover */}
+                             {}
                              <div className="absolute top-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity flex gap-2">
                                 {opt.effect.trust > 0 && <span className="text-[10px] bg-[#00f0ff]/20 text-[#00f0ff] px-2 py-0.5 rounded">Vertrauen ↑</span>}
                                 {opt.effect.trust < 0 && <span className="text-[10px] bg-[#ff0000]/20 text-[#ff0000] px-2 py-0.5 rounded">Vertrauen ↓</span>}
@@ -350,7 +308,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                           </button>
                        ))}
                     </div>
-
                  </motion.div>
               ) : (
                  <motion.div key="result" initial={{ opacity: 0, scale: 0.9 }} animate={{ opacity: 1, scale: 1 }} className="h-full flex flex-col items-center justify-center text-center space-y-6">
@@ -372,16 +329,13 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
                     })()}
                  </motion.div>
               )}
-
            </AnimatePresence>
         </CardContent>
-
         <CardFooter className="bg-slate-900/80 p-6 flex justify-between items-center border-t border-slate-700/50 z-10 h-20">
            <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
               <Fingerprint size={14} />
               Öffentliche Akzeptanz berechnet
            </div>
-           
            <AnimatePresence>
              {isFinished && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
@@ -393,7 +347,6 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
            </AnimatePresence>
         </CardFooter>
       </Card>
-      
       <style jsx global>{`
         .scrollbar-hide::-webkit-scrollbar {
             display: none;
