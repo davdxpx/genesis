@@ -11,6 +11,7 @@ interface GameState {
   finalStats: { int: number; phy: number; imm: number; life: number };
   psychology: { empathy: number; ambition: number; resilience: number };
   ethicsScore: number;
+  selectedRole?: string | null;
 }
 interface ResultPhaseProps {
   onRestart?: () => void;
@@ -22,6 +23,16 @@ const calculateOutcome = async (state: GameState) => {
       const baseScore = ((state.finalStats?.int || 0) + (state.finalStats?.phy || 0)) / 2;
       const ethicsMod = (state.ethicsScore || 50) > 60 ? 1.2 : 0.8;
       const finalScore = baseScore * ethicsMod;
+
+      let roleText = "Als neutraler Beobachter hast du ein interessantes Exemplar geschaffen.";
+      if (state.selectedRole === "Pragmatic_Biologist") {
+        roleText = "Dein pragmatischer Biologen-Ansatz trieb die Technologie an ihre Grenzen. Die Wissenschaft feiert dich, aber zu welchem Preis?";
+      } else if (state.selectedRole === "Ethical_Guardian") {
+        roleText = "Als ethischer Wächter hast du maßvoll gehandelt. Das Kind ist stabil, aber die Konkurrenz ist dir vielleicht voraus.";
+      } else if (state.selectedRole === "Ambitious_Parent") {
+        roleText = "Deine elterliche Ambition kannte keine Grenzen. Das Kind ist auf Erfolg getrimmt, der Leistungsdruck ist immens.";
+      }
+
       resolve({
         successRate: Math.min(99.9, Math.max(12.5, finalScore)),
         societalImpact: (state.trust || 50) > 70 ? "Positiv" : "Kritisch",
@@ -29,7 +40,8 @@ const calculateOutcome = async (state: GameState) => {
         classification: finalScore > 120 ? "Alpha-Plus" : finalScore > 80 ? "Beta" : "Gamma",
         lifespanEstimate: (state.finalStats?.life || 80) + Math.floor(Math.random() * 20),
         marketValue: Math.floor(finalScore * 1000000),
-        rebellionRisk: Math.max(0, 100 - state.psychology.empathy + (state.psychology.ambition * 0.5))
+        rebellionRisk: Math.max(0, 100 - state.psychology.empathy + (state.psychology.ambition * 0.5)),
+        roleText: roleText
       });
     }, 4500);
   });
@@ -40,13 +52,15 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
   const [scanProgress, setScanProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'stats' | 'psyche' | 'world'>('overview');
   const [randomId] = useState(() => "GNX-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + new Date().getFullYear());
+  const [showTutorial, setShowTutorial] = useState(true);
   const safeState = useMemo(() => gameState || {
       budget: 0,
       trust: 50,
       selectedEmbryo: null,
       finalStats: { int: 100, phy: 100, imm: 100, life: 100 },
       psychology: { empathy: 50, ambition: 50, resilience: 50 },
-      ethicsScore: 50
+      ethicsScore: 50,
+      selectedRole: null
   }, [gameState]);
   const stats = safeState.finalStats;
   const psyche = safeState.psychology;
@@ -146,8 +160,39 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full h-full flex flex-col space-y-6 pb-20"
+      className="w-full h-full flex flex-col space-y-6 pb-20 relative"
     >
+      <AnimatePresence>
+        {showTutorial && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4"
+          >
+            <div className="bg-[#050A15] border border-[#00f0ff]/50 rounded-xl p-8 max-w-lg text-center shadow-[0_0_30px_rgba(0,240,255,0.2)]">
+              <Sparkles className="w-12 h-12 text-[#00f0ff] mx-auto mb-4" />
+              <h2 className="text-2xl font-bold text-white mb-2">Simulationsergebnisse</h2>
+              <p className="text-slate-300 mb-6">
+                Willkommen bei der Auswertung. Hier siehst du die lebenslangen Folgen deiner Entscheidungen.
+                Nutze die Tabs auf der linken Seite, um zwischen dem allgemeinen Bericht, genetischen Stats,
+                dem psychologischen Profil und den gesellschaftlichen Auswirkungen zu wechseln.
+              </p>
+              <div className="mb-6 p-4 bg-slate-900 rounded-lg text-left text-sm border border-slate-800">
+                <span className="text-[#00f0ff] font-bold block mb-1">Deine Rolle:</span>
+                <span className="text-slate-400">{outcome?.roleText}</span>
+              </div>
+              <Button
+                onClick={() => setShowTutorial(false)}
+                className="bg-[#00f0ff] hover:bg-[#00f0ff]/80 text-black font-bold w-full"
+              >
+                Ergebnisse analysieren
+              </Button>
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
+
       <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900 to-[#0A101D] border border-slate-800 shadow-2xl p-6 md:p-10 mb-4 flex flex-col md:flex-row items-center md:items-start gap-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00f0ff]/5 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#ff00e5]/5 blur-[100px] rounded-full pointer-events-none" />
@@ -179,6 +224,9 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                 </h1>
                 <p className="text-sm md:text-base text-slate-400 font-light mt-2 max-w-2xl">
                     Die lebenslange Simulation ist abgeschlossen. Ihr Design wurde analysiert und bewertet.
+                </p>
+                <p className="text-sm text-[#00f0ff] font-mono mt-2 p-2 bg-[#00f0ff]/10 rounded border border-[#00f0ff]/30 inline-block">
+                    {outcome?.roleText}
                 </p>
             </div>
             <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 md:gap-4 mt-6">
