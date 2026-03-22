@@ -41,8 +41,6 @@ export default function SourcesPage() {
                 </h2>
                 <div className="w-16 h-1 bg-[#ff00e5] mb-6 rounded-full" />
                 <p className="text-slate-300 font-mono leading-relaxed">
-                   Das Quellenverzeichnis wurde auf Anordnung des Global Health Board offline genommen.
-                   Wartungsarbeiten an der Datenbankstruktur laufen.
                    <br /><br />
                    <span className="text-[#00f0ff]">Bitte versuchen Sie es später erneut.</span>
                 </p>
