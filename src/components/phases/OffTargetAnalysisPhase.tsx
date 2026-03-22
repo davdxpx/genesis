@@ -91,7 +91,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
         </CardHeader>
         <CardContent className="flex-1 p-6 md:p-8 z-10 relative">
           <AnimatePresence mode="wait">
-            {}
             {step === 'intro' && (
               <motion.div 
                 key="intro"
@@ -130,7 +129,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                  </div>
               </motion.div>
             )}
-            {}
             {step === 'scanning' && (
               <motion.div 
                 key="scanning"
@@ -139,7 +137,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                 exit={{ opacity: 0, scale: 1.1 }}
                 className="flex flex-col h-full space-y-6"
               >
-                 {}
                  <div className="flex justify-between items-center bg-slate-800/50 p-4 rounded-xl border border-slate-700">
                     <div className="text-center">
                        <p className="text-[10px] text-slate-500 font-bold uppercase tracking-widest">Zeit bis Zellteilung</p>
@@ -158,7 +155,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                        </div>
                     </div>
                  </div>
-                 {}
                  <div className="grid grid-cols-4 gap-3 md:gap-4 flex-1">
                     {displaySlots.map(slot => {
                        const isMutated = activeMutations.includes(slot);
@@ -189,7 +185,6 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                  </div>
               </motion.div>
             )}
-            {}
             {step === 'result' && (
               <motion.div 
                 key="result"

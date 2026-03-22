@@ -80,14 +80,12 @@ const NeuralNet = ({ stats }: { stats: PsycheState }) => {
   if (nodes.length === 0) return null;
   return (
     <div className="w-full h-full relative bg-[#02050a] overflow-hidden rounded-xl border border-slate-800 shadow-[inset_0_0_50px_rgba(0,0,0,0.8)]">
-      {}
       <motion.div 
         animate={{ opacity: [0.1, 0.4, 0.1] }}
         transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
         className="absolute inset-0 z-0"
         style={{ background: `radial-gradient(circle at 50% 50%, ${glowColor}30 0%, transparent 60%)` }}
       />
-      {}
       <svg className="absolute inset-0 w-full h-full z-10 pointer-events-none drop-shadow-[0_0_5px_rgba(255,255,255,0.5)]">
         {nodes.map((node, i) => (
            nodes.slice(i + 1, i + 3).map((target, j) => (
@@ -128,11 +126,9 @@ const NeuralNet = ({ stats }: { stats: PsycheState }) => {
           />
         ))}
       </svg>
-      {}
       <div className="absolute inset-0 flex items-center justify-center z-20 pointer-events-none opacity-30 drop-shadow-[0_0_20px_rgba(0,240,255,0.5)]">
         <Brain size={250} strokeWidth={0.5} style={{ color: glowColor }} />
       </div>
-      {}
       <AnimatePresence>
          {stats.empathy < 15 && (
            <motion.div initial={{ opacity: 0, y: -20 }} animate={{ opacity: 1, y: 0 }} exit={{ opacity: 0 }} className="absolute top-4 left-0 right-0 flex justify-center z-30">
@@ -173,12 +169,9 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
         title="Psychologie-Modulation"
         description="Justieren Sie Neurotransmitter (Dopamin, Serotonin), um das Verhaltensprofil zu formen. Achten Sie auf Pleiotropie: Das Erhöhen eines Merkmals kann extreme Auswirkungen auf ein anderes haben!"
       />
-      {}
       <div className="w-full xl:w-5/12 flex flex-col gap-6 h-full shrink-0">
-         {}
          <Card className="flex-1 min-h-[400px] xl:min-h-[500px] bg-[#050A15] border-[#00f0ff]/30 shadow-2xl relative p-1 overflow-hidden">
             <NeuralNet stats={psyche} />
-            {}
             <div className="absolute bottom-6 left-6 z-30 pointer-events-none">
                <h3 className="text-3xl font-black text-white tracking-widest uppercase drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
                   {activeArchetype ? archetypes.find(a => a.id === activeArchetype)?.name : "CUSTOM ENGRAM"}
@@ -188,7 +181,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                </p>
             </div>
          </Card>
-         {}
          <Card className="shrink-0 bg-slate-900 border-slate-700 shadow-xl">
             <CardHeader className="py-4 border-b border-slate-800 bg-slate-900/80">
                <CardTitle className="text-sm font-bold tracking-widest text-slate-300 uppercase flex items-center gap-2">
@@ -221,7 +213,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
             </CardContent>
          </Card>
       </div>
-      {}
       <div className="flex-1 flex flex-col relative z-20">
          <Card className="flex-1 bg-slate-900 border-[#ff00e5]/30 shadow-2xl flex flex-col relative overflow-hidden">
             <CardHeader className="bg-slate-900/80 border-b border-slate-800 py-6 z-10">
@@ -234,7 +225,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                </div>
             </CardHeader>
             <CardContent className="overflow-visible custom-scrollbar p-6 lg:p-8 space-y-10 pb-32">
-               {}
                <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
                   <div className="flex justify-between items-end mb-2">
                      <label className="text-lg font-bold text-[#00ffaa] uppercase tracking-wider flex items-center gap-2">
@@ -253,7 +243,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                   </div>
                   {psyche.empathy < 20 && <p className="text-sm font-bold text-red-400 mt-2">Warnung: Subjekt zeigt stark soziopathische Tendenzen.</p>}
                </div>
-               {}
                <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
                   <div className="flex justify-between items-end mb-2">
                      <label className="text-lg font-bold text-[#ffaa00] uppercase tracking-wider flex items-center gap-2">
@@ -271,7 +260,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                      <span>Machtgier/Manisch</span>
                   </div>
                </div>
-               {}
                <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
                   <div className="flex justify-between items-end mb-2">
                      <label className="text-lg font-bold text-[#ff00e5] uppercase tracking-wider flex items-center gap-2">
@@ -291,7 +279,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                </div>
             </CardContent>
          </Card>
-         {}
          <div className="sticky bottom-0 right-0 left-0 p-4 md:p-6 bg-gradient-to-t from-[#050A15] to-transparent flex justify-end z-30">
             <Button 
                size="lg"
@@ -326,6 +313,6 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
 }
 function ArrowRightIcon(props: React.SVGProps<SVGSVGElement>) {
    return (
-      <svg {...props} xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M5 12h14"/><path d="m12 5 7 7-7 7"/></svg>
+      <svg {...props} xmlns="http:
    )
 }

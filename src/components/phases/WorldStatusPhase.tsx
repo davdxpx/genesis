@@ -85,7 +85,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
       transition={{ duration: 0.5 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[80vh]"
     >
-      {}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">
         <div className="glass p-4 rounded-xl border border-[#00f0ff]/30 flex items-center gap-3 bg-slate-900/80">
           <Globe className="text-[#00f0ff] animate-pulse" />
@@ -145,13 +144,10 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
           })}
         </div>
       </div>
-      {}
       <Card className="flex-1 h-full glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden">
-        {}
         <div className="absolute inset-0 opacity-10 pointer-events-none" 
              style={{ backgroundImage: 'linear-gradient(#00f0ff 1px, transparent 1px), linear-gradient(90deg, #00f0ff 1px, transparent 1px)', backgroundSize: '40px 40px' }} 
         />
-        {}
         <motion.div 
           animate={{ top: ['-10%', '110%'] }}
           transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
@@ -193,7 +189,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                 transition={{ duration: 0.3 }}
                 className="space-y-8"
               >
-                {}
                 <div className="flex items-center gap-4 border-l-4 pl-4" style={{ borderColor: selectedRegion.color }}>
                   <selectedRegion.icon size={40} style={{ color: selectedRegion.color }} />
                   <div>
@@ -201,7 +196,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     <p className="text-lg font-mono" style={{ color: selectedRegion.color }}>[{selectedRegion.classification}]</p>
                   </div>
                 </div>
-                {}
                 <div className="bg-slate-900/80 p-5 rounded-lg border border-slate-700 relative">
                   <div className="absolute top-0 left-0 w-2 h-2 border-t border-l border-slate-400" />
                   <div className="absolute top-0 right-0 w-2 h-2 border-t border-r border-slate-400" />
@@ -211,7 +205,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     {selectedRegion.description}
                   </p>
                 </div>
-                {}
                 <div className="grid grid-cols-2 gap-4">
                   <div className="space-y-1">
                     <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Operatives Risiko</p>
@@ -232,7 +225,6 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
                     </p>
                   </div>
                 </div>
-                {}
                 <div className="space-y-4 pt-4 border-t border-slate-700/50">
                   <h4 className="text-xs text-slate-400 uppercase tracking-widest font-bold mb-4 flex items-center gap-2">
                     <Activity size={14} /> Regionale Metriken

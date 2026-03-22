@@ -68,7 +68,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1, y: 0 }}
       className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-h-[85vh]"
     >
-      {}
       <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">
         <div className="glass p-4 rounded-xl border border-[#00f0ff]/30 flex items-center justify-between bg-slate-900/80">
           <div className="flex items-center gap-3">
@@ -125,9 +124,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
           })}
         </div>
       </div>
-      {}
       <Card className="flex-1 h-full glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden">
-        {}
         <motion.div 
           animate={{ top: ['-20%', '120%'] }}
           transition={{ duration: 4, repeat: Infinity, ease: "linear" }}
@@ -166,7 +163,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                 exit={{ opacity: 0, x: -20 }}
                 className="p-6 flex flex-col h-full"
               >
-                {}
                 <div className="flex justify-between items-start mb-8">
                    <div>
                       <h2 className="text-4xl font-black uppercase text-white" style={{ textShadow: `0 0 15px ${activeEmbryo.color}80` }}>
@@ -180,7 +176,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                    </div>
                 </div>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-                   {}
                    <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700">
                       <p className="text-xs text-emerald-400 font-bold tracking-widest uppercase mb-3 flex items-center gap-2">
                         Genetische Vorteile
@@ -193,7 +188,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                          ))}
                       </ul>
                    </div>
-                   {}
                    <div className="bg-slate-800/50 p-4 rounded-xl border border-slate-700 space-y-4">
                       <p className="text-xs text-slate-400 font-bold tracking-widest uppercase flex items-center gap-2">
                         Biometrische Prognose
@@ -206,7 +200,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                       </div>
                    </div>
                 </div>
-                {}
                 <div className="mt-auto bg-[#ff0000]/10 border border-[#ff0000]/30 p-5 rounded-xl relative overflow-hidden">
                    <div className="absolute top-0 left-0 w-1 h-full bg-[#ff0000]" />
                    <div className="flex items-start gap-4 relative z-10">
@@ -222,7 +215,6 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
               </motion.div>
             )}
           </AnimatePresence>
-          {}
           <AnimatePresence>
             {isConfirming && (
                 <motion.div 

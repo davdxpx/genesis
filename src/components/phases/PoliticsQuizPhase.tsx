@@ -96,7 +96,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
       className="w-full max-w-3xl mx-auto p-4 flex flex-col items-center justify-center min-min-h-[80vh]"
     >
       <AnimatePresence mode="wait">
-        {}
         {step === 'intro' && (
           <motion.div 
             key="intro"
@@ -126,7 +125,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </div>
           </motion.div>
         )}
-        {}
         {step === 'quizzing' && (
           <motion.div
             key="quizzing"
@@ -192,7 +190,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </CardContent>
           </motion.div>
         )}
-        {}
         {step === 'evaluating' && (
           <motion.div 
             key="evaluating"
@@ -218,7 +215,6 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </div>
           </motion.div>
         )}
-        {}
         {step === 'result' && (
           <motion.div 
             key="result"
