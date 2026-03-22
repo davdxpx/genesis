@@ -19,6 +19,9 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
       title: "Der pragmatische Biologe",
       description: "Du siehst Genmanipulation als Werkzeug für den menschlichen Fortschritt. Evolution ist für dich ein Code, den man optimieren muss.",
       color: "cyan",
+      borderClass: "border-cyan-500",
+      bgClass: "bg-cyan-500/5",
+      dotClass: "bg-cyan-500",
       traits: ["Fokus auf Wissenschaft", "Bereitschaft für Risiken", "Rational"]
     },
     {
@@ -27,6 +30,9 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
       title: "Der ethische Wächter",
       description: "Für dich ist die Grenze zwischen Therapie und Enhancement fließend. Du hinterfragst jede Entscheidung auf ihre moralischen und sozialen Auswirkungen.",
       color: "green",
+      borderClass: "border-green-500",
+      bgClass: "bg-green-500/5",
+      dotClass: "bg-green-500",
       traits: ["Hohes Moralbewusstsein", "Vorsichtig", "Gesellschaftsorientiert"]
     },
     {
@@ -35,6 +41,9 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
       title: "Die ambitionierten Eltern",
       description: "Du willst nur das Beste für dein Kind – auch wenn das bedeutet, alle verfügbaren Mittel auszuschöpfen. Erfolg rechtfertigt die Mittel.",
       color: "purple",
+      borderClass: "border-purple-500",
+      bgClass: "bg-purple-500/5",
+      dotClass: "bg-purple-500",
       traits: ["Fokus auf Erfolg", "Wettbewerbsorientiert", "Ergebnisgetrieben"]
     }
   ];
@@ -86,16 +95,16 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
                     className={`
                       relative p-6 rounded-xl border transition-all duration-300 cursor-pointer flex flex-col h-full
                       ${selectedRole === role.id
-                        ? 'bg-slate-800/80 border-' + role.color + '-500 shadow-[0_0_20px_rgba(0,0,0,0.5)] transform scale-[1.02]'
+                        ? 'bg-slate-800/80 ' + role.borderClass + ' shadow-[0_0_20px_rgba(0,0,0,0.5)] transform scale-[1.02]'
                         : 'bg-slate-900/50 border-slate-700 hover:border-slate-500 hover:bg-slate-800/50'
                       }
                     `}
                   >
                     {selectedRole === role.id && (
-                      <div className={`absolute inset-0 bg-${role.color}-500/5 rounded-xl pointer-events-none`}></div>
+                      <div className={`absolute inset-0 ${role.bgClass} rounded-xl pointer-events-none`}></div>
                     )}
                     <div className="flex justify-center mb-6">
-                      <div className={`p-4 rounded-full bg-slate-900 border ${selectedRole === role.id ? 'border-' + role.color + '-500/50 shadow-[0_0_15px_rgba(0,0,0,0.3)]' : 'border-slate-800'}`}>
+                      <div className={`p-4 rounded-full bg-slate-900 border ${selectedRole === role.id ? role.borderClass + '/50 shadow-[0_0_15px_rgba(0,0,0,0.3)]' : 'border-slate-800'}`}>
                         {role.icon}
                       </div>
                     </div>
@@ -112,7 +121,7 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
                     </div>
                     {selectedRole === role.id && (
                       <div className="absolute top-3 right-3">
-                         <div className={`w-3 h-3 rounded-full bg-${role.color}-500 shadow-[0_0_10px_rgba(0,0,0,0.8)]`}></div>
+                         <div className={`w-3 h-3 rounded-full ${role.dotClass} shadow-[0_0_10px_rgba(0,0,0,0.8)]`}></div>
                       </div>
                     )}
                   </div>

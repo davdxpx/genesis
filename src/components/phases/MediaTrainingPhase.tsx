@@ -90,12 +90,7 @@ const interviewScript = [
     ]
   }
 ];
-interface GameStateProps {
-  updateGameState?: (data: Record<string, unknown>) => void;
-  budget: number;
-  trust: number;
-}
-export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onNext: () => void, gameState: GameStateProps, updateGameState?: (data: Record<string, unknown>) => void }) {
+export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext: () => void, updateGameState?: (data: Record<string, unknown>) => void, budget: number }) {
   const [currentQ, setCurrentQ] = useState(0);
   const [trust, setTrust] = useState(50);
   const [market, setMarket] = useState(50);
@@ -157,7 +152,7 @@ export function MediaTrainingPhase({ onNext, gameState, updateGameState }: { onN
      if(updateGameState) {
         const budgetImpact = (market - 50); 
         updateGameState({
-           budget: Math.max(0, Math.min(100, gameState.budget + budgetImpact)),
+           budget: Math.max(0, Math.min(100, budget + budgetImpact)),
            trust: trust
         });
      }
