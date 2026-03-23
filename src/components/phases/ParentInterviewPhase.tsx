@@ -57,7 +57,7 @@ interface ChatMessage {
   tension?: 'low' | 'high';
 }
 export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
-  const { playSfx, setMusicIntensity } = useAudio();
+  const { playSfx, setMusicIntensity, audioState } = useAudio();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -78,8 +78,25 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
       let i = 0;
       const fullText = currentScriptStep.text as string;
       setTypingText("");
+
+            const audioContext = audioState.sfxEnabled && window.AudioContext ? new window.AudioContext() : null;
       const interval = setInterval(() => {
         setTypingText(fullText.substring(0, i));
+
+        if (i % 2 === 0 && audioContext && audioContext.state !== 'closed') {
+          try {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(400 + Math.random() * 200, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.05);
+          } catch (e) { console.error(e); }
+        }
+
         i++;
         if (i > fullText.length) {
           clearInterval(interval);
