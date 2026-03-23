@@ -28,9 +28,23 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
       setTypedText("");
       let i = 0;
 
+            const audioContext = audioState.sfxEnabled && window.AudioContext ? new window.AudioContext() : null;
+
       const typingInterval = setInterval(() => {
         setTypedText(texts[step].substring(0, i + 1));
-        if (i % 2 === 0) playSfx('type');
+        if (i % 2 === 0 && audioContext && audioContext.state !== 'closed') {
+          try {
+            const oscillator = audioContext.createOscillator();
+            const gainNode = audioContext.createGain();
+            oscillator.type = 'square';
+            oscillator.frequency.setValueAtTime(400 + Math.random() * 200, audioContext.currentTime);
+            gainNode.gain.setValueAtTime(0.01, audioContext.currentTime);
+            oscillator.connect(gainNode);
+            gainNode.connect(audioContext.destination);
+            oscillator.start();
+            oscillator.stop(audioContext.currentTime + 0.05);
+          } catch (e) { console.error(e); }
+        }
         i++;
         if (i === texts[step].length) {
           clearInterval(typingInterval);
@@ -42,7 +56,7 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
          clearInterval(typingInterval);
       };
     }
-  }, [step]);
+  }, [step, audioState.sfxEnabled]);
 
   const handleNextLine = () => {
     if (!isTyping && step < texts.length - 1) {
