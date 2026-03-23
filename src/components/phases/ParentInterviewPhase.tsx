@@ -103,9 +103,9 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 p-4 min-h-[85vh]"
     >
-      <Card className="w-full md:w-1/3 glass border-[#9d00ff]/30 flex flex-col relative overflow-hidden h-full">
+      <Card className="w-full lg:w-1/3 glass border-[#9d00ff]/30 flex flex-col relative overflow-hidden lg:h-full shrink-0">
         <div className="absolute top-0 w-full h-1 bg-gradient-to-r from-transparent via-[#9d00ff] to-transparent opacity-50" />
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4">
           <div className="flex items-center gap-3">
@@ -118,7 +118,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
              </div>
           </div>
         </CardHeader>
-        <CardContent className="flex-1 p-6 space-y-6 overflow-y-auto custom-scrollbar">
+        <CardContent className="flex-1 p-6 space-y-6 overflow-y-auto custom-scrollbar max-h-[40vh] lg:max-h-none">
           <div className="space-y-2">
              <p className="text-xs text-slate-500 uppercase tracking-widest font-bold">Status</p>
              <p className="font-mono text-slate-300">Ultra-High Net Worth (Klasse S)</p>
@@ -150,8 +150,8 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
         </CardContent>
       </Card>
       <Card className="flex-1 glass border-[#00f0ff]/20 flex flex-col relative overflow-hidden h-full">
-        <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 flex flex-row items-center justify-between">
-          <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
+        <CardHeader className="border-b border-slate-700/50 bg-slate-900/60 flex flex-row items-center justify-between flex-wrap gap-2">
+          <CardTitle className="text-lg md:text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
             <FileText className="text-[#00f0ff]" /> KONSULTATIONS-TRANSKRIPT
           </CardTitle>
           <div className="flex items-center gap-2">
@@ -245,12 +245,12 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
            </div>
         </CardContent>
         {isContractSigned && (
-           <CardFooter className="bg-slate-900/80 p-6 flex justify-between border-t border-slate-700/50">
+           <CardFooter className="bg-slate-900/80 p-4 md:p-6 flex flex-col sm:flex-row items-start sm:items-center justify-between border-t border-slate-700/50 gap-4">
              <div className="flex items-center gap-2 text-xs font-mono text-[#00f0ff]">
                <Fingerprint size={14} />
                Smart-Contract signiert
              </div>
-             <Button variant="sci-fi" onClick={onNext} className="shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+             <Button variant="sci-fi" onClick={onNext} className="w-full sm:w-auto shadow-[0_0_15px_rgba(0,240,255,0.2)]">
                Zum Standort-Protokoll <Zap className="ml-2 w-4 h-4" />
              </Button>
            </CardFooter>

@@ -68,8 +68,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
   const [scanProgress, setScanProgress] = useState(0);
   const [activeTab, setActiveTab] = useState<'overview' | 'stats' | 'psyche' | 'world'>('overview');
   const [randomId] = useState(() => "GNX-" + Math.random().toString(36).substring(2, 6).toUpperCase() + "-" + new Date().getFullYear());
-  const [showTutorial, setShowTutorial] = useState(true);
-  const [tutorialStep, setTutorialStep] = useState(0);
   const safeState = useMemo(() => gameState || {
       budget: 0,
       trust: 50,
@@ -179,99 +177,6 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
       animate={{ opacity: 1, y: 0 }}
       className="w-full h-full flex flex-col space-y-6 pb-20 relative"
     >
-      <AnimatePresence>
-        {showTutorial && (
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 pointer-events-none"
-          >
-            <div className="absolute inset-0 bg-black/70 backdrop-blur-sm pointer-events-auto transition-all duration-500" />
-
-            {tutorialStep === 0 && (
-                <div className="absolute inset-0 flex items-center justify-center pointer-events-none z-50 p-4">
-                  <motion.div
-                    initial={{ scale: 0.9, opacity: 0 }} animate={{ scale: 1, opacity: 1 }}
-                    className="bg-[#050A15] border border-[#00f0ff]/50 rounded-xl p-8 max-w-lg text-center shadow-[0_0_30px_rgba(0,240,255,0.2)] pointer-events-auto"
-                  >
-                    <Sparkles className="w-12 h-12 text-[#00f0ff] mx-auto mb-4" />
-                    <h2 className="text-2xl font-bold text-white mb-2">Simulationsergebnisse</h2>
-                    <p className="text-slate-300 mb-6">
-                      Willkommen bei der Auswertung. Hier siehst du die lebenslangen Folgen deiner Entscheidungen.
-                    </p>
-                    <div className="mb-6 p-4 bg-slate-900 rounded-lg text-left text-sm border border-slate-800 space-y-4">
-                      <div>
-                        <span className="text-[#00f0ff] font-bold block mb-1">Deine Rolle:</span>
-                        <span className="text-slate-400">{outcome?.roleText}</span>
-                      </div>
-                      <div className="pt-3 border-t border-slate-800">
-                        <span className="text-green-400 font-bold block mb-1">Ethik-Auswertung:</span>
-                        <span className="text-slate-400">{outcome?.ethicsText}</span>
-                      </div>
-                      <div className="pt-3 border-t border-slate-800">
-                        <span className="text-purple-400 font-bold block mb-1">Medien-Echo:</span>
-                        <span className="text-slate-400">{outcome?.prText}</span>
-                      </div>
-                    </div>
-                    <Button onClick={() => setTutorialStep(1)} className="bg-[#00f0ff] hover:bg-[#00f0ff]/80 text-black font-bold w-full">
-                      Dashboard Tour starten
-                    </Button>
-                  </motion.div>
-                </div>
-            )}
-
-            {tutorialStep > 0 && (
-                <div className="absolute top-1/2 left-[300px] md:left-[350px] -translate-y-1/2 pointer-events-none z-50">
-                   <motion.div
-                     initial={{ x: 20, opacity: 0 }}
-                     animate={{ x: 0, opacity: 1 }}
-                     key={tutorialStep}
-                     className="bg-[#050A15] border border-[#ff00e5]/50 rounded-xl p-6 max-w-sm shadow-[0_0_30px_rgba(255,0,229,0.2)] pointer-events-auto relative flex items-center gap-4"
-                   >
-                     <motion.div
-                       animate={{ x: [-5, 5, -5] }}
-                       transition={{ repeat: Infinity, duration: 1.5 }}
-                       className="absolute -left-10 text-[#ff00e5]"
-                     >
-                        <ArrowLeft size={32} />
-                     </motion.div>
-
-                     <div>
-                         <h3 className="text-[#ff00e5] font-bold mb-2">
-                             {tutorialStep === 1 && "1. Exekutivbericht"}
-                             {tutorialStep === 2 && "2. Stats & Genetik"}
-                             {tutorialStep === 3 && "3. Psychometrie"}
-                             {tutorialStep === 4 && "4. Welt-Impact"}
-                         </h3>
-                         <p className="text-slate-300 text-sm mb-4">
-                             {tutorialStep === 1 && "Hier siehst du den allgemeinen Überblick, dein Budget und die Risikoeinschätzung."}
-                             {tutorialStep === 2 && "Klicke hier, um dir die genauen physischen und kognitiven Werte deines Designs anzusehen."}
-                             {tutorialStep === 3 && "Hier findest du das psychologische Profil. Wie empathisch oder rücksichtslos ist dein Kind?"}
-                             {tutorialStep === 4 && "Zuletzt: Wie reagiert die Welt auf deine Schöpfung? Dies zeigt die gesellschaftlichen Konsequenzen."}
-                         </p>
-                         <Button
-                             onClick={() => {
-                                 if (tutorialStep < 4) {
-                                     setTutorialStep(s => s + 1);
-                                     const tabs = ['overview', 'stats', 'psyche', 'world'];
-                                     setActiveTab(tabs[tutorialStep] as any);
-                                 } else {
-                                     setShowTutorial(false);
-                                 }
-                             }}
-                             className="bg-transparent border border-[#ff00e5] text-[#ff00e5] hover:bg-[#ff00e5]/10 w-full text-xs font-bold"
-                         >
-                             {tutorialStep < 4 ? "Nächster Tab" : "Tour beenden"}
-                         </Button>
-                     </div>
-                   </motion.div>
-                </div>
-            )}
-          </motion.div>
-        )}
-      </AnimatePresence>
-
       <div className="relative w-full rounded-2xl overflow-hidden bg-gradient-to-b from-slate-900 to-[#0A101D] border border-slate-800 shadow-2xl p-6 md:p-10 mb-4 flex flex-col md:flex-row items-center md:items-start gap-8">
         <div className="absolute top-0 right-0 w-64 h-64 bg-[#00f0ff]/5 blur-[100px] rounded-full pointer-events-none" />
         <div className="absolute bottom-0 left-0 w-64 h-64 bg-[#ff00e5]/5 blur-[100px] rounded-full pointer-events-none" />
