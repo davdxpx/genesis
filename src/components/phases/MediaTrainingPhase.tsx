@@ -3,6 +3,7 @@ import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Mic, TrendingDown, TrendingUp, Activity, Fingerprint, Radio, ShieldAlert, Zap } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 interface ChatMessage {
   speaker: string;
@@ -91,6 +92,7 @@ const interviewScript = [
   }
 ];
 export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext: () => void, updateGameState?: (data: Record<string, unknown>) => void, budget: number }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [currentQ, setCurrentQ] = useState(0);
   const [trust, setTrust] = useState(50);
   const [market, setMarket] = useState(50);
@@ -326,7 +328,7 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
            <AnimatePresence>
              {isFinished && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full sm:w-auto">
-                  <Button variant="sci-fi" onClick={handleComplete} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-slate-800 text-white border border-[#00f0ff] hover:bg-[#00f0ff]/20">
+                  <Button variant="sci-fi" onClick={() => { playSfx('click'); handleComplete(); }} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-slate-800 text-white border border-[#00f0ff] hover:bg-[#00f0ff]/20">
                     Zum Baby Designer <Zap className="ml-2 w-4 h-4 text-[#00f0ff]" />
                   </Button>
                 </motion.div>

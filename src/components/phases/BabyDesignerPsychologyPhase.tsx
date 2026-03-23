@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Brain, AlertTriangle, Zap, Network, Lock, Fingerprint, Activity, Heart, Shield, Plus, Minus, Info } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import { RolePopup } from '../ui/RolePopup';
 interface PsycheState {
@@ -149,6 +150,7 @@ const NeuralNet = ({ stats }: { stats: PsycheState }) => {
   );
 };
 export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () => void, gameState: GameStateProps }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [psyche, setPsyche] = useState<PsycheState>({ empathy: 50, ambition: 50, resilience: 50, conformity: 50 });
   const [activeArchetype, setActiveArchetype] = useState<string | null>(null);
   const handleSliderChange = (key: keyof PsycheState, val: number) => {
@@ -237,12 +239,12 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                      <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(0,255,170,0.5)]">{psyche.empathy}%</span>
                   </div>
                   <div className="flex items-center gap-3 md:gap-4 relative z-10">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.max(0, psyche.empathy - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Minus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('empathy', Math.max(0, psyche.empathy - 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Minus size={16} /></Button>
                      <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
                         <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#00ffaa]" style={{ width: `${psyche.empathy}%` }} />
                         <input type="range" min="0" max="100" value={psyche.empathy} onChange={(e) => handleSliderChange('empathy', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                      </div>
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.min(100, psyche.empathy + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Plus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('empathy', Math.min(100, psyche.empathy + 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Plus size={16} /></Button>
                   </div>
                   <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
                      <span>Psychopathie</span>
@@ -260,12 +262,12 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                      <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,170,0,0.5)]">{psyche.ambition}%</span>
                   </div>
                   <div className="flex items-center gap-3 md:gap-4 relative z-10">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.max(0, psyche.ambition - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Minus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('ambition', Math.max(0, psyche.ambition - 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Minus size={16} /></Button>
                      <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
                         <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#ffaa00]" style={{ width: `${psyche.ambition}%` }} />
                         <input type="range" min="0" max="100" value={psyche.ambition} onChange={(e) => handleSliderChange('ambition', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                      </div>
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.min(100, psyche.ambition + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Plus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('ambition', Math.min(100, psyche.ambition + 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Plus size={16} /></Button>
                   </div>
                   <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
                      <span>Zufrieden/Passiv</span>
@@ -282,12 +284,12 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                      <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,0,229,0.5)]">{psyche.resilience}%</span>
                   </div>
                   <div className="flex items-center gap-3 md:gap-4 relative z-10">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.max(0, psyche.resilience - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Minus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('resilience', Math.max(0, psyche.resilience - 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Minus size={16} /></Button>
                      <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
                         <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#ff00e5]" style={{ width: `${psyche.resilience}%` }} />
                         <input type="range" min="0" max="100" value={psyche.resilience} onChange={(e) => handleSliderChange('resilience', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
                      </div>
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.min(100, psyche.resilience + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Plus size={16} /></Button>
+                     <Button variant="outline" size="icon" onClick={() => { playSfx('click'); handleSliderChange('resilience', Math.min(100, psyche.resilience + 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Plus size={16} /></Button>
                   </div>
                   <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
                      <span>Fragil/Sensibel</span>
@@ -302,7 +304,7 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
             <Button 
                size="lg"
                disabled={isEthicallyBlocked}
-               onClick={() => {
+               onClick={() => { playSfx('click');
                   if(gameState.updateGameState) {
                      gameState.updateGameState({ psychology: psyche });
                   }

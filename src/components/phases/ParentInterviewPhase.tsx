@@ -3,6 +3,7 @@ import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Users2, Check, FileText, Briefcase, Zap, ShieldAlert, Fingerprint, Activity } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion } from 'framer-motion';
 const clientRequirements = [
   { id: 'iq', label: 'Ziel-IQ', value: '> 140 (Genie-Level)', icon: Zap, color: '#00f0ff' },
@@ -56,6 +57,7 @@ interface ChatMessage {
   tension?: 'low' | 'high';
 }
 export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [chatHistory, setChatHistory] = useState<ChatMessage[]>([]);
   const [isTyping, setIsTyping] = useState(false);
@@ -250,7 +252,7 @@ export function ParentInterviewPhase({ onNext }: { onNext: () => void }) {
                <Fingerprint size={14} />
                Smart-Contract signiert
              </div>
-             <Button variant="sci-fi" onClick={onNext} className="w-full sm:w-auto shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+             <Button variant="sci-fi" onClick={() => { playSfx('click'); onNext(); }} className="w-full sm:w-auto shadow-[0_0_15px_rgba(0,240,255,0.2)]">
                Zum Standort-Protokoll <Zap className="ml-2 w-4 h-4" />
              </Button>
            </CardFooter>

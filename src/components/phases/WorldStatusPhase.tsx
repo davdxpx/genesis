@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Globe, ShieldAlert, ShieldCheck, MapPin, AlertTriangle, Activity, Lock, Unlock, Database } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 const regions = [
   {
@@ -70,6 +71,7 @@ const regions = [
     stats: { kontrolle: 5, markt: 40, innovation: 100 }
   }
 ];
+  const { playSfx, setMusicIntensity } = useAudio();
 export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
   const [selectedRegion, setSelectedRegion] = useState(regions[3]);
   const [isScanning, setIsScanning] = useState(false);
@@ -256,7 +258,7 @@ export function WorldStatusPhase({ onNext }: { onNext: () => void }) {
               <ShieldAlert size={14} className="text-[#ff00e5]"/>
               <span>Rechtliche Parameter vor Fortsetzung bestätigen</span>
            </div>
-           <Button variant="sci-fi" onClick={onNext} className="shadow-[0_0_15px_rgba(0,240,255,0.2)]">
+           <Button variant="sci-fi" onClick={() => { playSfx('click'); onNext(); }} className="shadow-[0_0_15px_rgba(0,240,255,0.2)]">
              Bestätigen & Weiter <MapPin className="ml-2 w-4 h-4" />
            </Button>
         </div>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Shield, ShieldAlert, ShieldCheck, Lock, Unlock, AlertTriangle, Fingerprint, Terminal, CheckCircle2, XCircle } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 const questions = [
   {
@@ -51,6 +52,7 @@ const questions = [
 ];
 type QuizStep = 'intro' | 'quizzing' | 'evaluating' | 'result';
 export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [step, setStep] = useState<QuizStep>('intro');
   const [currentQ, setCurrentQ] = useState(0);
   const [score, setScore] = useState(0);
@@ -263,11 +265,11 @@ export function PoliticsQuizPhase({ onNext }: { onNext: () => void }) {
             </CardContent>
             <CardFooter className="bg-slate-950 p-6 flex justify-center border-t border-slate-800">
               {passed ? (
-                <Button variant="default" size="lg" onClick={onNext} className="w-full md:w-auto px-12">
+                <Button variant="default" size="lg" onClick={() => { playSfx('click'); onNext(); }} className="w-full md:w-auto px-12">
                   Klienten-Akte initialisieren
                 </Button>
               ) : (
-                <Button variant="destructive" size="lg" onClick={handleRetry} className="w-full md:w-auto px-12">
+                <Button variant="destructive" size="lg" onClick={() => { playSfx('click'); handleRetry(); }} className="w-full md:w-auto px-12">
                   Examen neu starten
                 </Button>
               )}

@@ -1,11 +1,27 @@
 import React, { useState, useEffect } from 'react';
-import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Activity, Database, Server, BookOpen } from 'lucide-react';
+import { Fingerprint, Dna, ShieldAlert, Terminal, Lock, Unlock, Activity, Database, Server, BookOpen, Volume2, VolumeX } from 'lucide-react';
 import { motion, AnimatePresence } from 'framer-motion';
 import Link from 'next/link';
+import { useAudio } from '@/lib/AudioContext';
+
 export function IntroPhase({ onNext }: { onNext: () => void }) {
   const [bootSequence, setBootSequence] = useState(0);
   const [isUnlocking, setIsUnlocking] = useState(false);
+  const [showAudioPopup, setShowAudioPopup] = useState(true);
+
   useEffect(() => {
+    const savedMusic = localStorage.getItem('genesis_music_enabled');
+    const savedSfx = localStorage.getItem('genesis_sfx_enabled');
+    if (savedMusic !== null && savedSfx !== null) {
+      setShowAudioPopup(false);
+    }
+  }, []);
+
+  const { initAudio, playSfx } = useAudio();
+
+  useEffect(() => {
+    if (showAudioPopup) return;
+
     const timers = [
       setTimeout(() => setBootSequence(1), 800),
       setTimeout(() => setBootSequence(2), 2000),
@@ -14,8 +30,9 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
       setTimeout(() => setBootSequence(5), 6500)
     ];
     return () => timers.forEach(clearTimeout);
-  }, []);
+  }, [showAudioPopup]);
   const handleUnlock = () => {
+    playSfx('decision');
     setIsUnlocking(true);
     setTimeout(() => {
       onNext();
@@ -37,7 +54,50 @@ export function IntroPhase({ onNext }: { onNext: () => void }) {
       </div>
       <div className="absolute inset-0 z-0 opacity-[0.03]" style={{ backgroundImage: 'linear-gradient(#fff 1px, transparent 1px), linear-gradient(90deg, #fff 1px, transparent 1px)', backgroundSize: '40px 40px' }} />
       <AnimatePresence mode="wait">
-        {bootSequence < 5 && (
+        {showAudioPopup && (
+          <motion.div
+            key="audio-popup"
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 1.05, filter: "blur(10px)" }}
+            className="absolute inset-0 z-50 flex items-center justify-center bg-[#050A15]/95 backdrop-blur-md px-4"
+          >
+            <div className="bg-[#0A101D] border border-slate-700 p-8 rounded-2xl shadow-[0_0_50px_rgba(0,240,255,0.2)] max-w-lg w-full text-center relative overflow-hidden">
+              <div className="absolute top-0 left-0 w-full h-1 bg-gradient-to-r from-transparent via-[#00f0ff] to-transparent opacity-50" />
+              <Activity size={48} className="text-[#00f0ff] mx-auto mb-6 animate-pulse opacity-80" />
+              <h2 className="text-2xl font-mono text-white mb-2 tracking-widest">SYSTEM AUDIO INITIALISIEREN</h2>
+              <p className="text-slate-400 mb-8 font-light text-sm">
+                Für das bestmögliche Erlebnis wird empfohlen, das System mit aktivierten Audio-Protokollen zu starten.
+              </p>
+
+              <div className="flex flex-col sm:flex-row gap-4 justify-center">
+                <button
+                  onClick={() => {
+                    initAudio(true, true);
+                    playSfx('click');
+                    setShowAudioPopup(false);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-3 py-4 px-6 rounded-lg bg-[#00f0ff]/10 border border-[#00f0ff]/50 text-[#00f0ff] hover:bg-[#00f0ff]/20 hover:shadow-[0_0_20px_rgba(0,240,255,0.4)] transition-all font-mono tracking-wider group"
+                >
+                  <Volume2 size={20} className="group-hover:scale-110 transition-transform" />
+                  MIT TON
+                </button>
+                <button
+                  onClick={() => {
+                    initAudio(false, false);
+                    setShowAudioPopup(false);
+                  }}
+                  className="flex-1 flex items-center justify-center gap-3 py-4 px-6 rounded-lg bg-slate-800/50 border border-slate-700 text-slate-400 hover:bg-slate-800 hover:text-white transition-all font-mono tracking-wider group"
+                >
+                  <VolumeX size={20} className="group-hover:scale-110 transition-transform" />
+                  OHNE TON
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        )}
+
+        {!showAudioPopup && bootSequence < 5 && (
           <motion.div 
             key="booting"
             initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0, scale: 1.1, filter: "blur(10px)" }}

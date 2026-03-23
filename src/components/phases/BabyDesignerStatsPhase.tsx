@@ -3,6 +3,7 @@ import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Brain, Activity, ShieldAlert, HeartPulse, Zap, Database, Hexagon, Plus, Minus, Info } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import { GameState } from '@/lib/GameStateContext';
 interface StatCategory {
@@ -52,6 +53,7 @@ interface GameStateProps extends GameState {
   updateGameState?: (data: Partial<GameState>) => void;
 }
 export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => void, gameState: GameStateProps }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const startingStats = baseEmbryoStats[gameState.selectedEmbryo?.id || 'default'];
   const budgetBonus = Math.floor((gameState.budget - 50) / 2);
   const initialAvailablePoints = Math.max(5, 15 + budgetBonus);
@@ -226,7 +228,7 @@ export function BabyDesignerStatsPhase({ onNext, gameState }: { onNext: () => vo
          <Button 
             variant="sci-fi" 
             size="lg"
-            onClick={() => {
+            onClick={() => { playSfx('click');
                if(gameState.updateGameState) {
                   gameState.updateGameState({ finalStats: stats as { int: number; phy: number; imm: number; life: number; } });
                }

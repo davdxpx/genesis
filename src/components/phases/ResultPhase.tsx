@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Terminal, Database, Cpu, Activity, AlertTriangle, CheckCircle, Zap, Shield, Sparkles, Brain, Dumbbell, ShieldAlert, FileText, Globe, Award, TrendingUp, Skull, Droplet, UserCheck, BookOpen, ArrowLeft } from "lucide-react";
+import { useAudio } from "@/lib/AudioContext";
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Radar, RadarChart, PolarGrid, PolarAngleAxis, PolarRadiusAxis, ResponsiveContainer, BarChart, Bar, XAxis, YAxis, Tooltip as RechartsTooltip, Cell } from 'recharts';
@@ -63,6 +64,8 @@ const calculateOutcome = async (state: GameState) => {
   });
 };
 export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
+  const { playSfx, setMusicIntensity } = useAudio();
+
   const [isCalculating, setIsCalculating] = useState(true);
   const [outcome, setOutcome] = useState<any>(null);
   const [scanProgress, setScanProgress] = useState(0);
@@ -81,7 +84,7 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
   const psyche = safeState.psychology;
   const budget = safeState.budget;
   const trust = safeState.trust;
-  useEffect(() => {
+  useEffect(() => { setMusicIntensity('tense');
     let progressInterval: NodeJS.Timeout;
     if (isCalculating) {
       progressInterval = setInterval(() => {
@@ -261,14 +264,14 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
               <div className="hidden lg:block h-px w-full bg-slate-800 my-4" />
               <div className="hidden lg:block pt-2 space-y-3">
                 <Button 
-                  onClick={() => window.location.href='/quellen'}
+                  onClick={() => { playSfx('click'); window.location.href='/quellen' }}
                   className="w-full py-6 bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 border border-[#00f0ff]/50 text-[#00f0ff] hover:text-[#00f0ff] font-mono text-xs uppercase tracking-widest transition-all group"
                 >
                   <BookOpen className="mr-2 w-4 h-4 group-hover:scale-110 transition-transform" />
                   Wissenschaftliche Quellen
                 </Button>
                 <Button 
-                  onClick={onRestart}
+                  onClick={() => { playSfx('click'); if(onRestart) onRestart(); }}
                   className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-xs uppercase tracking-widest transition-all group"
                 >
                   <Terminal className="mr-2 w-4 h-4 group-hover:animate-pulse" />
@@ -534,14 +537,14 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
       </div>
       <div className="block lg:hidden mt-6 space-y-3">
         <Button 
-            onClick={() => window.location.href='/quellen'}
+            onClick={() => { playSfx('click'); window.location.href='/quellen' }}
             className="w-full py-6 bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 border border-[#00f0ff]/50 text-[#00f0ff] font-mono text-sm uppercase tracking-widest transition-all"
         >
             <BookOpen className="mr-2 w-[18px] h-[18px]" />
             Wissenschaftliche Quellen
         </Button>
         <Button 
-            onClick={onRestart}
+            onClick={() => { playSfx('click'); if(onRestart) onRestart(); }}
             className="w-full py-6 bg-slate-900 hover:bg-red-950/50 border border-slate-800 hover:border-red-500/50 text-slate-400 hover:text-red-400 font-mono text-sm uppercase tracking-widest transition-all"
         >
             <Terminal className="mr-2 w-[18px] h-[18px]" />

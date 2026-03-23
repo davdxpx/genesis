@@ -2,8 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { ShieldAlert, Activity, Bug, CheckCircle2, AlertTriangle, Fingerprint, Microscope } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [step, setStep] = useState<'intro' | 'scanning' | 'result'>('intro');
   const [timeLeft, setTimeLeft] = useState(15);
   const [activeMutations, setActiveMutations] = useState<number[]>([]);
@@ -123,7 +125,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
                     </div>
                  </div>
                  <div className="pt-6 flex justify-center">
-                    <Button variant="sci-fi" size="lg" onClick={() => setStep('scanning')} className="border-[#ff00e5] text-[#ff00e5] hover:bg-[#ff00e5]/20">
+                    <Button variant="sci-fi" size="lg" onClick={() => { playSfx('click'); setStep('scanning') }} className="border-[#ff00e5] text-[#ff00e5] hover:bg-[#ff00e5]/20">
                        DNA-Scan Starten <Bug className="ml-2 w-4 h-4" />
                     </Button>
                  </div>
@@ -233,7 +235,7 @@ export function OffTargetAnalysisPhase({ onNext }: { onNext: () => void }) {
            <AnimatePresence>
              {step === 'result' && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <Button variant="sci-fi" onClick={onNext} className="px-8" style={{ borderColor: result.color, color: result.color }}>
+                  <Button variant="sci-fi" onClick={() => { playSfx('click'); onNext(); }} className="px-8" style={{ borderColor: result.color, color: result.color }}>
                     Prüfbericht signieren & Weiter <Activity className="ml-2 w-4 h-4" />
                   </Button>
                 </motion.div>
