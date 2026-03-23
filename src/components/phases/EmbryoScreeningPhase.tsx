@@ -67,9 +67,9 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
     <motion.div 
       initial={{ opacity: 0, y: 20 }}
       animate={{ opacity: 1, y: 0 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-min-min-h-[85vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 p-4 min-h-[85vh]"
     >
-      <div className="w-full md:w-1/3 flex flex-col gap-4 h-full">
+      <div className="w-full lg:w-1/3 flex flex-col gap-4 lg:h-full shrink-0">
         <div className="glass p-4 rounded-xl border border-[#00f0ff]/30 flex items-center justify-between bg-slate-900/80">
           <div className="flex items-center gap-3">
              <Scan className="text-[#00f0ff] animate-pulse" />
@@ -82,7 +82,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
              4 KANDIDATEN
           </div>
         </div>
-        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar">
+        <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar max-h-[40vh] lg:max-h-none">
           {embryos.map((embryo) => {
             const isSelected = selectedId === embryo.id;
             return (
@@ -164,15 +164,15 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                 exit={{ opacity: 0, x: -20 }}
                 className="p-6 flex flex-col h-full"
               >
-                <div className="flex justify-between items-start mb-8">
+                <div className="flex flex-col-reverse sm:flex-row sm:justify-between items-start gap-4 mb-8">
                    <div>
-                      <h2 className="text-4xl font-black uppercase text-white" style={{ textShadow: `0 0 15px ${activeEmbryo.color}80` }}>
+                      <h2 className="text-2xl md:text-4xl font-black uppercase text-white" style={{ textShadow: `0 0 15px ${activeEmbryo.color}80` }}>
                         {activeEmbryo.name}
                       </h2>
-                      <p className="text-lg font-mono mt-1" style={{ color: activeEmbryo.color }}>Primärfokus: {activeEmbryo.focus}</p>
+                      <p className="text-sm md:text-lg font-mono mt-1" style={{ color: activeEmbryo.color }}>Primärfokus: {activeEmbryo.focus}</p>
                    </div>
-                   <div className="w-20 h-20 rounded-full border-4 flex items-center justify-center flex-col bg-slate-900" style={{ borderColor: activeEmbryo.color }}>
-                      <span className="text-2xl font-black font-mono leading-none" style={{ color: activeEmbryo.color }}>{activeEmbryo.geneticScore}</span>
+                   <div className="w-16 h-16 md:w-20 md:h-20 shrink-0 rounded-full border-4 flex items-center justify-center flex-col bg-slate-900" style={{ borderColor: activeEmbryo.color }}>
+                      <span className="text-xl md:text-2xl font-black font-mono leading-none" style={{ color: activeEmbryo.color }}>{activeEmbryo.geneticScore}</span>
                       <span className="text-[10px] text-slate-400 uppercase font-bold">Score</span>
                    </div>
                 </div>
@@ -234,7 +234,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
             )}
           </AnimatePresence>
         </CardContent>
-        <CardFooter className="bg-slate-900/80 p-6 flex justify-between items-center border-t border-slate-700/50 z-10">
+        <CardFooter className="bg-slate-900/80 p-4 md:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-slate-700/50 z-10 gap-4">
            <div className="text-xs font-mono text-slate-500 max-w-[200px]">
               Die Wahl des Embryos definiert die Basis-Parameter für das finale Labor.
            </div>
@@ -242,7 +242,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
               variant="sci-fi" 
               onClick={handleConfirm}
               disabled={isConfirming || isScanning}
-              className="px-8 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
+              className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
               style={{ borderColor: activeEmbryo.color, color: activeEmbryo.color }}
            >
              {activeEmbryo.name} Auswählen

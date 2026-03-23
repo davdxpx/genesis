@@ -168,9 +168,9 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }}
       animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-6xl mx-auto flex flex-col md:flex-row gap-6 p-4 min-h-[85vh] lg:min-h-[80vh]"
+      className="w-full max-w-6xl mx-auto flex flex-col lg:flex-row gap-6 p-4 min-h-[85vh] lg:min-h-[80vh]"
     >
-      <Card className="w-full md:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden h-full">
+      <Card className="w-full lg:w-5/12 glass border-[#00f0ff]/30 flex flex-col relative overflow-hidden lg:h-full shrink-0">
         <div className="absolute top-0 left-0 w-full h-1 bg-red-500 animate-pulse z-20" />
         <CardHeader className="bg-slate-900/80 border-b border-slate-700/50 pb-4 z-10">
           <div className="flex justify-between items-center">
@@ -182,8 +182,8 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
              </span>
           </div>
         </CardHeader>
-        <CardContent className="flex-1 p-0 flex flex-col relative bg-[#050A15]">
-           <div className="h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
+        <CardContent className="flex-1 p-0 flex flex-col relative bg-[#050A15] min-h-[50vh] lg:min-h-0">
+           <div className="flex-1 lg:h-1/2 border-b border-slate-700/50 relative overflow-hidden flex flex-col justify-end p-4 bg-gradient-to-t from-slate-900 via-transparent to-transparent">
               <div className="absolute inset-0 opacity-20 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle, transparent 20%, #000 120%)' }} />
               <div className="absolute inset-0 flex items-center justify-center opacity-10">
                  <Mic size={120} />
@@ -209,7 +209,7 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
                  </AnimatePresence>
               </div>
            </div>
-           <div className="h-1/2 p-4 flex flex-col gap-4">
+           <div className="flex-1 lg:h-1/2 p-4 flex flex-col gap-4">
               <div className="grid grid-cols-2 gap-4">
                  <div className="bg-slate-900 border border-slate-700 p-3 rounded-xl">
                     <p className="text-[10px] text-slate-400 font-bold uppercase tracking-widest flex justify-between">
@@ -250,14 +250,14 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
            </div>
         </CardContent>
       </Card>
-      <Card className="flex-1 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden h-full">
+      <Card className="flex-1 glass border-[#ff00e5]/20 flex flex-col relative overflow-hidden h-full lg:min-h-0 min-h-[60vh]">
         <CardHeader className="bg-slate-900/60 border-b border-slate-700/50 pb-4">
-          <CardTitle className="text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
+          <CardTitle className="text-lg md:text-xl font-black tracking-widest text-slate-100 flex items-center gap-2">
             <ShieldAlert className="text-[#ff00e5]" /> PR WAR ROOM
           </CardTitle>
-          <p className="text-xs font-mono text-slate-400">Strategische Rhetorik-Analyse. Antworten Sie der Presse und lenken Sie das Narrativ.</p>
+          <p className="text-[10px] md:text-xs font-mono text-slate-400">Strategische Rhetorik-Analyse. Antworten Sie der Presse und lenken Sie das Narrativ.</p>
         </CardHeader>
-        <CardContent className="flex-1 p-6 z-10 overflow-y-auto custom-scrollbar">
+        <CardContent className="flex-1 p-4 md:p-6 z-10 overflow-y-auto custom-scrollbar">
            <AnimatePresence mode="wait">
               {!isFinished ? (
                  <motion.div key="questions" initial={{ opacity: 0 }} animate={{ opacity: 1 }} exit={{ opacity: 0 }} className="space-y-6">
@@ -318,15 +318,15 @@ export function MediaTrainingPhase({ onNext, updateGameState, budget }: { onNext
               )}
            </AnimatePresence>
         </CardContent>
-        <CardFooter className="bg-slate-900/80 p-6 flex justify-between items-center border-t border-slate-700/50 z-10 h-20">
-           <div className="flex items-center gap-2 text-xs font-mono text-slate-500">
+        <CardFooter className="bg-slate-900/80 p-4 md:p-6 flex flex-col sm:flex-row justify-between items-start sm:items-center border-t border-slate-700/50 z-10 gap-4 sm:h-20">
+           <div className="flex items-center gap-2 text-[10px] md:text-xs font-mono text-slate-500">
               <Fingerprint size={14} />
               Öffentliche Akzeptanz berechnet
            </div>
            <AnimatePresence>
              {isFinished && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <Button variant="sci-fi" onClick={handleComplete} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-slate-800 text-white border border-[#00f0ff] hover:bg-[#00f0ff]/20">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full sm:w-auto">
+                  <Button variant="sci-fi" onClick={handleComplete} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)] bg-slate-800 text-white border border-[#00f0ff] hover:bg-[#00f0ff]/20">
                     Zum Baby Designer <Zap className="ml-2 w-4 h-4 text-[#00f0ff]" />
                   </Button>
                 </motion.div>

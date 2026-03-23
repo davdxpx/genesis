@@ -83,17 +83,17 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
         <div className="absolute inset-0 bg-slate-900/60 z-0" />
         <div className="absolute inset-0 z-0 opacity-10 pointer-events-none" style={{ backgroundImage: 'radial-gradient(circle at center, #00f0ff 0%, transparent 60%)' }} />
         <CardHeader className="border-b border-slate-700/50 bg-slate-900/80 z-10 relative">
-          <div className="flex justify-between items-center">
-             <CardTitle className="text-xl font-black tracking-widest text-[#00f0ff] flex items-center gap-2">
-                <Beaker size={24} /> BIOLABOR: CRISPR-CAS9 SYNTHESE
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-4">
+             <CardTitle className="text-lg md:text-xl font-black tracking-widest text-[#00f0ff] flex items-center gap-2">
+                <Beaker size={24} className="shrink-0" /> BIOLABOR: CRISPR-CAS9 SYNTHESE
              </CardTitle>
-             <div className="flex items-center gap-4 text-xs font-mono text-slate-400">
-                <div className="flex items-center gap-2">
+             <div className="flex flex-wrap items-center gap-2 sm:gap-4 text-[10px] md:text-xs font-mono text-slate-400">
+                <div className="flex items-center gap-1 sm:gap-2">
                    <Activity size={14} className={step === 1 ? 'text-[#ff00e5] animate-pulse' : 'text-slate-500'} />
                    <span className={step === 1 ? 'text-[#ff00e5]' : ''}>GUIDE-RNA</span>
                 </div>
-                <span>|</span>
-                <div className="flex items-center gap-2">
+                <span className="hidden sm:inline">|</span>
+                <div className="flex items-center gap-1 sm:gap-2">
                    <Zap size={14} className={step === 2 ? 'text-[#00f0ff] animate-pulse' : 'text-slate-500'} />
                    <span className={step === 2 ? 'text-[#00f0ff]' : ''}>INJEKTION</span>
                 </div>
@@ -135,58 +135,58 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                 className="flex flex-col w-full max-w-3xl space-y-6"
               >
                  <div className="text-center space-y-2">
-                    <h3 className="text-3xl font-black text-white tracking-widest flex items-center justify-center gap-3">
-                       <Cpu className="text-[#ff00e5]" /> GUIDE-RNA DESIGN
+                    <h3 className="text-xl md:text-3xl font-black text-white tracking-widest flex items-center justify-center gap-2 md:gap-3">
+                       <Cpu className="text-[#ff00e5] shrink-0" /> GUIDE-RNA DESIGN
                     </h3>
-                    <p className="text-sm font-mono text-slate-400 max-w-lg mx-auto leading-relaxed">
+                    <p className="text-xs md:text-sm font-mono text-slate-400 max-w-lg mx-auto leading-relaxed px-2">
                        Bilde den komplementären RNA-Strang zur vorliegenden Ziel-DNA. Wähle die passende Base für die <span className="text-[#00f0ff] font-bold">markierte Spalte</span>.
                     </p>
                     {errorCount > 0 && (
-                       <p className="text-xs font-mono text-[#ff00e5] animate-pulse pt-2">Warnung: {errorCount} Fehlversuche detektiert. Genom-Instabilität steigt.</p>
+                       <p className="text-[10px] md:text-xs font-mono text-[#ff00e5] animate-pulse pt-2">Warnung: {errorCount} Fehlversuche detektiert. Genom-Instabilität steigt.</p>
                     )}
                  </div>
-                 <div className="bg-[#00f0ff]/10 border border-[#00f0ff]/30 rounded-lg p-4 mx-auto w-full max-w-lg">
+                 <div className="bg-[#00f0ff]/10 border border-[#00f0ff]/30 rounded-lg p-3 md:p-4 mx-auto w-full max-w-lg">
                     <div 
                        className="flex items-center justify-between cursor-pointer"
                        onClick={() => setShowHint(!showHint)}
                     >
-                       <p className="text-[#00f0ff] font-bold text-xs uppercase tracking-widest flex items-center gap-2">
-                          <BookOpen size={16} /> Labor-Handbuch: Transkriptions-Regeln
+                       <p className="text-[#00f0ff] font-bold text-[10px] md:text-xs uppercase tracking-widest flex items-center gap-2">
+                          <BookOpen size={14} className="md:w-4 md:h-4" /> Labor-Handbuch
                        </p>
-                       <span className="text-[#00f0ff] font-mono text-xs">{showHint ? '[VERBERGEN]' : '[ANZEIGEN]'}</span>
+                       <span className="text-[#00f0ff] font-mono text-[10px] md:text-xs">{showHint ? '[VERBERGEN]' : '[ANZEIGEN]'}</span>
                     </div>
                     {showHint && (
                        <motion.div 
                           initial={{ opacity: 0, height: 0 }} 
                           animate={{ opacity: 1, height: 'auto' }} 
-                          className="mt-3 grid grid-cols-4 gap-2 text-center text-sm font-mono"
+                          className="mt-3 grid grid-cols-4 gap-1 md:gap-2 text-center text-xs md:text-sm font-mono"
                        >
-                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                          <div className="bg-slate-900 border border-slate-700 p-1 md:p-2 rounded">
+                             <span className="text-slate-400 text-[10px] md:text-xs block mb-1">DNA</span>
                              <strong className="text-white">A</strong> ➔ <strong className="text-[#ff00e5]">U</strong>
                           </div>
-                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                          <div className="bg-slate-900 border border-slate-700 p-1 md:p-2 rounded">
+                             <span className="text-slate-400 text-[10px] md:text-xs block mb-1">DNA</span>
                              <strong className="text-white">T</strong> ➔ <strong className="text-[#ff00e5]">A</strong>
                           </div>
-                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                          <div className="bg-slate-900 border border-slate-700 p-1 md:p-2 rounded">
+                             <span className="text-slate-400 text-[10px] md:text-xs block mb-1">DNA</span>
                              <strong className="text-white">C</strong> ➔ <strong className="text-[#ff00e5]">G</strong>
                           </div>
-                          <div className="bg-slate-900 border border-slate-700 p-2 rounded">
-                             <span className="text-slate-400 text-xs block mb-1">DNA</span>
+                          <div className="bg-slate-900 border border-slate-700 p-1 md:p-2 rounded">
+                             <span className="text-slate-400 text-[10px] md:text-xs block mb-1">DNA</span>
                              <strong className="text-white">G</strong> ➔ <strong className="text-[#ff00e5]">C</strong>
                           </div>
-                          <div className="col-span-4 text-left text-xs text-slate-400 mt-2">
+                          <div className="col-span-4 text-left text-[10px] md:text-xs text-slate-400 mt-2">
                             *Hinweis: In der RNA wird Thymin (T) durch Uracil (U) ersetzt.
                           </div>
                        </motion.div>
                     )}
                  </div>
-                 <div className="flex flex-col space-y-6 bg-slate-900/80 p-6 md:p-8 rounded-xl border border-slate-700/50 relative overflow-hidden">
-                    <div className="flex justify-between items-center z-10">
-                       <span className="text-[10px] md:text-xs font-mono text-slate-500 w-16 md:w-24">ZIEL-DNA</span>
-                       <div className="flex gap-2 md:gap-4 flex-1 justify-center">
+                 <div className="flex flex-col space-y-6 bg-slate-900/80 p-4 md:p-8 rounded-xl border border-slate-700/50 relative overflow-x-auto overflow-y-hidden custom-scrollbar">
+                    <div className="flex justify-start md:justify-between items-center z-10 min-w-max md:min-w-0 pb-2">
+                       <span className="text-[10px] md:text-xs font-mono text-slate-500 w-16 md:w-24 shrink-0">ZIEL-DNA</span>
+                       <div className="flex gap-2 md:gap-4 flex-1 justify-center px-4 md:px-0">
                           {dnaSequence.map((base, idx) => {
                              const isCurrent = idx === currentSlot;
                              return (
@@ -208,20 +208,20 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        </div>
                     </div>
                     <div className="flex justify-between items-center z-10 opacity-70">
-                       <span className="w-16 md:w-24"></span>
-                       <div className="flex gap-2 md:gap-4 flex-1 justify-center">
+                       <span className="w-16 md:w-24 shrink-0"></span>
+                       <div className="flex gap-2 md:gap-4 flex-1 justify-center px-4 md:px-0">
                           {dnaSequence.map((_, idx) => (
-                             <div key={`conn-${idx}`} className="w-10 md:w-14 flex justify-center">
-                                <div className={`w-1 h-6 transition-all ${
+                             <div key={`conn-${idx}`} className="w-10 md:w-14 shrink-0 flex justify-center">
+                                <div className={`w-1 h-4 md:h-6 transition-all ${
                                    idx < currentSlot ? 'bg-[#00f0ff]' : idx === currentSlot ? 'bg-[#ff00e5] animate-pulse' : 'bg-slate-700'
                                 }`} />
                              </div>
                           ))}
                        </div>
                     </div>
-                    <div className="flex justify-between items-center z-10">
-                       <span className="text-[10px] md:text-xs font-mono text-[#ff00e5] w-16 md:w-24">NEUE RNA</span>
-                       <div className="flex gap-2 md:gap-4 flex-1 justify-center">
+                    <div className="flex justify-start md:justify-between items-center z-10 min-w-max md:min-w-0 pt-2">
+                       <span className="text-[10px] md:text-xs font-mono text-[#ff00e5] w-16 md:w-24 shrink-0">NEUE RNA</span>
+                       <div className="flex gap-2 md:gap-4 flex-1 justify-center px-4 md:px-0">
                           {dnaSequence.map((_, idx) => {
                              const isFilled = idx < currentSlot;
                              const isCurrent = idx === currentSlot;
@@ -249,15 +249,15 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
                        />
                     </div>
                  </div>
-                 <div className="grid grid-cols-4 gap-4 max-w-lg mx-auto w-full">
+                 <div className="grid grid-cols-4 gap-2 md:gap-4 max-w-lg mx-auto w-full">
                     {rnaOptions.map(base => (
                        <button
                          key={base}
                          onClick={() => handleRnaSelect(base)}
-                         className="h-16 md:h-20 rounded-xl border border-slate-600 bg-slate-800 text-3xl font-black text-white hover:bg-slate-700 hover:border-[#ff00e5] hover:text-[#ff00e5] hover:shadow-[0_0_20px_rgba(255,0,229,0.3)] transition-all duration-200 active:scale-95 flex flex-col items-center justify-center group"
+                         className="h-14 md:h-20 rounded-xl border border-slate-600 bg-slate-800 text-2xl md:text-3xl font-black text-white hover:bg-slate-700 hover:border-[#ff00e5] hover:text-[#ff00e5] hover:shadow-[0_0_20px_rgba(255,0,229,0.3)] transition-all duration-200 active:scale-95 flex flex-col items-center justify-center group"
                        >
                          {base}
-                         <span className="text-[10px] font-mono text-slate-400 group-hover:text-[#ff00e5]">
+                         <span className="text-[8px] md:text-[10px] font-mono text-slate-400 group-hover:text-[#ff00e5]">
                            {base === 'A' ? 'Adenin' : base === 'U' ? 'Uracil' : base === 'C' ? 'Cytosin' : 'Guanin'}
                          </span>
                        </button>
@@ -312,15 +312,15 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
             )}
           </AnimatePresence>
         </CardContent>
-        <CardFooter className="bg-slate-900/80 p-6 flex justify-between items-center border-t border-slate-700/50 z-10 h-20">
-           <div className="flex items-center gap-2 text-xs font-mono text-slate-400">
+        <CardFooter className="bg-slate-900/80 p-4 md:p-6 flex flex-col sm:flex-row justify-between items-center border-t border-slate-700/50 z-10 gap-4 sm:h-20">
+           <div className="flex items-center gap-2 text-xs font-mono text-slate-500 w-full sm:w-auto justify-center sm:justify-start">
               <Fingerprint size={14} />
               Biolabor-ID: GENESIS-LAB-1
            </div>
            <AnimatePresence>
              {isComplete && (
-                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }}>
-                  <Button variant="sci-fi" onClick={onNext} className="px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full sm:w-auto">
+                  <Button variant="sci-fi" onClick={onNext} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
                     Zur Off-Target Analyse <Zap className="ml-2 w-4 h-4" />
                   </Button>
                 </motion.div>

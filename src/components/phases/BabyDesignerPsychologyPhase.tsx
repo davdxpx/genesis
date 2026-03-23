@@ -163,14 +163,14 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
   return (
     <motion.div 
       initial={{ opacity: 0, scale: 0.95 }} animate={{ opacity: 1, scale: 1 }}
-      className="w-full max-w-7xl mx-auto flex flex-col xl:flex-row gap-6 p-4 min-h-[85vh] text-[#00f0ff] font-mono"
+      className="w-full max-w-7xl mx-auto flex flex-col lg:flex-row gap-6 p-2 md:p-4 min-h-[85vh] text-[#00f0ff] font-mono"
     >
       <RolePopup
         title="Psychologie-Modulation"
         description="Justieren Sie Neurotransmitter (Dopamin, Serotonin), um das Verhaltensprofil zu formen. Achten Sie auf Pleiotropie: Das Erhöhen eines Merkmals kann extreme Auswirkungen auf ein anderes haben!"
       />
-      <div className="w-full xl:w-5/12 flex flex-col gap-6 h-full shrink-0">
-         <Card className="flex-1 min-h-[400px] xl:min-h-[500px] bg-[#050A15] border-[#00f0ff]/30 shadow-2xl relative p-1 overflow-hidden">
+      <div className="w-full lg:w-5/12 flex flex-col gap-4 md:gap-6 lg:h-full shrink-0">
+         <Card className="flex-1 min-h-[300px] lg:min-h-[500px] bg-[#050A15] border-[#00f0ff]/30 shadow-2xl relative p-1 overflow-hidden">
             <NeuralNet stats={psyche} />
             <div className="absolute bottom-6 left-6 z-30 pointer-events-none">
                <h3 className="text-3xl font-black text-white tracking-widest uppercase drop-shadow-[0_2px_5px_rgba(0,0,0,0.8)]">
@@ -181,32 +181,34 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                </p>
             </div>
          </Card>
-         <Card className="shrink-0 bg-slate-900 border-slate-700 shadow-xl">
-            <CardHeader className="py-4 border-b border-slate-800 bg-slate-900/80">
-               <CardTitle className="text-sm font-bold tracking-widest text-slate-300 uppercase flex items-center gap-2">
-                  <Fingerprint size={18} className="text-[#00f0ff]" /> Quick-Load: Vorlagen
+         <Card className="shrink-0 bg-[#0A101D] border-[#00f0ff]/20 shadow-xl">
+            <CardHeader className="py-3 md:py-4 border-b border-slate-800 bg-slate-900/80">
+               <CardTitle className="text-xs md:text-sm font-bold tracking-widest text-slate-300 uppercase flex items-center gap-2">
+                  <Fingerprint size={16} className="text-[#00f0ff]" /> Vorlagen (Engramme)
                </CardTitle>
             </CardHeader>
-            <CardContent className="p-4 grid grid-cols-2 gap-4">
+            <CardContent className="p-3 md:p-4 grid grid-cols-1 sm:grid-cols-2 gap-3 md:gap-4 max-h-[40vh] overflow-y-auto lg:max-h-none custom-scrollbar">
                {archetypes.map(arch => (
                   <button
                     key={arch.id}
                     onClick={() => applyArchetype(arch)}
-                    className={`p-4 rounded-xl border text-left transition-all duration-300 relative overflow-hidden group ${
+                    className={`p-3 md:p-4 rounded-xl border text-left transition-all duration-300 relative overflow-hidden group ${
                        activeArchetype === arch.id 
-                       ? 'bg-slate-800 border-[#00f0ff] shadow-[0_0_20px_rgba(0,240,255,0.2)]' 
-                       : 'bg-slate-900/50 border-slate-700 hover:border-slate-500'
+                       ? 'bg-slate-800/80 border-[#00f0ff] shadow-[0_0_15px_rgba(0,240,255,0.3)]'
+                       : 'bg-slate-900/40 border-slate-800 hover:border-slate-600 hover:bg-slate-800/60'
                     }`}
                   >
-                     <div className={`absolute right-[-15px] top-[-15px] opacity-10 group-hover:opacity-20 transition-opacity ${activeArchetype === arch.id ? 'opacity-30' : ''}`}>
-                        <arch.icon size={80} />
+                     <div className={`absolute -right-4 -top-4 opacity-[0.05] group-hover:opacity-10 transition-opacity ${activeArchetype === arch.id ? 'opacity-20' : ''}`}>
+                        <arch.icon size={100} />
                      </div>
                      <div className="relative z-10">
-                        <div className="flex items-center gap-2 mb-2">
-                           <arch.icon size={20} style={{ color: arch.color }} />
-                           <span className={`font-bold text-sm uppercase ${activeArchetype === arch.id ? 'text-white' : 'text-slate-300'}`}>{arch.name}</span>
+                        <div className="flex items-center gap-2 mb-1 md:mb-2">
+                           <div className={`p-1.5 rounded bg-slate-950/50 ${activeArchetype === arch.id ? 'shadow-[0_0_10px_rgba(0,240,255,0.2)]' : ''}`}>
+                             <arch.icon size={14} style={{ color: arch.color }} className="md:w-[16px] md:h-[16px]" />
+                           </div>
+                           <span className={`font-bold text-[10px] md:text-xs uppercase tracking-wider ${activeArchetype === arch.id ? 'text-white' : 'text-slate-300'}`}>{arch.name}</span>
                         </div>
-                        <p className="text-xs text-slate-500 leading-relaxed h-10 line-clamp-2 font-sans">{arch.desc}</p>
+                        <p className="text-[10px] md:text-xs text-slate-500 leading-relaxed font-sans">{arch.desc}</p>
                      </div>
                   </button>
                ))}
@@ -214,72 +216,89 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
          </Card>
       </div>
       <div className="flex-1 flex flex-col relative z-20">
-         <Card className="flex-1 bg-slate-900 border-[#ff00e5]/30 shadow-2xl flex flex-col relative overflow-hidden">
-            <CardHeader className="bg-slate-900/80 border-b border-slate-800 py-6 z-10">
-               <CardTitle className="text-2xl font-black tracking-widest text-white flex items-center gap-3">
-                  <Activity className="text-[#ff00e5] w-8 h-8" /> PSYCHE-MODULATION (CRISPR-N)
+         <Card className="flex-1 bg-[#0A101D] border-[#ff00e5]/20 shadow-2xl flex flex-col relative overflow-hidden">
+            <CardHeader className="bg-slate-900/60 border-b border-slate-800/50 py-4 md:py-6 z-10">
+               <CardTitle className="text-xl md:text-2xl font-black tracking-widest text-white flex items-center gap-2 md:gap-3">
+                  <Activity className="text-[#ff00e5] w-6 h-6 md:w-8 md:h-8" /> PSYCHE-MODULATION (CRISPR-N)
                </CardTitle>
-               <div className="mt-3 p-3 bg-blue-950/30 border border-blue-900/50 rounded-lg flex gap-3 text-slate-300 text-sm font-sans">
-                 <Info className="text-blue-400 shrink-0 mt-0.5" size={18} />
-                 <p>Veränderungen an Neurotransmittern (Dopamin, Serotonin) sind hochkomplex. <strong>Biologische Pleiotropie</strong> bedeutet, dass die Erhöhung eines Merkmals oft unerwünschte Nebenwirkungen auf ein anderes hat.</p>
+               <div className="mt-3 md:mt-4 p-3 md:p-4 bg-blue-950/20 border border-blue-900/30 rounded-xl flex gap-3 text-slate-300 text-xs md:text-sm font-sans shadow-[inset_0_0_20px_rgba(0,0,0,0.5)]">
+                 <Info className="text-blue-400 shrink-0 mt-0.5 w-4 h-4 md:w-5 md:h-5" />
+                 <p className="leading-relaxed">Veränderungen an Neurotransmittern sind hochkomplex. <strong>Biologische Pleiotropie</strong> bedeutet, dass die Erhöhung eines Merkmals oft unerwünschte Nebenwirkungen auf ein anderes hat.</p>
                </div>
             </CardHeader>
-            <CardContent className="overflow-visible custom-scrollbar p-6 lg:p-8 space-y-10 pb-32">
-               <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
-                  <div className="flex justify-between items-end mb-2">
-                     <label className="text-lg font-bold text-[#00ffaa] uppercase tracking-wider flex items-center gap-2">
-                        <Heart size={20} /> Empathie (Spiegelneuronen-Dichte)
+            <CardContent className="overflow-visible custom-scrollbar p-4 md:p-6 lg:p-8 space-y-6 md:space-y-8 pb-32">
+
+               <div className="space-y-4 bg-slate-900/40 p-4 md:p-6 rounded-2xl border border-slate-800/50 hover:border-[#00ffaa]/30 transition-colors group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#00ffaa]/5 blur-3xl rounded-full pointer-events-none" />
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-4 relative z-10">
+                     <label className="text-base md:text-lg font-bold text-[#00ffaa] uppercase tracking-wider flex items-center gap-2">
+                        <Heart size={18} className="md:w-[20px] md:h-[20px]" /> Empathie (Spiegelneuronen)
                      </label>
-                     <span className="font-mono text-3xl font-black text-white">{psyche.empathy}%</span>
+                     <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(0,255,170,0.5)]">{psyche.empathy}%</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.max(0, psyche.empathy - 5))} className="w-12 h-12 shrink-0 border-slate-600"><Minus /></Button>
-                     <input type="range" min="0" max="100" value={psyche.empathy} onChange={(e) => handleSliderChange('empathy', parseInt(e.target.value))} className="w-full h-4 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-[#00ffaa]" />
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.min(100, psyche.empathy + 5))} className="w-12 h-12 shrink-0 border-slate-600"><Plus /></Button>
+                  <div className="flex items-center gap-3 md:gap-4 relative z-10">
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.max(0, psyche.empathy - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Minus size={16} /></Button>
+                     <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#00ffaa]" style={{ width: `${psyche.empathy}%` }} />
+                        <input type="range" min="0" max="100" value={psyche.empathy} onChange={(e) => handleSliderChange('empathy', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                     </div>
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('empathy', Math.min(100, psyche.empathy + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#00ffaa] hover:border-[#00ffaa]/50 hover:bg-[#00ffaa]/10"><Plus size={16} /></Button>
                   </div>
-                  <div className="flex justify-between text-xs text-slate-500 font-mono uppercase mt-2">
-                     <span>Psychopathie (0%)</span>
-                     <span>Altruismus (100%)</span>
+                  <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
+                     <span>Psychopathie</span>
+                     <span>Altruismus</span>
                   </div>
-                  {psyche.empathy < 20 && <p className="text-sm font-bold text-red-400 mt-2">Warnung: Subjekt zeigt stark soziopathische Tendenzen.</p>}
+                  {psyche.empathy < 20 && <p className="text-xs md:text-sm font-bold text-red-400 mt-2 bg-red-950/30 p-2 rounded inline-block border border-red-900/50">Warnung: Subjekt zeigt soziopathische Tendenzen.</p>}
                </div>
-               <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
-                  <div className="flex justify-between items-end mb-2">
-                     <label className="text-lg font-bold text-[#ffaa00] uppercase tracking-wider flex items-center gap-2">
-                        <Zap size={20} /> Dopamin-Antrieb (Ambition)
+
+               <div className="space-y-4 bg-slate-900/40 p-4 md:p-6 rounded-2xl border border-slate-800/50 hover:border-[#ffaa00]/30 transition-colors group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#ffaa00]/5 blur-3xl rounded-full pointer-events-none" />
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-4 relative z-10">
+                     <label className="text-base md:text-lg font-bold text-[#ffaa00] uppercase tracking-wider flex items-center gap-2">
+                        <Zap size={18} className="md:w-[20px] md:h-[20px]" /> Dopamin-Antrieb (Ambition)
                      </label>
-                     <span className="font-mono text-3xl font-black text-white">{psyche.ambition}%</span>
+                     <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,170,0,0.5)]">{psyche.ambition}%</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.max(0, psyche.ambition - 5))} className="w-12 h-12 shrink-0 border-slate-600"><Minus /></Button>
-                     <input type="range" min="0" max="100" value={psyche.ambition} onChange={(e) => handleSliderChange('ambition', parseInt(e.target.value))} className="w-full h-4 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-[#ffaa00]" />
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.min(100, psyche.ambition + 5))} className="w-12 h-12 shrink-0 border-slate-600"><Plus /></Button>
+                  <div className="flex items-center gap-3 md:gap-4 relative z-10">
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.max(0, psyche.ambition - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Minus size={16} /></Button>
+                     <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#ffaa00]" style={{ width: `${psyche.ambition}%` }} />
+                        <input type="range" min="0" max="100" value={psyche.ambition} onChange={(e) => handleSliderChange('ambition', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                     </div>
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('ambition', Math.min(100, psyche.ambition + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ffaa00] hover:border-[#ffaa00]/50 hover:bg-[#ffaa00]/10"><Plus size={16} /></Button>
                   </div>
-                  <div className="flex justify-between text-xs text-slate-500 font-mono uppercase mt-2">
+                  <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
                      <span>Zufrieden/Passiv</span>
-                     <span>Machtgier/Manisch</span>
+                     <span>Machtgierig/Manisch</span>
                   </div>
                </div>
-               <div className="space-y-4 bg-slate-800/50 p-5 rounded-2xl border border-slate-700">
-                  <div className="flex justify-between items-end mb-2">
-                     <label className="text-lg font-bold text-[#ff00e5] uppercase tracking-wider flex items-center gap-2">
-                        <Shield size={20} /> Stress-Resistenz (Cortisol-Hemmer)
+
+               <div className="space-y-4 bg-slate-900/40 p-4 md:p-6 rounded-2xl border border-slate-800/50 hover:border-[#ff00e5]/30 transition-colors group relative overflow-hidden">
+                  <div className="absolute top-0 right-0 w-32 h-32 bg-[#ff00e5]/5 blur-3xl rounded-full pointer-events-none" />
+                  <div className="flex flex-col sm:flex-row sm:justify-between sm:items-end gap-2 mb-4 relative z-10">
+                     <label className="text-base md:text-lg font-bold text-[#ff00e5] uppercase tracking-wider flex items-center gap-2">
+                        <Shield size={18} className="md:w-[20px] md:h-[20px]" /> Stress-Resistenz (Cortisol)
                      </label>
-                     <span className="font-mono text-3xl font-black text-white">{psyche.resilience}%</span>
+                     <span className="font-mono text-2xl md:text-3xl font-black text-white drop-shadow-[0_0_10px_rgba(255,0,229,0.5)]">{psyche.resilience}%</span>
                   </div>
-                  <div className="flex items-center gap-4">
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.max(0, psyche.resilience - 5))} className="w-12 h-12 shrink-0 border-slate-600"><Minus /></Button>
-                     <input type="range" min="0" max="100" value={psyche.resilience} onChange={(e) => handleSliderChange('resilience', parseInt(e.target.value))} className="w-full h-4 bg-slate-900 rounded-lg appearance-none cursor-pointer accent-[#ff00e5]" />
-                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.min(100, psyche.resilience + 5))} className="w-12 h-12 shrink-0 border-slate-600"><Plus /></Button>
+                  <div className="flex items-center gap-3 md:gap-4 relative z-10">
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.max(0, psyche.resilience - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Minus size={16} /></Button>
+                     <div className="relative w-full h-2 md:h-3 bg-slate-950 rounded-full border border-slate-800 overflow-hidden">
+                        <div className="absolute top-0 left-0 h-full bg-gradient-to-r from-slate-700 to-[#ff00e5]" style={{ width: `${psyche.resilience}%` }} />
+                        <input type="range" min="0" max="100" value={psyche.resilience} onChange={(e) => handleSliderChange('resilience', parseInt(e.target.value))} className="absolute inset-0 w-full h-full opacity-0 cursor-pointer" />
+                     </div>
+                     <Button variant="outline" size="icon" onClick={() => handleSliderChange('resilience', Math.min(100, psyche.resilience + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 bg-slate-950 border-slate-700 text-slate-400 hover:text-[#ff00e5] hover:border-[#ff00e5]/50 hover:bg-[#ff00e5]/10"><Plus size={16} /></Button>
                   </div>
-                  <div className="flex justify-between text-xs text-slate-500 font-mono uppercase mt-2">
+                  <div className="flex justify-between text-[10px] md:text-xs text-slate-500 font-mono uppercase mt-2 relative z-10">
                      <span>Fragil/Sensibel</span>
                      <span>Trauma-Resistent</span>
                   </div>
                </div>
+
             </CardContent>
          </Card>
-         <div className="sticky bottom-0 right-0 left-0 p-4 md:p-6 bg-gradient-to-t from-[#050A15] to-transparent flex justify-end z-30">
+
+         <div className="fixed sm:sticky bottom-0 right-0 left-0 p-4 md:p-6 bg-gradient-to-t from-[#050A15] via-[#050A15]/90 to-transparent flex justify-center sm:justify-end z-40 sm:z-30 border-t sm:border-none border-slate-800 sm:bg-transparent">
             <Button 
                size="lg"
                disabled={isEthicallyBlocked}
@@ -289,16 +308,16 @@ export function BabyDesignerPsychologyPhase({ onNext, gameState }: { onNext: () 
                   }
                   onNext();
                }}
-               className={`py-8 px-10 text-lg font-black tracking-widest uppercase transition-all ${
+               className={`w-full sm:w-auto py-6 sm:py-8 px-6 sm:px-10 text-sm sm:text-lg font-black tracking-widest uppercase transition-all ${
                  isEthicallyBlocked 
                    ? 'bg-red-950 text-red-500 border-2 border-red-500 cursor-not-allowed opacity-80'
-                   : 'bg-[#ff00e5] hover:bg-[#ff00e5]/80 text-white shadow-[0_0_30px_rgba(255,0,229,0.5)] border-none'
+                   : 'bg-[#ff00e5] hover:bg-[#ff00e5]/80 text-white shadow-[0_0_20px_rgba(255,0,229,0.5)] border border-[#ff00e5]'
                }`}
             >
                {isEthicallyBlocked ? (
-                 <span className="flex items-center gap-2"><Lock className="w-6 h-6"/> ETHIK-SPERRE: ILLEGALE PARAMETER</span>
+                 <span className="flex items-center justify-center gap-2 w-full"><Lock className="w-4 h-4 sm:w-6 sm:h-6"/> ILLEGALE PARAMETER</span>
                ) : (
-                 <span className="flex items-center gap-2">PSYCHE ABSCHLIESSEN <ArrowRightIcon className="ml-2 w-6 h-6" /></span>
+                 <span className="flex items-center justify-center gap-2 w-full">PSYCHE ABSCHLIESSEN <ArrowRightIcon className="ml-1 sm:ml-2 w-4 h-4 sm:w-6 sm:h-6" /></span>
                )}
             </Button>
          </div>
