@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Dna, Fingerprint, Activity, Beaker, CheckCircle2, Zap, Cpu, Search, CircleSlash, BookOpen } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import { RolePopup } from '../ui/RolePopup';
 
@@ -9,6 +10,7 @@ const dnaSequence = ['A', 'T', 'G', 'C', 'A', 'T'];
 const correctRnaSequence = ['U', 'A', 'C', 'G', 'U', 'A'];
 const rnaOptions = ['A', 'U', 'C', 'G'];
 export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [step, setStep] = useState<0 | 1 | 2>(0);
   const [currentSlot, setCurrentSlot] = useState(0);
   const [userRna, setUserRna] = useState<string[]>([]);
@@ -320,7 +322,7 @@ export function BiologyLabPhase({ onNext }: { onNext: () => void }) {
            <AnimatePresence>
              {isComplete && (
                 <motion.div initial={{ opacity: 0, x: 20 }} animate={{ opacity: 1, x: 0 }} className="w-full sm:w-auto">
-                  <Button variant="sci-fi" onClick={onNext} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
+                  <Button variant="sci-fi" onClick={() => { playSfx('click'); onNext(); }} className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,240,255,0.4)]">
                     Zur Off-Target Analyse <Zap className="ml-2 w-4 h-4" />
                   </Button>
                 </motion.div>

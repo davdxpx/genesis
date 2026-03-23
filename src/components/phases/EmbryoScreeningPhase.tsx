@@ -2,7 +2,8 @@ import React, { useState } from 'react';
 import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
-import { Dna, Activity, Heart, Brain, AlertTriangle, Fingerprint, Scan, ShieldAlert } from 'lucide-react';
+import { Dna, Activity, Heart, Brain, AlertTriangle, Fingerprint, Scan, ShieldAlert, Trash2 } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 const embryos = [
   {
@@ -47,8 +48,10 @@ const embryos = [
   }
 ];
 export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [selectedId, setSelectedId] = useState<string>(embryos[0].id);
   const [isScanning, setIsScanning] = useState(false);
+  const [deletedIds, setDeletedIds] = useState<string[]>([]);
   const [isConfirming, setIsConfirming] = useState(false);
   const activeEmbryo = embryos.find(e => e.id === selectedId)!;
   const handleSelect = (id: string) => {
@@ -83,7 +86,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
           </div>
         </div>
         <div className="flex-1 overflow-y-auto space-y-3 pr-2 custom-scrollbar max-h-[40vh] lg:max-h-none">
-          {embryos.map((embryo) => {
+          {embryos.filter(e => !deletedIds.includes(e.id)).map((embryo) => {
             const isSelected = selectedId === embryo.id;
             return (
               <motion.button
@@ -113,11 +116,29 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
                       <p className="text-xs font-mono text-slate-500 mt-1">{embryo.focus}</p>
                     </div>
                   </div>
-                  <div className="text-right">
+                  <div className="flex items-center gap-4 text-right">
+                    {!isSelected && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          playSfx('delete');
+                          setDeletedIds(prev => [...prev, embryo.id]);
+                        }}
+                        className="p-2 text-slate-500 hover:text-red-500 hover:bg-red-500/10 rounded-full transition-colors"
+                        title="Embryo verwerfen"
+                      >
+                        <Trash2 size={16} />
+                      </button>
+                    )}
                     <span className="text-2xl font-black font-mono" style={{ color: isSelected ? embryo.color : '#64748b' }}>
                       {embryo.geneticScore}
                     </span>
-                    <span className="text-[10px] text-slate-500 block uppercase">Gen-Score</span>
+                    <div className="text-right">
+                      <span className="text-2xl font-black font-mono" style={{ color: isSelected ? embryo.color : '#64748b' }}>
+                        {embryo.geneticScore}
+                      </span>
+                      <span className="text-[10px] text-slate-500 block uppercase">Gen-Score</span>
+                    </div>
                   </div>
                 </div>
               </motion.button>
@@ -240,7 +261,7 @@ export function EmbryoScreeningPhase({ onNext }: { onNext: () => void }) {
            </div>
            <Button 
               variant="sci-fi" 
-              onClick={handleConfirm}
+              onClick={(e) => { playSfx('click'); handleConfirm(); }}
               disabled={isConfirming || isScanning}
               className="w-full sm:w-auto px-8 shadow-[0_0_20px_rgba(0,0,0,0.5)]"
               style={{ borderColor: activeEmbryo.color, color: activeEmbryo.color }}

@@ -4,12 +4,15 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription, CardFooter } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Users, Briefcase, HeartHandshake, Zap, Fingerprint, Lock, ChevronRight } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 interface AuthReqPhaseProps {
   onNext: () => void;
   onCancel: () => void;
   updateGameState?: (data: Record<string, unknown>) => void;
 }
 export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhaseProps) {
+  const { playSfx, setMusicIntensity } = useAudio();
+
   const [selectedRole, setSelectedRole] = useState<string | null>(null);
   const [isConfirming, setIsConfirming] = useState(false);
   const roles = [
@@ -148,7 +151,7 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
           <Button 
             variant="outline" 
             className="w-full sm:w-auto border-slate-700 text-slate-300 hover:text-white hover:bg-slate-800" 
-            onClick={onCancel}
+            onClick={() => { playSfx('click'); onCancel(); }}
             disabled={isConfirming}
           >
             Zurück zur Übersicht
@@ -160,7 +163,7 @@ export function AuthReqPhase({ onNext, onCancel, updateGameState }: AuthReqPhase
                 : 'bg-slate-800 text-slate-500 cursor-not-allowed'
             }`}
             disabled={!selectedRole || isConfirming}
-            onClick={handleConfirmRole}
+            onClick={() => { playSfx('click'); handleConfirmRole(); }}
           >
             <Lock className="w-4 h-4" />
             {isConfirming ? 'Authentifizierung...' : 'Profil bestätigen & Eintreten'}

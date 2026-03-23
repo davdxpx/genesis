@@ -1,11 +1,14 @@
 "use client";
 import { useState, useEffect } from "react";
 import { motion, AnimatePresence } from "framer-motion";
-import { Activity, Menu, X } from "lucide-react";
+import { Activity, Menu, X, Volume2, VolumeX, Music, Music4 } from "lucide-react";
 import { usePathname } from "next/navigation";
 import { pipelineSteps } from "@/lib/pipeline";
+import { useAudio } from "@/lib/AudioContext";
+
 export function GlobalLayout({ children }: { children: React.ReactNode }) {
   const [sysTime, setSysTime] = useState("");
+  const { audioState, setMusicEnabled, setSfxEnabled, playSfx } = useAudio();
   const [hexStream, setHexStream] = useState("0x0000");
   const [isSidebarOpen, setIsSidebarOpen] = useState(false); 
   const pathname = usePathname();
@@ -94,6 +97,33 @@ export function GlobalLayout({ children }: { children: React.ReactNode }) {
                </div>
             </div>
             <div className="flex items-center gap-6">
+               <div className="flex items-center gap-2 mr-2">
+                 <button
+                   onClick={() => {
+                     setMusicEnabled(!audioState.musicEnabled);
+                     if (audioState.sfxEnabled) playSfx('click');
+                   }}
+                   className={`p-1.5 rounded-md transition-colors ${audioState.musicEnabled ? 'bg-[#00f0ff]/10 text-[#00f0ff] border border-[#00f0ff]/30' : 'bg-slate-800 text-slate-500 border border-slate-700'}`}
+                   title="Toggle Music"
+                 >
+                   {audioState.musicEnabled ? <Music size={16} /> : <Music4 size={16} className="opacity-50" />}
+                 </button>
+                 <button
+                   onClick={() => {
+                     const newState = !audioState.sfxEnabled;
+                     setSfxEnabled(newState);
+                     if (newState) {
+                       const audio = new Audio('/audio/click.wav');
+                       audio.volume = 0.5;
+                       audio.play().catch(() => {});
+                     }
+                   }}
+                   className={`p-1.5 rounded-md transition-colors ${audioState.sfxEnabled ? 'bg-[#ff00e5]/10 text-[#ff00e5] border border-[#ff00e5]/30' : 'bg-slate-800 text-slate-500 border border-slate-700'}`}
+                   title="Toggle Sound Effects"
+                 >
+                   {audioState.sfxEnabled ? <Volume2 size={16} /> : <VolumeX size={16} />}
+                 </button>
+               </div>
                <div className="text-right hidden sm:block">
                   <p className="text-[#00f0ff] font-mono text-xs tracking-widest">PHASE {currentPhase + 1} / {pipelineSteps.length}</p>
                   <p className="text-slate-500 font-mono text-[10px] uppercase">{pipelineSteps[currentPhase]?.name || "UNKNOWN"}</p>

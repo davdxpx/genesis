@@ -3,12 +3,13 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent } from '../ui/card';
 import { Button } from '../ui/button';
 import { ShieldAlert, Terminal, Lock, PlayCircle, Eye, VolumeX, Volume2 } from 'lucide-react';
+import { useAudio } from '@/lib/AudioContext';
 
 export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
   const [step, setStep] = useState(0);
   const [typedText, setTypedText] = useState("");
   const [isTyping, setIsTyping] = useState(false);
-  const [soundEnabled, setSoundEnabled] = useState(true);
+  const { playSfx, audioState } = useAudio();
 
   const texts = [
     "VERBINDUNG ZUM GLOBAL HEALTH BOARD HERGESTELLT...",
@@ -27,27 +28,9 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
       setTypedText("");
       let i = 0;
 
-      const audioContext = soundEnabled && window.AudioContext ? new window.AudioContext() : null;
-
-      const playBeep = () => {
-         if (!audioContext) return;
-         const oscillator = audioContext.createOscillator();
-         const gainNode = audioContext.createGain();
-         oscillator.type = 'square';
-         oscillator.frequency.setValueAtTime(400 + Math.random() * 200, audioContext.currentTime);
-         gainNode.gain.setValueAtTime(0.01, audioContext.currentTime);
-         oscillator.connect(gainNode);
-         gainNode.connect(audioContext.destination);
-         oscillator.start();
-         oscillator.stop(audioContext.currentTime + 0.05);
-      };
-
       const typingInterval = setInterval(() => {
-
-
-
         setTypedText(texts[step].substring(0, i + 1));
-        if (i % 2 === 0) playBeep();
+        if (i % 2 === 0) playSfx('type');
         i++;
         if (i === texts[step].length) {
           clearInterval(typingInterval);
@@ -59,7 +42,7 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
          clearInterval(typingInterval);
       };
     }
-  }, [step, soundEnabled]);
+  }, [step]);
 
   const handleNextLine = () => {
     if (!isTyping && step < texts.length - 1) {
@@ -80,15 +63,10 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
       animate={{ opacity: 1 }}
       className="w-full max-w-4xl mx-auto flex flex-col gap-6 p-4 min-h-[80vh] items-center justify-center font-mono relative"
     >
-      <button
-        onClick={() => setSoundEnabled(!soundEnabled)}
-        className="absolute top-0 right-4 p-2 text-slate-500 hover:text-[#00f0ff] transition-colors flex items-center gap-2 text-xs uppercase"
-      >
-         {soundEnabled ? <Volume2 size={16}/> : <VolumeX size={16}/>}
-         Sound {soundEnabled ? 'AN' : 'AUS'}
-      </button>
-
-      <div className="w-full relative z-10" onClick={isTyping ? skipTyping : handleNextLine}>
+      <div className="w-full relative z-10" onClick={() => {
+        if (!isTyping) playSfx('click');
+        isTyping ? skipTyping() : handleNextLine();
+      }}>
         <AnimatePresence mode="wait">
           {step === 0 && (
              <motion.div
@@ -136,7 +114,7 @@ export function ProjectBriefingPhase({ onNext }: { onNext: () => void }) {
                     className="mt-12 flex flex-col sm:flex-row gap-4 justify-center"
                  >
                     <Button
-                       onClick={(e) => { e.stopPropagation(); onNext(); }}
+                       onClick={(e) => { e.stopPropagation(); playSfx('decision'); onNext(); }}
                        className="py-6 px-12 bg-red-900/20 hover:bg-red-900/50 text-red-400 border border-red-900/50 text-lg font-black uppercase tracking-widest shadow-[0_0_20px_rgba(255,0,0,0.2)] transition-all"
                     >
                        <Lock className="mr-3" /> Bedingungen Akzeptieren

@@ -3,6 +3,7 @@ import { motion, AnimatePresence } from 'framer-motion';
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Button } from '../ui/button';
 import { Microscope, Dna, AlertTriangle, CheckCircle2, HeartPulse, Scale, Trash2, ShieldAlert, Activity, FileWarning, Zap, Lock } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { RolePopup } from '../ui/RolePopup';
 
 interface QACheckPhaseProps {
@@ -12,11 +13,13 @@ interface QACheckPhaseProps {
 type ScanStatus = 'idle' | 'scanning' | 'results' | 'resolved';
 
 export function QACheckPhase({ onNext }: QACheckPhaseProps) {
+  const { playSfx, setMusicIntensity } = useAudio();
+
   const [status, setStatus] = useState<ScanStatus>('idle');
   const [scanProgress, setScanProgress] = useState(0);
   const [decision, setDecision] = useState<string | null>(null);
 
-  useEffect(() => {
+  useEffect(() => { setMusicIntensity('tense');
     if (status === 'scanning') {
       const interval = setInterval(() => {
         setScanProgress((prev) => {
@@ -83,7 +86,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </div>
 
                 <Button 
-                  onClick={startScan} 
+                  onClick={() => { playSfx('click'); startScan(); }}
                   className="w-full sm:w-auto bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff] text-base md:text-xl py-6 md:py-8 px-6 md:px-12 rounded-xl shadow-[0_0_30px_rgba(0,240,255,0.3)] transition-all group tracking-widest uppercase font-black"
                 >
                   <Activity className="mr-2 md:mr-3 group-hover:animate-pulse" /> Sequenzierung Starten
@@ -174,7 +177,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                         </p>
                      </div>
                      <Button
-                        onClick={() => handleDecision('discard')}
+                        onClick={() => { playSfx('click'); handleDecision('discard') }}
                         className="w-full py-4 md:py-6 bg-red-950/50 hover:bg-red-900/80 text-red-400 border border-red-900/50 font-black uppercase tracking-widest text-sm md:text-base"
                      >
                         Embryo Zerstören
@@ -193,7 +196,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                         </p>
                      </div>
                      <Button
-                        onClick={() => handleDecision('keep')}
+                        onClick={() => { playSfx('click'); handleDecision('keep') }}
                         className="w-full py-4 md:py-6 bg-yellow-950/30 hover:bg-yellow-900/60 text-yellow-400 border border-yellow-900/50 font-black uppercase tracking-widest text-sm md:text-base"
                      >
                         Risiko Akzeptieren
@@ -231,7 +234,7 @@ export function QACheckPhase({ onNext }: QACheckPhaseProps) {
                 </div>
 
                 <Button 
-                  onClick={onNext} 
+                  onClick={() => { playSfx('click'); onNext(); }}
                   className="w-full py-6 md:py-8 bg-[#00f0ff]/10 hover:bg-[#00f0ff]/20 text-[#00f0ff] border border-[#00f0ff] font-black uppercase tracking-widest text-sm md:text-lg shadow-[0_0_20px_rgba(0,240,255,0.2)]"
                 >
                   Weiter zur Ethik-Evaluation

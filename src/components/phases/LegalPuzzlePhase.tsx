@@ -3,6 +3,7 @@ import { RolePopup } from "../ui/RolePopup";
 import { Card, CardContent, CardHeader, CardTitle, CardDescription } from '../ui/card';
 import { Button } from '../ui/button';
 import { Globe2, Scale, ShieldAlert, CheckCircle2, Lock, AlertTriangle, Fingerprint, Crosshair, MapPin, Database } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 interface Region {
   id: string;
@@ -52,6 +53,7 @@ const regions: Region[] = [
   }
 ];
 export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [selectedRegion, setSelectedRegion] = useState<Region | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const handleSelect = (region: Region) => {
@@ -182,7 +184,7 @@ export function LegalPuzzlePhase({ onNext }: { onNext: () => void }) {
                    </div>
                    {selectedRegion.status === 'available' ? (
                      <Button 
-                       onClick={onNext}
+                       onClick={() => { playSfx('click'); onNext(); }}
                        className="w-full py-6 mt-4 text-sm font-black bg-[#00f0ff]/10 border border-[#00f0ff] hover:bg-[#00f0ff]/20 text-white shadow-[0_0_20px_rgba(0,240,255,0.3)]"
                      >
                        STANDORT BESTÄTIGEN & FORTFAHREN

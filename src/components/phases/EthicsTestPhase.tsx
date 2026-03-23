@@ -3,6 +3,7 @@ import { RolePopup } from "../ui/RolePopup";
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle, CardFooter } from '../ui/card';
 import { Scale, Heart, AlertTriangle, Fingerprint, Cross, ArrowRight, ShieldCheck, HelpCircle } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 const dilemmas = [
   {
@@ -37,6 +38,7 @@ const dilemmas = [
   }
 ];
 export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => void, updateGameState?: (data: Record<string, unknown>) => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [score, setScore] = useState(50);
   const [showFeedback, setShowFeedback] = useState(false);
@@ -122,7 +124,7 @@ export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => voi
                                   key={i}
                                   variant="outline" 
                                   className="h-auto p-4 border-slate-600 text-slate-300 hover:text-white hover:border-[#ff00e5] hover:bg-[#ff00e5]/10 whitespace-normal text-left flex flex-col items-start"
-                                  onClick={() => handleChoice(opt)}
+                                  onClick={() => { playSfx('click'); handleChoice(opt) }}
                                >
                                   <span className="text-sm font-bold">{opt.text}</span>
                                </Button>
@@ -136,7 +138,7 @@ export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => voi
                         <p className="text-lg text-slate-300 leading-relaxed font-mono">
                            {lastFeedback}
                         </p>
-                        <Button variant="default" onClick={proceedToNext} className="mt-8 px-8 bg-[#ff00e5] hover:bg-[#ff00e5]/80 text-white font-bold tracking-widest uppercase">
+                        <Button variant="default" onClick={() => { playSfx('click'); proceedToNext(); }} className="mt-8 px-8 bg-[#ff00e5] hover:bg-[#ff00e5]/80 text-white font-bold tracking-widest uppercase">
                            Verstanden <ArrowRight className="ml-2 w-5 h-5" />
                         </Button>
                      </div>
@@ -162,7 +164,7 @@ export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => voi
                            </p>
                            <Button 
                               variant="default" 
-                              onClick={onNext} 
+                              onClick={() => { playSfx('click'); onNext(); }}
                               className="mt-8 px-12 py-6 text-black font-bold tracking-widest uppercase shadow-[0_0_20px_rgba(0,240,255,0.4)]" 
                               style={{ backgroundColor: res.color }}
                            >

@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Button } from '../ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '../ui/card';
 import { Dna, Fingerprint, Eye, Zap, Info, Microscope, Activity, ShieldAlert, Plus, Minus, BookOpen, AlertTriangle } from 'lucide-react';
+import { useAudio } from "@/lib/AudioContext";
 import { motion, AnimatePresence } from 'framer-motion';
 import { RolePopup } from '../ui/RolePopup';
 interface LoreItem {
@@ -34,6 +35,7 @@ const exoticMods: ExoticMod[] = [
   { id: 'myostatin', name: 'Myostatin-Inhibition (MSTN)', cost: 45, type: 'Physis', desc: 'Blockiert Protein, das Muskelwachstum begrenzt.', loreBio: 'Führt zu extrem hypertropher Muskelmasse ab dem Kleinkindalter ohne spezifisches Training (bekannt von "Weißblauen Belgier"-Rindern). Hohe Belastung für das Herz-Kreislauf-System.', lorePug: 'Militärs und private Sicherheitsfirmen zahlen Millionen für solche Individuen. Zementiert die Vorstellung vom "gezüchteten Supersoldaten".', loreRel: 'Die theologische Kritik ist massiv: Die Schöpfung wird hier zur Erschaffung eines Herakles-Monsters pervertiert. Der menschliche Körperbau wird auf reine Gewaltausübung degradiert.' }
 ];
 export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
+  const { playSfx, setMusicIntensity } = useAudio();
   const [activeTab, setActiveTab] = useState<'pigment' | 'iris' | 'mods'>('pigment');
   const [eumelanin, setEumelanin] = useState(60); 
   const [pheomelanin, setPheomelanin] = useState(25);
@@ -177,9 +179,9 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                               <span className="text-[#00f0ff] font-mono text-base md:text-lg">{eumelanin}%</span>
                            </div>
                            <div className="flex items-center gap-2 md:gap-4">
-                              <Button variant="outline" size="icon" onClick={() => setEumelanin(e => Math.max(0, e - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#00f0ff]/20 active:border-[#00f0ff]"><Minus /></Button>
+                              <Button variant="outline" size="icon" onClick={() => { playSfx('click'); setEumelanin(e => Math.max(0, e - 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#00f0ff]/20 active:border-[#00f0ff]"><Minus /></Button>
                               <input type="range" min="0" max="100" value={eumelanin} onChange={(e) => setEumelanin(Number(e.target.value))} className="w-full h-3 bg-slate-800 rounded-lg appearance-none accent-[#00f0ff]" />
-                              <Button variant="outline" size="icon" onClick={() => setEumelanin(e => Math.min(100, e + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#00f0ff]/20 active:border-[#00f0ff]"><Plus /></Button>
+                              <Button variant="outline" size="icon" onClick={() => { playSfx('click'); setEumelanin(e => Math.min(100, e + 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#00f0ff]/20 active:border-[#00f0ff]"><Plus /></Button>
                            </div>
                         </div>
                         <div className="space-y-3 bg-slate-900/50 p-3 md:p-4 rounded-xl border border-slate-700">
@@ -188,9 +190,9 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                               <span className="text-[#ffaa00] font-mono text-base md:text-lg">{pheomelanin}%</span>
                            </div>
                            <div className="flex items-center gap-2 md:gap-4">
-                              <Button variant="outline" size="icon" onClick={() => setPheomelanin(e => Math.max(0, e - 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#ffaa00]/20 active:border-[#ffaa00]"><Minus /></Button>
+                              <Button variant="outline" size="icon" onClick={() => { playSfx('click'); setPheomelanin(e => Math.max(0, e - 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#ffaa00]/20 active:border-[#ffaa00]"><Minus /></Button>
                               <input type="range" min="0" max="100" value={pheomelanin} onChange={(e) => setPheomelanin(Number(e.target.value))} className="w-full h-3 bg-slate-800 rounded-lg appearance-none accent-[#ffaa00]" />
-                              <Button variant="outline" size="icon" onClick={() => setPheomelanin(e => Math.min(100, e + 5))} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#ffaa00]/20 active:border-[#ffaa00]"><Plus /></Button>
+                              <Button variant="outline" size="icon" onClick={() => { playSfx('click'); setPheomelanin(e => Math.min(100, e + 5)) }} className="w-10 h-10 md:w-12 md:h-12 shrink-0 border-slate-600 active:bg-[#ffaa00]/20 active:border-[#ffaa00]"><Plus /></Button>
                            </div>
                         </div>
                      </motion.div>
@@ -247,7 +249,7 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
                                     <Button 
                                        variant={isActive ? 'destructive' : 'outline'} 
                                        size="sm" 
-                                       onClick={() => handleModToggle(mod)}
+                                       onClick={() => { playSfx('click'); handleModToggle(mod) }}
                                        className={`h-8 text-xs ${isActive ? 'bg-[#ff00e5] hover:bg-[#ff00e5]/80 text-white' : 'border-slate-600 text-slate-300'}`}
                                     >
                                        {isActive ? 'Entfernen' : 'Injizieren'}
@@ -303,7 +305,7 @@ export function BabyDesignerPhenotypePhase({ onNext }: { onNext: () => void }) {
          <Button 
             variant="sci-fi" 
             size="lg"
-            onClick={onNext}
+            onClick={() => { playSfx('click'); onNext(); }}
             disabled={isCritical}
             className={`px-4 py-4 md:px-8 md:py-6 text-[10px] md:text-sm font-black tracking-widest ${isCritical ? 'opacity-50 cursor-not-allowed bg-red-950 border-red-500 text-red-500' : 'shadow-[0_0_30px_rgba(0,240,255,0.4)]'}`}
          >
