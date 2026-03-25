@@ -11,6 +11,8 @@ const dilemmas = [
     title: "Die Gottesebenbildlichkeit (Imago Dei)",
     bio: "CRISPR-Eingriff zur massiven Erhöhung der Muskelmasse und Körpergröße über das menschliche Limit hinaus.",
     rel: "Gefährdet die künstliche 'Aufwertung' des Menschen unsere Gottesebenbildlichkeit? Sind wir Schöpfer oder Geschöpf?",
+    verse: "Ja, wer bist denn du, o Mensch, dass du mit Gott rechten willst? Spricht auch das Gebilde zu dem, der es geformt hat: Warum hast du mich so gemacht?",
+    verseRef: "Römer 9,20 (SLT)",
     options: [
       { text: "Ja, der Mensch maßt sich an, Gott zu spielen (Hubris).", ethScore: +30, msg: "Die christliche Ethik warnt vor der Selbstvergottung." },
       { text: "Nein, Gott hat uns den Verstand gegeben, um ihn zu nutzen.", ethScore: -10, msg: "Eine utilitaristische Sichtweise, die jedoch die Grenzen der Schöpfung ignoriert." }
@@ -21,6 +23,8 @@ const dilemmas = [
     title: "Therapie vs. Enhancement",
     bio: "Korrektur des HTT-Gens zur Verhinderung von Chorea Huntington (tödliche Erbkrankheit).",
     rel: "Darf der Mensch in die Keimbahn eingreifen, um schweres Leid zu verhindern?",
+    verse: "Betrachte das Werk Gottes! Denn wer kann gerade machen, was er gekrümmt hat?",
+    verseRef: "Prediger 7,13 (SLT)",
     options: [
       { text: "Heilen ist eine moralische Pflicht (Therapie).", ethScore: +20, msg: "Auch theologische Ethik befürwortet Heilung, sofern sie nicht zur Optimierung (Enhancement) wird." },
       { text: "Krankheit ist Teil des gottgegebenen Schicksals.", ethScore: -10, msg: "Eine extreme Position, die der ärztlichen Pflicht zur Leidensminderung widerspricht." }
@@ -31,6 +35,8 @@ const dilemmas = [
     title: "Der Wert des unperfekten Lebens",
     bio: "Selektion von Embryonen nach Präimplantationsdiagnostik (PID). Embryonen mit Down-Syndrom werden verworfen.",
     rel: "Welchen Wert hat ein Leben mit Behinderung in einer 'perfektionierten' Gesellschaft?",
+    verse: "Deine Augen sahen mich schon als ungeformten Keim, und in dein Buch waren geschrieben alle Tage, die noch werden sollten, als noch keiner von ihnen war.",
+    verseRef: "Psalm 139,16 (SLT)",
     options: [
       { text: "Jedes Leben ist absolut schützenswert und gottgewollt.", ethScore: +40, msg: "Die Menschenwürde ist unabhängig von Gesundheit oder Leistung. Selektion fördert Ableismus." },
       { text: "Es erspart den Eltern und dem Kind zukünftiges Leid.", ethScore: -20, msg: "Ein Argument, das den inhärenten Wert des Lebens an eine 'Qualitätskontrolle' knüpft." }
@@ -117,6 +123,15 @@ export function EthicsTestPhase({ onNext, updateGameState }: { onNext: () => voi
                                 </h3>
                                 <p className="text-pink-100 text-lg font-medium">{activeDilemma.rel}</p>
                             </div>
+                            {activeDilemma.verse && (
+                                <div className="pt-4 border-t border-slate-700/50 mt-4 relative">
+                                    <div className="absolute left-0 top-4 bottom-0 w-1 bg-[#00f0ff]/50 rounded-full" />
+                                    <p className="text-[#00f0ff] font-mono text-sm italic pl-4 leading-relaxed">
+                                       "{activeDilemma.verse}"<br/>
+                                       <span className="text-xs text-slate-500 not-italic uppercase mt-1 block">— {activeDilemma.verseRef}</span>
+                                    </p>
+                                </div>
+                            )}
                         </div>
                         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-8">
                             {activeDilemma.options.map((opt, i) => (

@@ -530,6 +530,21 @@ export function ResultPhase({ onRestart, gameState }: ResultPhaseProps) {
                       </div>
                     </div>
                   </div>
+                  <div className="mt-6 bg-[#0A101D] border border-slate-800 p-6 rounded-xl relative overflow-hidden group">
+                      <div className={`absolute left-0 top-0 bottom-0 w-1 ${safeState.ethicsScore < 40 ? 'bg-red-500' : 'bg-[#00f0ff]'}`} />
+                      <h4 className={`font-mono mb-2 uppercase text-xs tracking-widest ${safeState.ethicsScore < 40 ? 'text-red-400' : 'text-[#00f0ff]'}`}>
+                          Theologische Reflexion
+                      </h4>
+                      <p className={`text-sm italic leading-relaxed ${safeState.ethicsScore < 40 ? 'text-red-200' : 'text-cyan-100'}`}>
+                          {safeState.ethicsScore < 40
+                              ? `"Wehe denen, die Böses gut und Gutes böse nennen; die Finsternis für Licht und Licht für Finsternis erklären; die Bitteres für süß und Süßes für bitter erklären! Wehe denen, die in ihren eigenen Augen weise und vor sich selbst verständig sind!"`
+                              : `"Denn was hilft es dem Menschen, wenn er die ganze Welt gewinnt, aber seine Seele verliert? Oder was kann der Mensch als Lösegeld für seine Seele geben?"`
+                          }
+                      </p>
+                      <span className="text-xs text-slate-500 uppercase mt-2 block">
+                          — {safeState.ethicsScore < 40 ? "Jesaja 5,20-21 (SLT)" : "Matthäus 16,26 (SLT)"}
+                      </span>
+                  </div>
               </motion.div>
             )}
           </AnimatePresence>
